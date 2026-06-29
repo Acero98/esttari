@@ -1,66 +1,148 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    iniciarModalUsuario();
+    iniciarModalEditar();
+
     iniciarEditarUsuario();
     iniciarRegistroUsuario();
     iniciarActualizarUsuario();
     iniciarCambiarEstado();
     iniciarDataTable();
-
 });
 
+// =====================================
+// MODAL NUEVO USUARIO
+// =====================================
+function iniciarModalUsuario() {
+
+    const modal = document.getElementById("modalUsuario");
+
+    if (!modal) return;
+
+    const abrir = document.getElementById("abrirModalUsuario");
+    const cerrar = document.getElementById("cerrarModalUsuario");
+    const cancelar = document.getElementById("cancelarModalUsuario");
+
+    abrir?.addEventListener("click", () => {
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+    });
+
+    cerrar?.addEventListener("click", () => {
+
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+
+    });
+
+    cancelar?.addEventListener("click", () => {
+
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+
+    });
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        }
+
+    });
+
+}
 
 // =====================================
 // EDITAR USUARIO
 // =====================================
 function iniciarEditarUsuario() {
 
-    document.querySelectorAll('.btnEditar').forEach(btn => {
+    document.addEventListener("click", function (e) {
 
-        btn.addEventListener('click', function () {
+        const btn = e.target.closest(".btnEditar");
 
-            let id = this.dataset.id;
+        if (!btn) return;
 
-            fetch('index.php?url=usuarios_edit&id=' + id)
+        const id = btn.dataset.id;
 
-                .then(res => res.json())
+        fetch("index.php?url=usuarios_edit&id=" + id)
 
-                .then(data => {
+            .then(res => res.json())
 
-                    let u = data.usuario;
-                    let roles = data.roles;
+            .then(data => {
 
-                    document.getElementById('edit_id').value = u.idUser;
-                    document.getElementById('edit_usuario').value = u.usuario;
-                    document.getElementById('edit_correo').value = u.correo;
-                    document.getElementById('edit_nombres').value = u.nombres;
-                    document.getElementById('edit_apellidos').value = u.apellidos;
+                const u = data.usuario;
+                const roles = data.roles;
 
-                    let select = document.getElementById('edit_rol');
-                    select.innerHTML = '';
+                document.getElementById("edit_id").value = u.idUser;
+                document.getElementById("edit_usuario").value = u.usuario;
+                document.getElementById("edit_correo").value = u.correo;
+                document.getElementById("edit_nombres").value = u.nombres;
+                document.getElementById("edit_apellidos").value = u.apellidos;
 
-                    roles.forEach(r => {
-                        let selected = (r.idRol == u.idRol) ? 'selected' : '';
-                        select.innerHTML += `
-                            <option value="${r.idRol}" ${selected}>
-                                ${r.nombreRol}
-                            </option>
-                        `;
-                    });
+                const select = document.getElementById("edit_rol");
+                select.innerHTML = "";
 
-                    // 🔥 IMPORTANTE (FIX ARIA-HIDDEN ERROR)
-                    document.activeElement.blur();
+                roles.forEach(r => {
 
-                    const modalUsuario = bootstrap.Modal.getInstance(document.getElementById('modalUsuario'));
-                    if (modalUsuario) modalUsuario.hide();
+                    const option = document.createElement("option");
 
-                    const modal = new bootstrap.Modal(
-                        document.getElementById('modalEditar')
-                    );
+                    option.value = r.idRol;
+                    option.textContent = r.nombreRol;
 
-                    modal.show();
+                    if (r.idRol == u.idRol) {
+                        option.selected = true;
+                    }
+
+                    select.appendChild(option);
+
                 });
 
-        });
+                document.getElementById("modalEditar").classList.remove("hidden");
+                document.getElementById("modalEditar").classList.add("flex");
+
+            });
+
+    });
+
+}
+
+// =====================================
+// MODAL EDITAR USUARIO
+// =====================================
+function iniciarModalEditar() {
+
+    const modal = document.getElementById("modalEditar");
+
+    if (!modal) return;
+
+    document.getElementById("cerrarModalEditar")?.addEventListener("click", () => {
+
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+
+    });
+
+    document.getElementById("cancelarModalEditar")?.addEventListener("click", () => {
+
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+
+    });
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        }
 
     });
 
@@ -146,35 +228,44 @@ function iniciarActualizarUsuario() {
 // =====================================
 function iniciarCambiarEstado() {
 
-    document.querySelectorAll('.btnEstado').forEach(btn => {
+    document.addEventListener("click", function (e) {
 
-        btn.addEventListener('click', function () {
+        const btn = e.target.closest(".btnEstado");
 
-            const id = this.dataset.id;
-            const estado = this.dataset.estado;
-            const nombre = this.dataset.nombre;
+        if (!btn) return;
 
-            const accion = estado == 1 ? 'activar' : 'deshabilitar';
+        const id = btn.dataset.id;
+        const estado = btn.dataset.estado;
+        const nombre = btn.dataset.nombre;
 
-            Swal.fire({
+        const titulo = estado == 1
+            ? "Activar usuario"
+            : "Deshabilitar usuario";
 
-                title: `¿Desea ${accion} este usuario?`,
-                html: `<b>${nombre}</b>`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí',
-                cancelButtonText: 'Cancelar'
+        const mensaje = estado == 1
+            ? `¿Desea activar al usuario <b>${nombre}</b>?`
+            : `¿Desea deshabilitar al usuario <b>${nombre}</b>?`;
 
-            }).then((result) => {
+        const textoAceptar = estado == 1
+            ? "Activar"
+            : "Deshabilitar";
 
-                if (result.isConfirmed) {
+        Dialog.confirm({
 
-                    window.location =
-                        `index.php?url=usuarios_estado&id=${id}&estado=${estado}`;
+            titulo,
 
-                }
+            mensaje,
 
-            });
+            textoAceptar,
+
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
+
+                window.location =
+                    `index.php?url=usuarios_estado&id=${id}&estado=${estado}`;
+
+            }
 
         });
 
@@ -187,39 +278,24 @@ function iniciarCambiarEstado() {
 // =====================================
 function iniciarDataTable() {
 
-    const tabla = document.querySelector('#tablaUsuarios');
+    const tabla = document.querySelector("#tablaUsuarios");
 
     if (!tabla) return;
 
-    new DataTable(tabla, {
+    new simpleDatatables.DataTable("#tablaUsuarios", {
 
-        responsive: true,
-        autoWidth: false,
+        searchable: true,
+        sortable: true,
 
-        pageLength: 10,
+        perPage: 10,
+        perPageSelect: [5, 10, 25, 50],
 
-        order: [[0, 'desc']],
-
-        columnDefs: [
-            {
-                orderable: false,
-                targets: 7
-            }
-        ],
-
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "No hay registros",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "No hay datos disponibles",
-            paginate: {
-                first: "Primero",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Último"
-            }
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Mostrar",
+            noRows: "No hay registros",
+            noResults: "No se encontraron resultados",
+            info: "Mostrando {start} a {end} de {rows} registros"
         }
 
     });

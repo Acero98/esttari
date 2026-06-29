@@ -1,253 +1,421 @@
-<div class="container py-4">
+<div class="max-w-7xl mx-auto p-6 space-y-6">
 
-    <div class="d-flex justify-content-between mb-3">
-        <h4>Usuarios</h4>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">
+                Usuarios
+            </h1>
 
-        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+            <p class="text-sm text-slate-500">
+                Gestiona los usuarios del sistema
+            </p>
+        </div>
+
+        <button
+            id="abrirModalUsuario"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+
+            <i class="bi bi-plus-lg"></i>
             Nuevo Usuario
+
         </button>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="bg-white rounded-xl shadow border border-slate-200">
+        <div class="overflow-x-auto">
+            <div class="p-6">
 
-            <table
-                id="tablaUsuarios"
-                class="table table-hover align-middle nowrap"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Nombres</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Creado</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
+                <table
+                    id="tablaUsuarios"
+                    class="min-w-full text-sm text-left whitespace-nowrap">
+                    <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
 
-                <tbody>
-
-                    <?php foreach ($usuarios as $u): ?>
-
-                        <tr>
-                            <td><?= $u['idUser'] ?></td>
-                            <td><?= $u['usuario'] ?></td>
-                            <td><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
-                            <td><?= $u['correo'] ?></td>
-                            <td><?= $u['nombreRol'] ?? 'Sin rol' ?></td>
-                            <td><?= $u['fechaCreado'] ?></td>
-
-                            <td>
-                                <?php if ($u['estado'] == 1): ?>
-                                    <span class="badge bg-success">Activo</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger">Inactivo</span>
-                                <?php endif; ?>
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="btn btn-sm btn-warning btnEditar"
-                                    data-id="<?= $u['idUser'] ?>">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-
-                                <?php if ($u['estado'] == 1): ?>
-
-                                    <button
-                                        class="btn btn-sm btn-outline-danger btnEstado"
-                                        data-id="<?= $u['idUser'] ?>"
-                                        data-estado="0"
-                                        data-nombre="<?= htmlspecialchars($u['nombres'] . ' ' . $u['apellidos']) ?>">
-                                        <i class="bi bi-person-x"></i>
-                                    </button>
-
-                                <?php else: ?>
-
-                                    <button
-                                        class="btn btn-sm btn-outline-success btnEstado"
-                                        data-id="<?= $u['idUser'] ?>"
-                                        data-estado="1"
-                                        data-nombre="<?= htmlspecialchars($u['nombres'] . ' ' . $u['apellidos']) ?>">
-                                        <i class="bi bi-person-check"></i>
-                                    </button>
-
-                                <?php endif; ?>
-
-                            </td>
+                        <tr class="hover:bg-slate-50 transition">
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Usuario</th>
+                            <th class="px-4 py-3">Nombres</th>
+                            <th class="px-4 py-3">Correo</th>
+                            <th class="px-4 py-3">Rol</th>
+                            <th class="px-4 py-3">Creado</th>
+                            <th class="px-4 py-3">Estado</th>
+                            <th class="px-4 py-3">Acciones</th>
                         </tr>
+                        
+                    </thead>
 
-                    <?php endforeach; ?>
+                    <tbody class="divide-y divide-slate-200">
 
-                </tbody>
-            </table>
+                        <?php foreach ($usuarios as $u): ?>
 
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="px-4 py-3"><?= $u['idUser'] ?></td>
+                                <td class="px-4 py-3"><?= $u['usuario'] ?></td>
+                                <td class="px-4 py-3"><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
+                                <td class="px-4 py-3"><?= $u['correo'] ?></td>
+                                <td class="px-4 py-3"><?= $u['nombreRol'] ?? 'Sin rol' ?></td>
+                                <td class="px-4 py-3"><?= $u['fechaCreado'] ?></td>
+
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <?php if ($u['estado'] == 1): ?>
+                                            <span
+                                                class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                                Activo
+                                            </span>
+                                        <?php else: ?>
+                                            <span
+                                                class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                                Inactivo
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+
+                                        <button
+                                            class="btnEditar inline-flex items-center justify-center p-2 rounded-lg bg-amber-100 text-amber-600 hover:bg-amber-200 transition"
+                                            data-id="<?= $u['idUser'] ?>">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+
+                                        <?php if ($u['estado'] == 1): ?>
+
+                                            <button
+                                                class="btnEstado inline-flex items-center justify-center p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                                                data-id="<?= $u['idUser'] ?>"
+                                                data-estado="0"
+                                                data-nombre="<?= htmlspecialchars($u['nombres'] . ' ' . $u['apellidos']) ?>">
+                                                <i class="bi bi-person-x"></i>
+                                            </button>
+
+                                        <?php else: ?>
+
+                                            <button
+                                                class="btnEstado inline-flex items-center justify-center p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition"
+                                                data-id="<?= $u['idUser'] ?>"
+                                                data-estado="1"
+                                                data-nombre="<?= htmlspecialchars($u['nombres'] . ' ' . $u['apellidos']) ?>">
+                                                <i class="bi bi-person-check"></i>
+                                            </button>
+
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
 
 </div>
 
 <!-- MODAL USUARIO -->
-<div class="modal fade" id="modalUsuario" tabindex="-1">
+<!-- MODAL NUEVO USUARIO -->
+<div
+    id="modalUsuario"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
 
-    <div class="modal-dialog modal-lg">
+    <div class="w-full max-w-4xl rounded-2xl bg-white shadow-2xl">
 
-        <div class="modal-content">
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b px-6 py-4">
 
-            <form
-                id="formUsuario"
-                method="POST"
-                action="index.php?url=usuarios_store">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">
+                    Nuevo Usuario
+                </h2>
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Nuevo Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <p class="text-sm text-slate-500">
+                    Complete la información del usuario.
+                </p>
+            </div>
 
-                <div class="modal-body">
+            <button
+                type="button"
+                id="cerrarModalUsuario"
+                class="rounded-lg p-2 hover:bg-slate-100">
 
-                    <div class="row g-3">
+                <i class="bi bi-x-lg text-xl"></i>
 
-                        <div class="col-md-6">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Correo</label>
-                            <input type="email" name="correo" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Nombres</label>
-                            <input type="text" name="nombres" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Apellidos</label>
-                            <input type="text" name="apellidos" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Contraseña</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Rol</label>
-                            <select name="rol" class="form-select" required>
-                                <option value="">Seleccione un rol</option>
-
-                                <?php foreach ($roles as $r): ?>
-                                    <option value="<?= $r['idRol'] ?>">
-                                        <?= $r['nombreRol'] ?>
-                                    </option>
-                                <?php endforeach; ?>
-
-                            </select>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button
-                        type="submit"
-                        class="btn btn-primary">
-                        Guardar
-                    </button>
-                </div>
-
-            </form>
+            </button>
 
         </div>
+
+        <form
+            id="formUsuario"
+            method="POST"
+            action="index.php?url=usuarios_store">
+
+            <!-- Body -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-6">
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        name="usuario"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Correo
+                    </label>
+
+                    <input
+                        type="email"
+                        name="correo"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Nombres
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nombres"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Apellidos
+                    </label>
+
+                    <input
+                        type="text"
+                        name="apellidos"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Rol
+                    </label>
+
+                    <select
+                        name="rol"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+
+                        <option value="">Seleccione un rol</option>
+
+                        <?php foreach ($roles as $r): ?>
+
+                            <option value="<?= $r['idRol'] ?>">
+                                <?= $r['nombreRol'] ?>
+                            </option>
+
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-end gap-3 border-t px-6 py-4">
+
+                <button
+                    type="button"
+                    id="cancelarModalUsuario"
+                    class="rounded-lg border border-slate-300 px-5 py-2 hover:bg-slate-100">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+
+                    Guardar Usuario
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
 </div>
 
 <!-- MODAL USUARIO -->
-<div class="modal fade" id="modalEditar">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form
-                id="formEditarUsuario"
-                method="POST"
-                action="index.php?url=usuarios_update">
+<!-- MODAL EDITAR USUARIO -->
+<div
+    id="modalEditar"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
 
-                <input type="hidden" name="idUser" id="edit_id">
+    <div class="w-full max-w-4xl rounded-2xl bg-white shadow-2xl">
 
-                <div class="modal-header">
-                    <h5>Editar Usuario</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b px-6 py-4">
 
-                <div class="modal-body">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">
+                    Editar Usuario
+                </h2>
 
-                    <div class="row g-3">
+                <p class="text-sm text-slate-500">
+                    Modifique la información del usuario.
+                </p>
+            </div>
 
-                        <div class="col-md-6">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" id="edit_usuario" class="form-control">
-                        </div>
+            <button
+                type="button"
+                id="cerrarModalEditar"
+                class="rounded-lg p-2 hover:bg-slate-100">
 
-                        <div class="col-md-6">
-                            <label>Correo</label>
-                            <input type="email" name="correo" id="edit_correo" class="form-control">
-                        </div>
+                <i class="bi bi-x-lg text-xl"></i>
 
-                        <div class="col-md-6">
-                            <label>Nombres</label>
-                            <input type="text" name="nombres" id="edit_nombres" class="form-control">
-                        </div>
+            </button>
 
-                        <div class="col-md-6">
-                            <label>Apellidos</label>
-                            <input type="text" name="apellidos" id="edit_apellidos" class="form-control">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Contraseña (opcional)</label>
-                            <input type="password" name="password" class="form-control">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>Rol</label>
-                            <select name="rol" id="edit_rol" class="form-select"></select>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button
-                        type="submit"
-                        class="btn btn-primary">
-                        Guardar cambios
-                    </button>
-                </div>
-
-            </form>
         </div>
+
+        <form
+            id="formEditarUsuario"
+            method="POST"
+            action="index.php?url=usuarios_update">
+
+            <input
+                type="hidden"
+                name="idUser"
+                id="edit_id">
+
+            <!-- Body -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-6">
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        name="usuario"
+                        id="edit_usuario"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Correo
+                    </label>
+
+                    <input
+                        type="email"
+                        name="correo"
+                        id="edit_correo"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Nombres
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nombres"
+                        id="edit_nombres"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Apellidos
+                    </label>
+
+                    <input
+                        type="text"
+                        name="apellidos"
+                        id="edit_apellidos"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Contraseña (opcional)
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-700">
+                        Rol
+                    </label>
+
+                    <select
+                        name="rol"
+                        id="edit_rol"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-end gap-3 border-t px-6 py-4">
+
+                <button
+                    type="button"
+                    id="cancelarModalEditar"
+                    class="rounded-lg border border-slate-300 px-5 py-2 hover:bg-slate-100">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+
+                    Guardar cambios
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+
 </div>
 
 <?php

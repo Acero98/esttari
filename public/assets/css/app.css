@@ -1,37 +1,12 @@
-body{
-    background:#f5f7fb;
-    font-family:system-ui;
+@import "tailwindcss";
+
+dialog {
+    padding: 0;
+    border: none;
+    border-radius: 1rem;
 }
 
-.navbar{
-    height:72px;
-}
-
-.navbar-brand{
-    font-size:1.2rem;
-}
-
-.nav-link{
-    font-weight:500;
-    margin:0 .35rem;
-    border-radius:10px;
-    transition:.25s;
-}
-
-.nav-link:hover{
-    background:#eef4ff;
-    color:#2563eb !important;
-}
-
-.wrapper{
-    min-height:calc(100vh - 72px);
-}
-
-.footer{
-    background:white;
-    border-top:1px solid #ececec;
-    padding:18px;
-    text-align:center;
-    color:#888;
-    font-size:.9rem;
+dialog::backdrop {
+    background: rgba(15, 23, 42, .45);
+    backdrop-filter: blur(3px);
 }
