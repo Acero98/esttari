@@ -1,0 +1,37 @@
+body{
+    background:#f5f7fb;
+    font-family:system-ui;
+}
+
+.navbar{
+    height:72px;
+}
+
+.navbar-brand{
+    font-size:1.2rem;
+}
+
+.nav-link{
+    font-weight:500;
+    margin:0 .35rem;
+    border-radius:10px;
+    transition:.25s;
+}
+
+.nav-link:hover{
+    background:#eef4ff;
+    color:#2563eb !important;
+}
+
+.wrapper{
+    min-height:calc(100vh - 72px);
+}
+
+.footer{
+    background:white;
+    border-top:1px solid #ececec;
+    padding:18px;
+    text-align:center;
+    color:#888;
+    font-size:.9rem;
+}
