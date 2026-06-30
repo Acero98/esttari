@@ -25,17 +25,22 @@
 
 <!-- ALERT GLOBAL -->
 <?php if (isset($_SESSION['mensaje'])): ?>
-    <script>
-        Swal.fire({
-            icon: <?= json_encode($_SESSION['tipo']) ?>,
-            title: <?= json_encode($_SESSION['mensaje']) ?>,
-            showConfirmButton: false,
-            timer: 2000
-        });
-    </script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    Dialog.toast({
+        tipo: <?= json_encode($_SESSION['tipo']) ?>,
+        titulo: <?= json_encode($_SESSION['mensaje']) ?>,
+        tiempo: 2000
+    });
+});
+
+</script>
+
 <?php
-    unset($_SESSION['mensaje']);
-    unset($_SESSION['tipo']);
+unset($_SESSION['mensaje']);
+unset($_SESSION['tipo']);
 endif;
 ?>
 

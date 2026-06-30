@@ -1,250 +1,479 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    iniciarModalRol();
+    iniciarModalEditarRol();
+    iniciarModalPermisos();
+    iniciarGuardarPermisos();
+
     iniciarEditarRol();
     iniciarRegistroRol();
     iniciarActualizarRol();
     iniciarCambiarEstado();
-    iniciarDataTable();
     iniciarPermisosRol();
+    iniciarDataTable();
 
 });
-
-
-// =====================================
-// EDITAR USUARIO
-// =====================================
-function iniciarEditarRol() {
-
-    document.querySelectorAll('.btnEditar').forEach(btn => {
-        btn.addEventListener('click', function () {
-            let id = this.dataset.id;
-            fetch('index.php?url=roles_edit&id=' + id)
-                .then(res => res.json())
-                .then(data => {
-                    //console.log(data); // 👈 IMPORTANTE
-
-                    let r = data.nombreRol;
-
-                    document.getElementById('edit_id').value = r.idRol;
-                    document.getElementById('edit_nombreRol').value = r.nombreRol;
-                    document.getElementById('edit_descripcionRol').value = r.descripcionRol;
-
-                    // 🔥 IMPORTANTE (FIX ARIA-HIDDEN ERROR)
-                    document.activeElement.blur();
-
-                    const modalRol = bootstrap.Modal.getInstance(document.getElementById('modalRol'));
-                    if (modalRol) modalRol.hide();
-
-                    const modal = new bootstrap.Modal(
-                        document.getElementById('modalEditar')
-                    );
-
-                    modal.show();
-                });
-        });
-    });
-
-}
-
-
-// =====================================
-// REGISTRAR USUARIO
-// =====================================
-function iniciarRegistroRol() {
-
-    const form = document.getElementById('formRol');
-    if (!form) return;
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        Swal.fire({
-
-            title: '¿Registrar rol?',
-            text: 'Se guardará la información.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, guardar',
-            cancelButtonText: 'Cancelar'
-
-        }).then(result => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-
-}
-
-
-// =====================================
-// ACTUALIZAR USUARIO
-// =====================================
-function iniciarActualizarRol() {
-
-    const form = document.getElementById('formEditarRol');
-    if (!form) return;
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        Swal.fire({
-
-            title: '¿Guardar cambios?',
-            text: 'Se actualizará la información.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Actualizar',
-            cancelButtonText: 'Cancelar'
-
-        }).then(result => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-
-}
-
-
-// =====================================
-// CAMBIAR ESTADO
-// =====================================
-function iniciarCambiarEstado() {
-
-    document.querySelectorAll('.btnEstado').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const estado = this.dataset.estado;
-            const nombre = this.dataset.nombre;
-            const accion = estado == 1 ? 'activar' : 'deshabilitar';
-            Swal.fire({
-
-                title: `¿Desea ${accion} este rol?`,
-                html: `<b>${nombre}</b>`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí',
-                cancelButtonText: 'Cancelar'
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location =
-                        `index.php?url=roles_estado&id=${id}&estado=${estado}`;
-                }
-            });
-        });
-    });
-
-}
 
 // =====================================
 // DATA TABLES
 // =====================================
 function iniciarDataTable() {
 
-    const tabla = document.querySelector('#tablaRoles');
+    const tabla = document.querySelector("#tablaRoles");
+
     if (!tabla) return;
-    new DataTable(tabla, {
-        responsive: true,
-        autoWidth: false,
-        pageLength: 10,
-        order: [[0, 'desc']],
-        columnDefs: [
+
+    new simpleDatatables.DataTable("#tablaRoles", {
+
+        searchable: true,
+        sortable: true,
+
+        perPage: 10,
+        perPageSelect: [5, 10, 25, 50],
+
+        columns: [
             {
-                orderable: false,
-                targets: 5
+                select: 5,
+                sortable: false
             }
         ],
 
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "No hay registros",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "No hay datos disponibles",
-            paginate: {
-                first: "Primero",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Último"
-            }
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Mostrar",
+            noRows: "No hay registros",
+            noResults: "No se encontraron resultados",
+            info: "Mostrando {start} a {end} de {rows} registros"
         }
+
     });
 
 }
 
+// =====================================
+// MODAL NUEVO ROL
+// =====================================
+function iniciarModalRol() {
+
+    const modal = document.getElementById("modalRol");
+
+    if (!modal) return;
+
+    document.getElementById("abrirModalRol")
+        ?.addEventListener("click", () => {
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+
+        });
+
+    document.getElementById("cerrarModalRol")
+        ?.addEventListener("click", () => {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        });
+
+    document.getElementById("cancelarModalRol")
+        ?.addEventListener("click", () => {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        });
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        }
+
+    });
+
+}
+
+// =====================================
+// EDITAR ROL
+// =====================================
+function iniciarEditarRol() {
+
+    document.addEventListener("click", function (e) {
+
+        const btn = e.target.closest(".btnEditar");
+
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+
+        fetch("index.php?url=roles_edit&id=" + id)
+
+            .then(res => res.json())
+
+            .then(data => {
+
+                const r = data.nombreRol;
+
+                document.getElementById("edit_id").value = r.idRol;
+                document.getElementById("edit_nombreRol").value = r.nombreRol;
+                document.getElementById("edit_descripcionRol").value = r.descripcionRol;
+
+                // Mostrar modal Tailwind
+                const modal = document.getElementById("modalEditar");
+
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+
+            });
+
+    });
+
+}
+
+// =====================================
+// MODAL EDITAR ROL
+// =====================================
+function iniciarModalEditarRol() {
+
+    const modal = document.getElementById("modalEditar");
+
+    if (!modal) return;
+
+    document.getElementById("cerrarModalEditar")
+        ?.addEventListener("click", () => {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        });
+
+    document.getElementById("cancelarModalEditar")
+        ?.addEventListener("click", () => {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        });
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+
+        }
+
+    });
+
+}
+
+// =====================================
+// MODAL PERMISOS
+// =====================================
+function iniciarModalPermisos() {
+
+    const modal = document.getElementById("modalPermisos");
+
+    if (!modal) return;
+
+    document.getElementById("cerrarModalPermisos")
+        ?.addEventListener("click", cerrar);
+
+    document.getElementById("cancelarModalPermisos")
+        ?.addEventListener("click", cerrar);
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+            cerrar();
+        }
+
+    });
+
+    function cerrar() {
+
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+
+    }
+
+}
+
+function iniciarGuardarPermisos() {
+
+    const form = document.getElementById("formPermisos");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        Dialog.confirm({
+
+            tipo: "info",
+
+            titulo: "Guardar permisos",
+
+            mensaje: `
+                ¿Desea guardar los permisos seleccionados para este rol?
+            `,
+
+            textoAceptar: "Guardar",
+
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
+
+                form.submit();
+
+            }
+
+        });
+
+    });
+
+}
+
+// =====================================
+// REGISTRAR ROL
+// =====================================
+function iniciarRegistroRol() {
+
+    const form = document.getElementById("formRol");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        Dialog.confirm({
+
+            tipo: "info",
+
+            titulo: "Registrar rol",
+
+            mensaje: `
+                ¿Desea registrar este nuevo rol?
+                <br><br>
+                Se guardará la información en el sistema.
+            `,
+
+            textoAceptar: "Guardar",
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
+
+                form.submit();
+
+            }
+
+        });
+
+    });
+
+}
+
+// =====================================
+// ACTUALIZAR ROL
+// =====================================
+function iniciarActualizarRol() {
+
+    const form = document.getElementById("formEditarRol");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        Dialog.confirm({
+
+            tipo: "warning",
+
+            titulo: "Actualizar rol",
+
+            mensaje: `
+                ¿Desea guardar los cambios realizados en este rol?
+                <br><br>
+                La información será actualizada en el sistema.
+            `,
+
+            textoAceptar: "Actualizar",
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
+
+                form.submit();
+
+            }
+
+        });
+
+    });
+
+}
+
+// =====================================
+// CAMBIAR ESTADO
+// =====================================
+function iniciarCambiarEstado() {
+
+    document.addEventListener("click", function (e) {
+
+        const btn = e.target.closest(".btnEstado");
+
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+        const estado = btn.dataset.estado;
+        const nombre = btn.dataset.nombre;
+
+        const titulo = estado == 1
+            ? "Activar rol"
+            : "Deshabilitar rol";
+
+        const mensaje = estado == 1
+            ? `¿Desea activar el rol <b>${nombre}</b>?`
+            : `¿Desea deshabilitar el rol <b>${nombre}</b>?`;
+
+        const textoAceptar = estado == 1
+            ? "Activar"
+            : "Deshabilitar";
+
+        Dialog.confirm({
+
+            tipo: estado == 1 ? "success" : "danger",
+
+            titulo,
+            mensaje,
+
+            textoAceptar,
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
+
+                window.location =
+                    `index.php?url=roles_estado&id=${id}&estado=${estado}`;
+
+            }
+
+        });
+
+    });
+
+}
+
+// =====================================
+// PERMISOS DEL ROL
+// =====================================
 function iniciarPermisosRol() {
 
-    document.querySelectorAll('.btnPermisos').forEach(btn => {
-        btn.addEventListener('click', function () {
-            let id = this.dataset.id;
-            let nombre = this.dataset.nombre;
+    document.addEventListener("click", function (e) {
 
-            fetch('index.php?url=roles_permisos&id=' + id)
-                .then(res => res.json())
-                .then(data => {
-                    //console.log(data);
-                    document.getElementById('idRolPermiso').value = id;
-                    document.getElementById('nombreRol').innerHTML = nombre;
+        const btn = e.target.closest(".btnPermisos");
 
-                    let html = '';
-                    let grupoActual = '';
+        if (!btn) return;
 
-                    data.permisos.forEach(p => {
-                        if (grupoActual !== p.grupo) {
-                            if (grupoActual !== '') {
-                                html += `
-                                        </div>
+        const id = btn.dataset.id;
+        const nombre = btn.dataset.nombre;
+
+        fetch("index.php?url=roles_permisos&id=" + id)
+
+            .then(res => res.json())
+
+            .then(data => {
+
+                document.getElementById("idRolPermiso").value = id;
+                document.getElementById("nombreRol").textContent = nombre;
+
+                let html = "";
+                let grupoActual = "";
+
+                data.permisos.forEach(p => {
+
+                    if (grupoActual !== p.grupo) {
+
+                        if (grupoActual !== "") {
+
+                            html += `
                                     </div>
                                 </div>
-                                `;
-                            }
-
-                            grupoActual = p.grupo;
-                            html += `
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card shadow-sm h-100">
-                                    <div class="card-header bg-primary text-white fw-bold">
-                                        ${grupoActual}
-                                    </div>
-                                    <div class="card-body">
                             `;
+
                         }
 
-                        let checked = data.asignados.includes(p.idPermiso)
-                            ? 'checked'
-                            : '';
+                        grupoActual = p.grupo;
 
                         html += `
-                            <div class="form-check mb-2">
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="permisos[]"
-                                    value="${p.idPermiso}"
-                                    ${checked}>
 
-                                <label class="form-check-label">
-                                    <i class="${p.icono} me-2"></i>
-                                    ${p.permiso}
-                                </label>
-                            </div>
-                        `;
-                    });
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
-                    if (grupoActual !== '') {
-                        html += `
-                                </div>
+                            <div class="bg-slate-100 px-4 py-3 border-b border-slate-200">
+
+                                <h3 class="font-semibold text-slate-700">
+                                    ${grupoActual}
+                                </h3>
+
                             </div>
-                        </div>
+
+                            <div class="p-4 space-y-3">
+
                         `;
                     }
 
-                    document.getElementById('contenedorPermisos').innerHTML = html;
-                    new bootstrap.Modal(
-                        document.getElementById('modalPermisos')
-                    ).show();
+                    const checked = data.asignados.includes(p.idPermiso)
+                        ? "checked"
+                        : "";
+
+                    html += `
+
+                        <label class="flex items-center gap-3 cursor-pointer">
+
+                            <input
+                                type="checkbox"
+                                name="permisos[]"
+                                value="${p.idPermiso}"
+                                ${checked}
+                                class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+
+                            <span class="text-slate-700 flex items-center gap-2">
+
+                                <i class="${p.icono} text-blue-600"></i>
+
+                                ${p.permiso}
+
+                            </span>
+
+                        </label>
+
+                    `;
+
                 });
-        });
+
+                if (grupoActual !== "") {
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+
+                }
+
+                document.getElementById("contenedorPermisos").innerHTML = html;
+
+                const modal = document.getElementById("modalPermisos");
+
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+
+            });
+
     });
 
 }

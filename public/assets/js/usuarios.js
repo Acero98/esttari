@@ -158,22 +158,30 @@ function iniciarRegistroUsuario() {
 
     if (!form) return;
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener("submit", function (e) {
 
         e.preventDefault();
 
-        Swal.fire({
+        if (!form.checkValidity()) {
 
-            title: '¿Registrar usuario?',
-            text: 'Se guardará la información.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, guardar',
-            cancelButtonText: 'Cancelar'
+            form.reportValidity();
+            return;
 
-        }).then(result => {
+        }
 
-            if (result.isConfirmed) {
+        Dialog.confirm({
+
+            tipo: "info",
+
+            titulo: "Registrar usuario",
+
+            mensaje: "¿Desea registrar este usuario?",
+
+            textoAceptar: "Guardar",
+
+            textoCancelar: "Cancelar",
+
+            onAceptar() {
 
                 form.submit();
 
@@ -199,21 +207,16 @@ function iniciarActualizarUsuario() {
 
         e.preventDefault();
 
-        Swal.fire({
+        Dialog.confirm({
 
-            title: '¿Guardar cambios?',
-            text: 'Se actualizará la información.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Actualizar',
-            cancelButtonText: 'Cancelar'
+            tipo: "info",
+            titulo: "Actualizar usuario",
+            mensaje: "¿Desea guardar los cambios realizados?",
+            textoAceptar: "Actualizar",
+            textoCancelar: "Cancelar",
 
-        }).then(result => {
-
-            if (result.isConfirmed) {
-
+            onAceptar() {
                 form.submit();
-
             }
 
         });
@@ -251,13 +254,10 @@ function iniciarCambiarEstado() {
             : "Deshabilitar";
 
         Dialog.confirm({
-
+            tipo: estado == 1 ? "success" : "danger",
             titulo,
-
             mensaje,
-
             textoAceptar,
-
             textoCancelar: "Cancelar",
 
             onAceptar() {
@@ -268,7 +268,6 @@ function iniciarCambiarEstado() {
             }
 
         });
-
     });
 
 }

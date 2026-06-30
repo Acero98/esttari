@@ -36,7 +36,7 @@
 
         <!-- Botones -->
 
-        <div class="flex justify-end gap-3 p-5 bg-slate-50">
+        <div id="dialogFooter" class="flex justify-end gap-3 p-5 bg-slate-50">
 
             <button
                 id="dialogCancelar"
