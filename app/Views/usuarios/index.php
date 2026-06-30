@@ -50,7 +50,7 @@
 
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-4 py-3"><?= $u['idUser'] ?></td>
-                                <td class="px-4 py-3"><?= $u['usuario'] ?></td>
+                                <td class="px-4 py-3  font-medium text-slate-700"><?= $u['usuario'] ?></td>
                                 <td class="px-4 py-3"><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
                                 <td class="px-4 py-3"><?= $u['correo'] ?></td>
                                 <td class="px-4 py-3"><?= $u['nombreRol'] ?? 'Sin rol' ?></td>
