@@ -295,6 +295,9 @@
   .my-2 {
     margin-block: calc(var(--spacing) * 2);
   }
+  .me-1 {
+    margin-inline-end: var(--spacing);
+  }
   .me-2 {
     margin-inline-end: calc(var(--spacing) * 2);
   }

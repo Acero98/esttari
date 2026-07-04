@@ -41,7 +41,7 @@
                             <th class="px-4 py-3">Estado</th>
                             <th class="px-4 py-3">Acciones</th>
                         </tr>
-                        
+
                     </thead>
 
                     <tbody class="divide-y divide-slate-200">
@@ -117,16 +117,15 @@
 
 </div>
 
-<!-- MODAL USUARIO -->
 <!-- MODAL NUEVO USUARIO -->
 <div
     id="modalUsuario"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
 
-    <div class="w-full max-w-4xl rounded-2xl bg-white shadow-2xl">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4">
 
-        <!-- Header -->
-        <div class="flex items-center justify-between border-b px-6 py-4">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-5 border-b">
 
             <div>
                 <h2 class="text-xl font-bold text-slate-800">
@@ -141,7 +140,7 @@
             <button
                 type="button"
                 id="cerrarModalUsuario"
-                class="rounded-lg p-2 hover:bg-slate-100">
+                class="text-slate-400 hover:text-slate-600 transition">
 
                 <i class="bi bi-x-lg text-xl"></i>
 
@@ -149,107 +148,124 @@
 
         </div>
 
+        <!-- FORM -->
         <form
             id="formUsuario"
             method="POST"
             action="index.php?url=usuarios_store">
 
-            <!-- Body -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-6">
+            <!-- BODY -->
+            <div class="p-6">
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Usuario
-                    </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                    <input
-                        type="text"
-                        name="usuario"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Usuario -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Usuario
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Correo
-                    </label>
+                        <input
+                            type="text"
+                            name="usuario"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="email"
-                        name="correo"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Correo -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Correo
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Nombres
-                    </label>
+                        <input
+                            type="email"
+                            name="correo"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="text"
-                        name="nombres"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Nombres -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Nombres
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Apellidos
-                    </label>
+                        <input
+                            type="text"
+                            name="nombres"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="text"
-                        name="apellidos"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Apellidos -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Apellidos
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Contraseña
-                    </label>
+                        <input
+                            type="text"
+                            name="apellidos"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="password"
-                        name="password"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Contraseña -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Contraseña
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Rol
-                    </label>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <select
-                        name="rol"
-                        required
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    <!-- Rol -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Rol
+                        </label>
 
-                        <option value="">Seleccione un rol</option>
+                        <select
+                            name="rol"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
 
-                        <?php foreach ($roles as $r): ?>
+                            <option value="">Seleccione un rol</option>
 
-                            <option value="<?= $r['idRol'] ?>">
-                                <?= $r['nombreRol'] ?>
-                            </option>
+                            <?php foreach ($roles as $r): ?>
 
-                        <?php endforeach; ?>
+                                <option value="<?= $r['idRol'] ?>">
+                                    <?= $r['nombreRol'] ?>
+                                </option>
 
-                    </select>
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <!-- Footer -->
-            <div class="flex justify-end gap-3 border-t px-6 py-4">
+            <!-- FOOTER -->
+            <div class="flex justify-end gap-3 px-6 py-5 bg-slate-50 rounded-b-2xl">
 
                 <button
                     type="button"
                     id="cancelarModalUsuario"
-                    class="rounded-lg border border-slate-300 px-5 py-2 hover:bg-slate-100">
+                    class="px-5 py-2.5 rounded-lg border border-slate-300 hover:bg-slate-100 transition">
 
                     Cancelar
 
@@ -257,9 +273,10 @@
 
                 <button
                     type="submit"
-                    class="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+                    class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition">
 
-                    Guardar Usuario
+                    <i class="bi bi-floppy me-1"></i>
+                    Guardar
 
                 </button>
 
@@ -271,16 +288,15 @@
 
 </div>
 
-<!-- MODAL USUARIO -->
 <!-- MODAL EDITAR USUARIO -->
 <div
     id="modalEditar"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
 
-    <div class="w-full max-w-4xl rounded-2xl bg-white shadow-2xl">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4">
 
-        <!-- Header -->
-        <div class="flex items-center justify-between border-b px-6 py-4">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-5 border-b">
 
             <div>
                 <h2 class="text-xl font-bold text-slate-800">
@@ -295,7 +311,7 @@
             <button
                 type="button"
                 id="cerrarModalEditar"
-                class="rounded-lg p-2 hover:bg-slate-100">
+                class="text-slate-400 hover:text-slate-600 transition">
 
                 <i class="bi bi-x-lg text-xl"></i>
 
@@ -303,6 +319,7 @@
 
         </div>
 
+        <!-- FORM -->
         <form
             id="formEditarUsuario"
             method="POST"
@@ -313,91 +330,107 @@
                 name="idUser"
                 id="edit_id">
 
-            <!-- Body -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-6">
+            <!-- BODY -->
+            <div class="p-6">
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Usuario
-                    </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                    <input
-                        type="text"
-                        name="usuario"
-                        id="edit_usuario"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Usuario -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Usuario
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Correo
-                    </label>
+                        <input
+                            type="text"
+                            name="usuario"
+                            id="edit_usuario"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="email"
-                        name="correo"
-                        id="edit_correo"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Correo -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Correo
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Nombres
-                    </label>
+                        <input
+                            type="email"
+                            name="correo"
+                            id="edit_correo"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="text"
-                        name="nombres"
-                        id="edit_nombres"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Nombres -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Nombres
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Apellidos
-                    </label>
+                        <input
+                            type="text"
+                            name="nombres"
+                            id="edit_nombres"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="text"
-                        name="apellidos"
-                        id="edit_apellidos"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Apellidos -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Apellidos
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Contraseña (opcional)
-                    </label>
+                        <input
+                            type="text"
+                            name="apellidos"
+                            id="edit_apellidos"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <input
-                        type="password"
-                        name="password"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                </div>
+                    <!-- Contraseña -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Contraseña (opcional)
+                        </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-slate-700">
-                        Rol
-                    </label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
 
-                    <select
-                        name="rol"
-                        id="edit_rol"
-                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    <!-- Rol -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Rol
+                        </label>
 
-                    </select>
+                        <select
+                            name="rol"
+                            id="edit_rol"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+
+                        </select>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <!-- Footer -->
-            <div class="flex justify-end gap-3 border-t px-6 py-4">
+            <!-- FOOTER -->
+            <div class="flex justify-end gap-3 px-6 py-5 bg-slate-50 rounded-b-2xl">
 
                 <button
                     type="button"
                     id="cancelarModalEditar"
-                    class="rounded-lg border border-slate-300 px-5 py-2 hover:bg-slate-100">
+                    class="px-5 py-2.5 rounded-lg border border-slate-300 hover:bg-slate-100 transition">
 
                     Cancelar
 
@@ -405,8 +438,9 @@
 
                 <button
                     type="submit"
-                    class="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+                    class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition">
 
+                    <i class="bi bi-floppy me-1"></i>
                     Guardar cambios
 
                 </button>
