@@ -14,6 +14,9 @@
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- ApexCharts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <!-- JS GLOBAL -->
 <script src="<?= BASE_URL ?>assets/js/app.js"></script>
 <script src="<?= BASE_URL ?>assets/js/dialog.js"></script>

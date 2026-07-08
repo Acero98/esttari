@@ -115,4 +115,4 @@
 
 </header>
 
-<main class="p-6 min-h-[calc(100vh-120px)]">
+<main class="p-6 flex-1">
