@@ -1,119 +1,214 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================
-    // PRESUPUESTO (RESUMEN)
-    // =========================
-    const presupuesto = window.graficoPresupuesto || {};
+    // =======================================
+    // FILTROS DASHBOARD
+    // =======================================
 
-    const categorias = ["Presupuesto", "Ejecutado"];
-
-    const montos = [
-        Number(presupuesto.presupuesto || 0),
-        Number(presupuesto.ejecutado || 0)
+    const filtros = [
+        "filtroEstudio",
+        "filtroAnio",
+        "filtroFondo",
+        "filtroArea",
+        "filtroInversion"
     ];
 
-    new ApexCharts(document.querySelector("#graficoPresupuesto"), {
-        chart: { type: 'bar', height: 350 },
-        series: [{ name: 'Presupuesto', data: montos }],
-        xaxis: { categories: categorias },
-        dataLabels: { enabled: false }
-    }).render();
+    filtros.forEach(id => {
 
+        const elemento = document.getElementById(id);
 
-    // =========================
-    // FONDOS (ESTE SÍ ES ARRAY)
-    // =========================
-    const fondos = window.graficoFondos || [];
+        if (!elemento) return;
 
-    const categoriasFondos = fondos.map(i => i.nombre);
-    const valoresFondos = fondos.map(i => parseFloat(i.monto));
-
-    new ApexCharts(document.querySelector("#graficoFondos"), {
-        chart: { type: 'pie', height: 350 },
-        series: valoresFondos,
-        labels: categoriasFondos
-    }).render();
-
-
-    // =========================
-    // EJECUCIÓN MENSUAL
-    // =========================
-    const ejecucion = window.graficoEjecucionMensual || [];
-
-    const meses = ejecucion.map(i => i.mes);
-    const programado = ejecucion.map(i => Number(i.programado || 0));
-    const ejecutado = ejecucion.map(i => Number(i.ejecutado || 0));
-
-    new ApexCharts(document.querySelector("#graficoEjecucionMensual"), {
-        chart: {
-            type: 'line',
-            height: 350
-        },
-        series: [
-            {
-                name: 'Programado',
-                data: programado
-            },
-            {
-                name: 'Ejecutado',
-                data: ejecutado
+        elemento.addEventListener("change", function () {
+            // Si cambia el estudio, limpiar filtros inferiores
+            if (id === "filtroEstudio") {
+                document.getElementById("filtroAnio").value = "";
+                document.getElementById("filtroFondo").value = "";
+                document.getElementById("filtroArea").value = "";
+                document.getElementById("filtroInversion").value = "";
             }
-        ],
-        xaxis: {
-            categories: meses
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        dataLabels: {
-            enabled: false
-        }
-    }).render();
+            const params = new URLSearchParams();
 
-    // =========================
-    // EJECUCIÓN MENSUAL
-    // =========================
-    const procesos = window.procesos || [];
+            params.set("url", "dashboard");
 
-    const container = document.getElementById("listaProcesos");
+            const estudio = document.getElementById("filtroEstudio")?.value || "";
+            const inversion = document.getElementById("filtroInversion")?.value || "";
+            const area = document.getElementById("filtroArea")?.value || "";
+            const fondo = document.getElementById("filtroFondo")?.value || "";
+            const anio = document.getElementById("filtroAnio")?.value || "";
 
-    procesos.forEach(p => {
 
-        let icon = "✔";
-        let color = "text-green-600";
-        let bg = "bg-green-500";
+            if (estudio) {
+                params.set("estudio", estudio);
+            }
 
-        if (p.status === "WARNING") {
-            icon = "⚠";
-            color = "text-yellow-600";
-            bg = "bg-yellow-500";
-        }
+            if (inversion) {
+                params.set("inversion", inversion);
+            }
 
-        if (p.status === "DELAY") {
-            icon = "✖";
-            color = "text-red-600";
-            bg = "bg-red-500";
-        }
+            if (area) {
+                params.set("area", area);
+            }
 
-        const item = document.createElement("div");
+            if (fondo) {
+                params.set("fondo", fondo);
+            }
 
-        item.innerHTML = `
-            <div class="flex justify-between items-center mb-1">
-                <span class="text-sm font-medium ${color}">
-                    ${icon} Proceso #${p.idProcesos}
-                </span>
+            if (anio) {
+                params.set("anio", anio);
+            }
 
-                <span class="text-xs text-gray-500">
-                    ${p.inicioProg} → ${p.finProg}
-                </span>
-            </div>
+            controlarFiltros();
+            window.location.href = "index.php?" + params.toString();
 
-            <div class="h-2 w-full bg-gray-200 rounded">
-                <div class="${bg} h-2 rounded w-full"></div>
-            </div>
-        `;
+        });
 
-        container.appendChild(item);
     });
+
+    // =======================================
+    // LIMPIAR FILTROS
+    // =======================================
+
+    const limpiar = document.getElementById("limpiarFiltros");
+
+    if (limpiar) {
+
+        limpiar.addEventListener("click", function () {
+
+            window.location.href = "index.php?url=dashboard";
+
+        });
+
+    }
+
+    controlarFiltros();
+
+});
+
+function controlarFiltros() {
+
+    const estudio =
+        document.getElementById("filtroEstudio")?.value || "";
+
+    const anio =
+        document.getElementById("filtroAnio");
+
+    const fondo =
+        document.getElementById("filtroFondo");
+
+    const area =
+        document.getElementById("filtroArea");
+
+    const inversion =
+        document.getElementById("filtroInversion");
+
+
+    // Año depende de Estudio
+
+    if (anio) {
+        anio.disabled = !estudio;
+    }
+
+
+    // Fondo depende de Estudio + Año
+
+    if (fondo) {
+        fondo.disabled = !(estudio && anio.value);
+    }
+
+
+    // Área depende de Estudio + Año + Fondo
+
+    if (area) {
+        area.disabled = !(estudio && anio.value && fondo.value);
+    }
+
+
+    // Inversión depende de Estudio + Año + Fondo + Área
+
+    if (inversion) {
+        inversion.disabled = !(
+            estudio &&
+            anio.value &&
+            fondo.value &&
+            area.value
+        );
+    }
+
+}
+
+// =======================================
+// GRAFICO PROGRAMADO VS EJECUTADO ACUMULADO
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    if (typeof graficoAcumulado !== "undefined") {
+
+
+        const categorias =
+            graficoAcumulado.map(
+                item => item.anio
+            );
+
+
+        const programado =
+            graficoAcumulado.map(
+                item => Number(item.programado)
+            );
+
+
+        const ejecutado =
+            graficoAcumulado.map(
+                item => Number(item.ejecutado)
+            );
+
+
+        const options = {
+
+            chart: {
+                type: "bar",
+                height: 350
+            },
+
+
+            series: [
+
+                {
+                    name: "Programado acumulado",
+                    data: programado
+                },
+
+                {
+                    name: "Ejecutado acumulado",
+                    data: ejecutado
+                }
+
+            ],
+
+
+            xaxis: {
+                categories: categorias
+            },
+
+
+            dataLabels: {
+                enabled: false
+            }
+
+        };
+
+
+        const chart =
+            new ApexCharts(
+                document.querySelector("#graficoAcumulado"),
+                options
+            );
+
+
+        chart.render();
+
+    }
+
 
 });

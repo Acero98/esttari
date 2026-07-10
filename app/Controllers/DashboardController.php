@@ -16,26 +16,83 @@ class DashboardController
 
         $model = new DashboardModel($conexion);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | FILTROS GENERALES DEL DASHBOARD
+        |--------------------------------------------------------------------------
+        */
+
         $filtrosActivos = [
-            'programa' => $_GET['programa'] ?? null,
-            'area'     => $_GET['area'] ?? null,
-            'fondo'    => $_GET['fondo'] ?? null,
-            'anio'     => $_GET['anio'] ?? null
+            'estudio'   => !empty($_GET['estudio']) ? $_GET['estudio'] : null,
+            'anio'      => !empty($_GET['anio']) ? $_GET['anio'] : null,
+            'area'      => !empty($_GET['area']) ? $_GET['area'] : null,
+            'fondo'     => !empty($_GET['fondo']) ? $_GET['fondo'] : null,
+            'inversion' => !empty($_GET['inversion']) ? $_GET['inversion'] : null
         ];
 
-        // KPIs
+        /*
+        |--------------------------------------------------------------------------
+        | BLOQUE 1
+        | Resumen General (KPIs)
+        |--------------------------------------------------------------------------
+        */
+
         $kpis = $model->obtenerKPIs($filtrosActivos);
 
-        // Filtros
-        $filtros = $model->obtenerFiltros();
+        /*
+        |--------------------------------------------------------------------------
+        | BLOQUE 2
+        |--------------------------------------------------------------------------
+        */
 
-        // Gráficos
-        $graficoPresupuesto = $model->obtenerGraficoPresupuesto($filtrosActivos);
-        $graficoFondos      = $model->obtenerGraficoFondos($filtrosActivos);
-        $graficoEjecucionMensual = $model->obtenerEjecucionMensual($filtrosActivos['anio'] ?? null);
-        $procesos = $model->obtenerProcesos();
+        $graficoAcumulado =
+            $model->obtenerGraficoAcumuladoPorAnio($filtrosActivos);
 
-        // Vistas (estructura tipo UsuarioController)
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BLOQUE 3
+        | Distribución
+        |--------------------------------------------------------------------------
+        */
+
+        /*
+        $graficoFondos =
+            $model->obtenerGraficoFondos($filtrosActivos);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BLOQUE 4
+        | Análisis
+        |--------------------------------------------------------------------------
+        */
+
+        /*
+        $procesos =
+            $model->obtenerProcesos($filtrosActivos);
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FILTROS
+        |--------------------------------------------------------------------------
+        */
+
+
+        $filtros = $model->obtenerFiltros($filtrosActivos);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VISTA
+        |--------------------------------------------------------------------------
+        */
+
         require_once "../app/Views/layouts/header.php";
         require_once "../app/Views/layouts/navbar.php";
         require_once "../app/Views/dashboard/index.php";

@@ -1,111 +1,154 @@
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <!-- Total Inversión -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500">
+                    Total Inversión
+                </p>
 
-    <!-- Presupuesto Total -->
-    <?php
-
-    $titulo = "Presupuesto Total";
-    $valor = "S/ " . number_format($kpis['montoTotal'], 2);
-    $descripcion = "Monto total aprobado";
-    $icono = "bi-cash-stack";
-    $colorFondo = "bg-blue-100";
-    $colorIcono = "text-blue-600";
-
-    include "card-kpi.php";
-
-    ?>
-
-    <!-- Ejecutado -->
-    <?php
-
-    $titulo = "Ejecutado";
-    $valor = "S/ " . number_format($kpis['ejecutado'], 2);
-    $descripcion = "Monto ejecutado";
-    $icono = "bi-wallet2";
-    $colorFondo = "bg-green-100";
-    $colorIcono = "text-green-600";
-
-    include "card-kpi.php";
-
-    ?>
-
-    <!-- Saldo Disponible -->
-    <?php
-
-    $titulo = "Saldo Disponible";
-    $valor = "S/ " . number_format($kpis['saldo'], 2);
-    $descripcion = "Saldo pendiente";
-    $icono = "bi-piggy-bank";
-    $colorFondo = "bg-orange-100";
-    $colorIcono = "text-orange-600";
-
-    include "card-kpi.php";
-
-    ?>
-
-    <!-- Ejecución -->
-    <?php
-
-    $titulo = "Ejecución";
-    $valor = number_format($kpis['ejecucion'], 2) . "%";
-    $descripcion = "Avance financiero";
-    $icono = "bi-graph-up-arrow";
-    $colorFondo = "bg-purple-100";
-    $colorIcono = "text-purple-600";
-
-    include "card-kpi.php";
-
-    ?>
-
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-6">
-    <!-- Programas -->
-    <div class="xl:col-span-1">
-        <?php
-
-        $titulo = "Programas";
-        $valor = number_format($kpis['programas']);
-        $descripcion = "Programas registrados";
-        $icono = "bi-diagram-3";
-        $colorFondo = "bg-cyan-100";
-        $colorIcono = "text-cyan-600";
-
-        include "card-kpi.php";
-
-        ?>
+                <h2 class="text-2xl font-bold mt-2">
+                    S/ <?= number_format($kpis['total'], 2) ?>
+                </h2>
+            </div>
+            <div class="bg-blue-100 text-blue-600 p-4 rounded-full">
+                <i class="bi bi-cash-stack text-3xl"></i>
+            </div>
+        </div>
     </div>
-    <div class="xl:col-span-1">
 
-        <!-- Fondos -->
-        <?php
 
-        $titulo = "Fondos";
-        $valor = number_format($kpis['fondos']);
-        $descripcion = "Fuentes de financiamiento";
-        $icono = "bi-bank";
-        $colorFondo = "bg-indigo-100";
-        $colorIcono = "text-indigo-600";
 
-        include "card-kpi.php";
 
-        ?>
+    <!-- PIM -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500">
+                    PIM
+                </p>
+
+                <h2 class="text-2xl font-bold mt-2">
+                    S/ <?= number_format($kpis['pim'], 2) ?>
+                </h2>                
+            </div>
+            <div class="bg-purple-100 text-purple-600 p-4 rounded-full">
+                <i class="bi bi-wallet2 text-3xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Acumulado -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500">
+                    Total Acumulado
+                </p>
+                <h2 class="text-2xl font-bold mt-2">
+                    S/ <?= number_format($kpis['totalAcumulado'], 2) ?>
+                </h2>
+                <?php if (!empty($_GET['anio'])): ?>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Acumulado hasta <?= htmlspecialchars($_GET['anio']) ?>
+                    </p>
+                <?php else: ?>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Acumulado de todos los años
+                    </p>
+                <?php endif; ?>
+            </div>
+            <div class="bg-blue-100 text-blue-600 p-4 rounded-full">
+                <i class="bi bi-bar-chart-line-fill text-3xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ejecución Acumulada -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Ejecución Acumulada
+                </p>
+
+                <h2 class="text-2xl font-bold mt-2">
+                    S/ <?= number_format($kpis['ejecucionAcumulada'], 2) ?>
+                </h2>
+            </div>
+
+
+            <div class="bg-green-100 text-green-600 p-4 rounded-full">
+
+                <i class="bi bi-bar-chart-line text-3xl"></i>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="xl:col-span-2">
 
-        <!-- Proyectos en Riesgo -->
-        <?php
 
-        $titulo = "Proyectos en Riesgo";
-        $valor = "--";
-        $descripcion = "Próximamente";
-        $icono = "bi-exclamation-triangle";
-        $colorFondo = "bg-red-100";
-        $colorIcono = "text-red-600";
 
-        include "card-kpi.php";
 
-        ?>
+
+    <!-- Saldo Acumulado -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Saldo Acumulado
+                </p>
+
+                <h2 class="text-2xl font-bold mt-2">
+                    S/ <?= number_format($kpis['saldoAcumulado'], 2) ?>
+                </h2>
+            </div>
+
+
+            <div class="bg-yellow-100 text-yellow-600 p-4 rounded-full">
+
+                <i class="bi bi-piggy-bank text-3xl"></i>
+
+            </div>
+
+        </div>
 
     </div>
+
+
+
+
+
+    <!-- Avance -->
+    <div class="bg-white rounded-xl shadow-sm border p-5">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+                <p class="text-sm text-gray-500">
+                    Avance Financiero
+                </p>
+
+                <h2 class="text-2xl font-bold mt-2">
+                    <?= $kpis['avance'] ?> %
+                </h2>
+            </div>
+
+
+            <div class="bg-orange-100 text-orange-600 p-4 rounded-full">
+
+                <i class="bi bi-speedometer2 text-3xl"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>

@@ -2,24 +2,40 @@
 
     <?php require "components/header.php"; ?>
 
+
     <?php require "components/filtros.php"; ?>
 
+
+    <!-- BLOQUE 1 -->
     <?php require "components/kpis.php"; ?>
 
-    <!-- <php require "components/resumen-financiero.php"; ?> -->
 
-    <?php require "components/graficos.php"; ?>
+    <!-- BLOQUE 2 -->
+    <?php require "components/financiero.php"; ?>
+
+
+    <!-- BLOQUE 3
+    <php require "components/distribucion.php"; ?>-->
+
+
+    <!-- BLOQUE 4
+    <php require "components/analisis.php"; ?>-->
+
+
+    <!-- BLOQUE 5
+    <php require "components/seguimiento.php"; ?>-->
+
 
 </div>
 
 <script>
-    window.graficoPresupuesto = <?= json_encode($graficoPresupuesto); ?>;
-    window.graficoFondos = <?= json_encode($graficoFondos); ?>;
-    window.graficoEjecucionMensual = <?= json_encode($graficoEjecucionMensual ?? []); ?>;
-    window.procesos = <?= json_encode($procesos ?? []); ?>;
+    const graficoAcumulado =
+        <?= json_encode($graficoAcumulado); ?>;
 </script>
 
 <?php
+
 $titulo = "Dashboard";
 $js = "dashboard.js";
+
 ?>
