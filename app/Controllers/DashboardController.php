@@ -46,8 +46,8 @@ class DashboardController
         |--------------------------------------------------------------------------
         */
 
-        $graficoAcumulado =
-            $model->obtenerGraficoAcumuladoPorAnio($filtrosActivos);
+        $graficoPrincipal =
+            $model->obtenerGraficoPrincipal($filtrosActivos);
 
 
 

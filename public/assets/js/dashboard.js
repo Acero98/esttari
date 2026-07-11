@@ -19,45 +19,54 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!elemento) return;
 
         elemento.addEventListener("change", function () {
-            // Si cambia el estudio, limpiar filtros inferiores
-            if (id === "filtroEstudio") {
-                document.getElementById("filtroAnio").value = "";
-                document.getElementById("filtroFondo").value = "";
-                document.getElementById("filtroArea").value = "";
-                document.getElementById("filtroInversion").value = "";
+            // ==============================
+            // LIMPIAR FILTROS DEPENDIENTES
+            // ==============================
+
+            switch (id) {
+
+                case "filtroEstudio":
+                    document.getElementById("filtroAnio").value = "";
+                    document.getElementById("filtroFondo").value = "";
+                    document.getElementById("filtroArea").value = "";
+                    document.getElementById("filtroInversion").value = "";
+                    break;
+
+                case "filtroAnio":
+                    document.getElementById("filtroFondo").value = "";
+                    document.getElementById("filtroArea").value = "";
+                    document.getElementById("filtroInversion").value = "";
+                    break;
+
+                case "filtroFondo":
+                    document.getElementById("filtroArea").value = "";
+                    document.getElementById("filtroInversion").value = "";
+                    break;
+
+                case "filtroArea":
+                    document.getElementById("filtroInversion").value = "";
+                    break;
+
             }
+
+            controlarFiltros();
+
             const params = new URLSearchParams();
 
             params.set("url", "dashboard");
 
-            const estudio = document.getElementById("filtroEstudio")?.value || "";
-            const inversion = document.getElementById("filtroInversion")?.value || "";
-            const area = document.getElementById("filtroArea")?.value || "";
-            const fondo = document.getElementById("filtroFondo")?.value || "";
-            const anio = document.getElementById("filtroAnio")?.value || "";
+            const estudio = document.getElementById("filtroEstudio").value;
+            const anio = document.getElementById("filtroAnio").value;
+            const fondo = document.getElementById("filtroFondo").value;
+            const area = document.getElementById("filtroArea").value;
+            const inversion = document.getElementById("filtroInversion").value;
 
+            if (estudio) params.set("estudio", estudio);
+            if (anio) params.set("anio", anio);
+            if (fondo) params.set("fondo", fondo);
+            if (area) params.set("area", area);
+            if (inversion) params.set("inversion", inversion);
 
-            if (estudio) {
-                params.set("estudio", estudio);
-            }
-
-            if (inversion) {
-                params.set("inversion", inversion);
-            }
-
-            if (area) {
-                params.set("area", area);
-            }
-
-            if (fondo) {
-                params.set("fondo", fondo);
-            }
-
-            if (anio) {
-                params.set("anio", anio);
-            }
-
-            controlarFiltros();
             window.location.href = "index.php?" + params.toString();
 
         });
@@ -69,15 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // =======================================
 
     const limpiar = document.getElementById("limpiarFiltros");
-
     if (limpiar) {
-
         limpiar.addEventListener("click", function () {
-
             window.location.href = "index.php?url=dashboard";
-
         });
-
     }
 
     controlarFiltros();
@@ -88,43 +92,29 @@ function controlarFiltros() {
 
     const estudio =
         document.getElementById("filtroEstudio")?.value || "";
-
     const anio =
         document.getElementById("filtroAnio");
-
     const fondo =
         document.getElementById("filtroFondo");
-
     const area =
         document.getElementById("filtroArea");
-
     const inversion =
         document.getElementById("filtroInversion");
 
 
     // Año depende de Estudio
-
     if (anio) {
         anio.disabled = !estudio;
     }
-
-
     // Fondo depende de Estudio + Año
-
     if (fondo) {
         fondo.disabled = !(estudio && anio.value);
     }
-
-
     // Área depende de Estudio + Año + Fondo
-
     if (area) {
         area.disabled = !(estudio && anio.value && fondo.value);
     }
-
-
     // Inversión depende de Estudio + Año + Fondo + Área
-
     if (inversion) {
         inversion.disabled = !(
             estudio &&
@@ -137,78 +127,131 @@ function controlarFiltros() {
 }
 
 // =======================================
-// GRAFICO PROGRAMADO VS EJECUTADO ACUMULADO
+// GRAFICO PRINCIPAL
 // =======================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    if (typeof graficoPrincipal === "undefined") return;
 
-    if (typeof graficoAcumulado !== "undefined") {
+    if (!Array.isArray(graficoPrincipal)) return;
 
+    const categorias = graficoPrincipal.map(item => item.anio);
 
-        const categorias =
-            graficoAcumulado.map(
-                item => item.anio
-            );
+    const series = [
 
+        {
+            name: "Programado",
 
-        const programado =
-            graficoAcumulado.map(
-                item => Number(item.programado)
-            );
+            data: graficoPrincipal.map(item =>
+                Number(item.programado)
+            )
+        },
 
+        {
+            name: "Ejecutado",
 
-        const ejecutado =
-            graficoAcumulado.map(
-                item => Number(item.ejecutado)
-            );
+            data: graficoPrincipal.map(item =>
+                Number(item.ejecutado)
+            )
+        }
 
+    ];
 
-        const options = {
+    const options = {
 
-            chart: {
-                type: "bar",
-                height: 350
-            },
+        chart: {
 
+            type: "bar",
 
-            series: [
+            height: 360,
 
-                {
-                    name: "Programado acumulado",
-                    data: programado
-                },
-
-                {
-                    name: "Ejecutado acumulado",
-                    data: ejecutado
-                }
-
-            ],
-
-
-            xaxis: {
-                categories: categorias
-            },
-
-
-            dataLabels: {
-                enabled: false
+            toolbar: {
+                show: false
             }
 
-        };
+        },
 
+        series: series,
 
-        const chart =
-            new ApexCharts(
-                document.querySelector("#graficoAcumulado"),
-                options
-            );
+        xaxis: {
 
+            categories: categorias
 
-        chart.render();
+        },
 
-    }
+        dataLabels: {
 
+            enabled: false
+
+        },
+
+        stroke: {
+
+            show: true,
+
+            width: 2
+
+        },
+
+        legend: {
+
+            position: "top"
+
+        },
+
+        plotOptions: {
+
+            bar: {
+
+                borderRadius: 6,
+
+                columnWidth: "45%"
+
+            }
+
+        },
+
+        yaxis: {
+
+            labels: {
+
+                formatter: function (val) {
+
+                    return "S/ " + Number(val).toLocaleString("es-PE");
+
+                }
+
+            }
+
+        },
+
+        tooltip: {
+
+            y: {
+
+                formatter: function (val) {
+
+                    return "S/ " +
+                        Number(val).toLocaleString(
+                            "es-PE",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        );
+
+                }
+
+            }
+
+        }
+
+    };
+
+    new ApexCharts(
+        document.querySelector("#graficoPrincipal"),
+        options
+    ).render();
 
 });

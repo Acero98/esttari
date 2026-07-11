@@ -59,32 +59,91 @@ class DashboardModel
         $where = $this->construirWhere($filtros, $params);
 
         /*
-    |--------------------------------------------------------------------------
-    | 1. TOTAL GENERAL
-    |--------------------------------------------------------------------------
-    | Suma programado de todos los años
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 1. TOTAL GENERAL
+        |--------------------------------------------------------------------------
+        | Suma programado de todos los años
+        |--------------------------------------------------------------------------
+        */
         $sqlTotal = "
-        SELECT
-            COALESCE(SUM(ar.programado),0) AS total
-        FROM inversiones i
-        INNER JOIN anio_regulatorio ar
-            ON ar.idInversiones = i.idInversiones
-        $where
-        ";
+                    SELECT
+                        COALESCE(SUM(ar.programado),0) AS total
+                    FROM inversiones i
+                    INNER JOIN anio_regulatorio ar
+                        ON ar.idInversiones = i.idInversiones
+                    $where
+                    ";
 
         $stmt = $this->db->prepare($sqlTotal);
         $stmt->execute($params);
         $total = $stmt->fetchColumn();
 
         /*
-|--------------------------------------------------------------------------
-| 2. PIM
-|--------------------------------------------------------------------------
-| RDR + ET del año seleccionado
-|--------------------------------------------------------------------------
-*/
+        TOTAL PIM 
+        */
+
+        $sqlPimTotal = "
+            SELECT
+                COALESCE(SUM(ar.rdr + ar.et),0)
+            FROM inversiones i
+            INNER JOIN anio_regulatorio ar
+                ON ar.idInversiones = i.idInversiones
+            $where
+        ";
+
+        $stmt = $this->db->prepare($sqlPimTotal);
+        $stmt->execute($params);
+
+        $totalPim = $stmt->fetchColumn();
+
+        /*
+        TOTAL EJECUCION
+        */
+
+        $sqlEjecucionTotal = "
+            SELECT
+                COALESCE(SUM(em.ejecutado),0)
+            FROM anio_regulatorio ar
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+            LEFT JOIN ejecucion_mensual em
+                ON em.idAnioRegulatorio = ar.idAnioRegulatorio
+            $where
+        ";
+
+        $stmt = $this->db->prepare($sqlEjecucionTotal);
+        $stmt->execute($params);
+
+        $totalEjecucion = $stmt->fetchColumn();
+
+        /*
+        TOTAL SALDO
+        */
+
+        $totalSaldo =
+            $total - $totalEjecucion;
+
+        /*
+        |--------------------------------------------------------------------------
+        | AVANCE TOTAL GENERAL
+        |--------------------------------------------------------------------------
+        */
+
+        $avanceTotal =
+            $total > 0
+            ? round(
+                ($totalEjecucion / $total) * 100,
+                2
+            )
+            : 0;
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. PIM
+        |--------------------------------------------------------------------------
+        | RDR + ET del año seleccionado
+        |--------------------------------------------------------------------------
+        */
         $paramsPim = $params;
 
         $wherePim = $this->agregarFiltroAnio(
@@ -95,13 +154,13 @@ class DashboardModel
         );
 
         $sqlPim = "
-        SELECT
-            COALESCE(SUM(ar.rdr + ar.et),0) AS pim
-        FROM inversiones i
-        INNER JOIN anio_regulatorio ar
-            ON ar.idInversiones = i.idInversiones
-        $wherePim
-        ";
+            SELECT
+                COALESCE(SUM(ar.rdr + ar.et),0) AS pim
+            FROM inversiones i
+            INNER JOIN anio_regulatorio ar
+                ON ar.idInversiones = i.idInversiones
+            $wherePim
+            ";
 
         $stmt = $this->db->prepare($sqlPim);
         $stmt->execute($paramsPim);
@@ -124,17 +183,39 @@ class DashboardModel
         );
 
         $sqlAcumulado = "
-        SELECT
-            COALESCE(SUM(ar.programado),0)
-        FROM inversiones i
-        INNER JOIN anio_regulatorio ar
-            ON ar.idInversiones = i.idInversiones
-        $whereAcumulado
-        ";
+                        SELECT
+                            COALESCE(SUM(ar.programado),0)
+                        FROM inversiones i
+                        INNER JOIN anio_regulatorio ar
+                            ON ar.idInversiones = i.idInversiones
+                        $whereAcumulado
+                        ";
 
         $stmt = $this->db->prepare($sqlAcumulado);
         $stmt->execute($paramsAcumulado);
         $totalAcumulado = $stmt->fetchColumn();
+
+        /*
+        |--------------------------------------------------------------------------
+        | PIM ACUMULADO
+        |--------------------------------------------------------------------------
+        | RDR + ET hasta el año seleccionado
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlPimAcumulado = "
+            SELECT
+                COALESCE(SUM(ar.rdr + ar.et),0) AS pim
+            FROM inversiones i
+            INNER JOIN anio_regulatorio ar
+                ON ar.idInversiones = i.idInversiones
+            $whereAcumulado
+        ";
+
+        $stmt = $this->db->prepare($sqlPimAcumulado);
+        $stmt->execute($paramsAcumulado);
+
+        $pimAcumulado = $stmt->fetchColumn();
 
         /*
         |--------------------------------------------------------------------------
@@ -144,125 +225,238 @@ class DashboardModel
         |--------------------------------------------------------------------------
         */
         $sqlEjecucion = "
-        SELECT
-            COALESCE(SUM(em.ejecutado),0) AS ejecutadoAcumulado
-        FROM anio_regulatorio ar
+                        SELECT
+                            COALESCE(SUM(em.ejecutado),0) AS ejecutadoAcumulado
+                        FROM anio_regulatorio ar
 
-        INNER JOIN inversiones i
-            ON i.idInversiones = ar.idInversiones
+                        INNER JOIN inversiones i
+                            ON i.idInversiones = ar.idInversiones
 
-        LEFT JOIN ejecucion_mensual em
-            ON em.idAnioRegulatorio = ar.idAnioRegulatorio
+                        LEFT JOIN ejecucion_mensual em
+                            ON em.idAnioRegulatorio = ar.idAnioRegulatorio
 
-        $whereAcumulado
-        ";
+                        $whereAcumulado
+                        ";
 
         $stmt = $this->db->prepare($sqlEjecucion);
         $stmt->execute($paramsAcumulado);
         $ejecucionAcumulada = $stmt->fetchColumn();
 
         /*
-    |--------------------------------------------------------------------------
-    | CÁLCULOS FINALES
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | CÁLCULOS FINALES
+        |--------------------------------------------------------------------------
+        */
+        // Acumulado hasta el año seleccionado
         $saldoAcumulado =
-            $total - $ejecucionAcumulada;
-        $avance =
-            $total > 0
+            $totalAcumulado - $ejecucionAcumulada;
+
+        /*
+        |--------------------------------------------------------------------------
+        | AVANCE ACUMULADO
+        |--------------------------------------------------------------------------
+        */
+
+        $avanceAcumulado =
+            $totalAcumulado > 0
             ? round(
                 ($ejecucionAcumulada / $total) * 100,
                 2
             )
             : 0;
 
+        /*
+        |--------------------------------------------------------------------------
+        | 5. SOLO AÑO SELECCIONADO
+        |--------------------------------------------------------------------------
+        | Datos únicamente del año elegido
+        |--------------------------------------------------------------------------
+        */
+
+        $paramsAnio = $params;
+
+        $whereAnio = $this->agregarFiltroAnio(
+            $where,
+            $paramsAnio,
+            $filtros,
+            "="
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | INVERSION DEL AÑO
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlTotalAnio = "
+            SELECT
+                COALESCE(SUM(ar.programado),0)
+            FROM inversiones i
+            INNER JOIN anio_regulatorio ar
+                ON ar.idInversiones = i.idInversiones
+            $whereAnio
+        ";
+
+        $stmt = $this->db->prepare($sqlTotalAnio);
+        $stmt->execute($paramsAnio);
+
+        $totalAnio = $stmt->fetchColumn();
+
+        /*
+        |--------------------------------------------------------------------------
+        | EJECUCIÓN DEL AÑO
+        |--------------------------------------------------------------------------
+        */
+
+        $sqlEjecucionAnio = "
+            SELECT
+                COALESCE(SUM(em.ejecutado),0)
+            FROM anio_regulatorio ar
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+            LEFT JOIN ejecucion_mensual em
+                ON em.idAnioRegulatorio = ar.idAnioRegulatorio
+            $whereAnio
+        ";
+
+        $stmt = $this->db->prepare($sqlEjecucionAnio);
+        $stmt->execute($paramsAnio);
+
+        $ejecucionAnio = $stmt->fetchColumn();
+
+        /*
+        |--------------------------------------------------------------------------
+        | SALDO DEL AÑO
+        |--------------------------------------------------------------------------
+        */
+
+        $saldoAnio =
+            $totalAnio - $ejecucionAnio;
+
+        /*
+        |--------------------------------------------------------------------------
+        | AVANCE DEL AÑO
+        |--------------------------------------------------------------------------
+        */
+
+        $avanceAnio =
+            $totalAnio > 0
+            ? round(
+                ($ejecucionAnio / $totalAnio) * 100,
+                2
+            )
+            : 0;
+
         return [
+
+            /*
+            |--------------------------------------------------------------------------
+            | BLOQUE 1 - TOTALES GENERALES
+            |--------------------------------------------------------------------------
+            */
+
             "total" => $total,
-            "pim" => $pim,
+            "totalPim" => $totalPim,
+            "totalEjecucion" => $totalEjecucion,
+            "totalSaldo" => $totalSaldo,
+            "avanceTotal" => $avanceTotal,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | BLOQUE 2 - HASTA AÑO SELECCIONADO
+            |--------------------------------------------------------------------------
+            */
+
             "totalAcumulado" => $totalAcumulado,
+            "pimAcumulado" => $pimAcumulado,
             "ejecucionAcumulada" => $ejecucionAcumulada,
             "saldoAcumulado" => $saldoAcumulado,
-            "avance" => $avance
+            "avanceAcumulado" => $avanceAcumulado,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | BLOQUE 3 - SOLO AÑO SELECCIONADO
+            |--------------------------------------------------------------------------
+            */
+
+            "totalAnio" => $totalAnio,
+            "pimAnio" => $pim,
+            "ejecucionAnio" => $ejecucionAnio,
+            "saldoAnio" => $saldoAnio,
+            "avanceAnio" => $avanceAnio
+
         ];
     }
 
-    public function obtenerGraficoProgramadoVsEjecutado($filtros)
+    public function obtenerGraficoPrincipal($filtros)
     {
+        /*
+    |--------------------------------------------------------------------------
+    | FILTROS BASE
+    |--------------------------------------------------------------------------
+    */
+
         $params = [];
         $where = $this->construirWhere($filtros, $params);
 
-        $where = $this->agregarFiltroAnio(
-            $where,
-            $params,
-            $filtros,
-            "<="
-        );
+        /*
+    |--------------------------------------------------------------------------
+    | SI EXISTE AÑO
+    |--------------------------------------------------------------------------
+    | Mostrar el histórico hasta el año seleccionado
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "<="
+            );
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | PROGRAMADO VS EJECUTADO POR AÑO
+    |--------------------------------------------------------------------------
+    | Respeta todos los filtros:
+    | - Estudio Tarifario
+    | - Año (<= seleccionado)
+    | - Fondo
+    | - Área
+    | - Inversión
+    |--------------------------------------------------------------------------
+    */
 
         $sql = "
             SELECT
+                ar.anio,
                 COALESCE(SUM(ar.programado),0) AS programado,
-                COALESCE(SUM(em.ejecutado),0) AS ejecutado
-
-            FROM inversiones i
-
-            INNER JOIN anio_regulatorio ar
-                ON ar.idInversiones=i.idInversiones
-
-            LEFT JOIN ejecucion_mensual em
-                ON em.idAnioRegulatorio=ar.idAnioRegulatorio
-
+                COALESCE(SUM(em.totalEjecutado),0) AS ejecutado
+            FROM anio_regulatorio ar
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+            LEFT JOIN (
+                SELECT
+                    idAnioRegulatorio,
+                    SUM(ejecutado) AS totalEjecutado
+                FROM ejecucion_mensual
+                GROUP BY idAnioRegulatorio
+            ) em
+                ON em.idAnioRegulatorio = ar.idAnioRegulatorio
             $where
+            GROUP BY ar.anio
+            ORDER BY ar.anio ASC
         ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function obtenerGraficoAcumuladoPorAnio($filtros)
-    {
-        $params = [];
-        $where = $this->construirWhere($filtros, $params);
-        $sql = "
-                SELECT
-                    ar.anio,
-                    COALESCE(SUM(ar.programado),0) AS programado,
-                    COALESCE(SUM(em.ejecutado),0) AS ejecutado
-
-                FROM anio_regulatorio ar
-
-                INNER JOIN inversiones i
-                    ON i.idInversiones = ar.idInversiones
-
-                LEFT JOIN ejecucion_mensual em
-                    ON em.idAnioRegulatorio = ar.idAnioRegulatorio
-                $where
-                GROUP BY ar.anio
-                ORDER BY ar.anio ASC
-                ";
-
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-
-        $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $programadoAcumulado = 0;
-        $ejecutadoAcumulado = 0;
-
-        $resultado = [];
-
-        foreach ($datos as $fila) {
-            $programadoAcumulado += $fila['programado'];
-            $ejecutadoAcumulado += $fila['ejecutado'];
-            $resultado[] = [
-                "anio" => $fila['anio'],
-                "programado" => $programadoAcumulado,
-                "ejecutado" => $ejecutadoAcumulado
-            ];
-        }
-        return $resultado;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // FILTROS DEL DASHBOARD

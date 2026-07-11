@@ -1,4 +1,4 @@
-<div class="w-full px-6 py-6 space-y-6">
+<div class="w-full px-4 py-1 space-y-4">
 
     <?php require "components/header.php"; ?>
 
@@ -29,8 +29,8 @@
 </div>
 
 <script>
-    const graficoAcumulado =
-        <?= json_encode($graficoAcumulado); ?>;
+    const graficoPrincipal =
+        <?= json_encode($graficoPrincipal) ?>;
 </script>
 
 <?php

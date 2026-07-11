@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-4">
     <div class="flex flex-col md:flex-row justify-between gap-4">
         <div class="flex items-start gap-4">
             <div class="bg-blue-100 text-blue-600 rounded-xl p-4">
