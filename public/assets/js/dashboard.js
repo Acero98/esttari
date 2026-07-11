@@ -255,3 +255,505 @@ document.addEventListener("DOMContentLoaded", function () {
     ).render();
 
 });
+
+// =======================================
+// DISTRIBUCIÓN POR FONDO
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof graficoFondo === "undefined") return;
+
+    const series = graficoFondo.map(item =>
+        Number(item.total)
+    );
+
+    const labels = graficoFondo.map(item =>
+        item.nombre
+    );
+
+    const options = {
+
+        chart: {
+
+            type: "donut",
+
+            height: 360
+
+        },
+
+        series: series,
+
+        labels: labels,
+
+        legend: {
+
+            position: "bottom"
+
+        },
+
+        dataLabels: {
+
+            enabled: true
+
+        },
+
+        tooltip: {
+
+            y: {
+
+                formatter: function (val) {
+
+                    return "S/ " +
+                        Number(val).toLocaleString(
+                            "es-PE",
+                            {
+                                minimumFractionDigits: 2
+                            }
+                        );
+
+                }
+
+            }
+
+        }
+
+    };
+
+    new ApexCharts(
+        document.querySelector("#graficoFondo"),
+        options
+    ).render();
+
+});
+
+// =======================================
+// DISTRIBUCIÓN POR ÁREA
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof graficoArea === "undefined") return;
+
+    const series = graficoArea.map(item =>
+        Number(item.total)
+    );
+
+    const labels = graficoArea.map(item =>
+        item.nombreArea
+    );
+
+    const options = {
+
+        chart: {
+
+            type: "donut",
+
+            height: 360
+
+        },
+
+        series: series,
+
+        labels: labels,
+
+        legend: {
+
+            position: "bottom"
+
+        },
+
+        dataLabels: {
+
+            enabled: true
+
+        },
+
+        tooltip: {
+
+            y: {
+
+                formatter: function (val) {
+
+                    return "S/ " +
+                        Number(val).toLocaleString(
+                            "es-PE",
+                            {
+                                minimumFractionDigits: 2
+                            }
+                        );
+
+                }
+
+            }
+
+        }
+
+    };
+
+    new ApexCharts(
+        document.querySelector("#graficoArea"),
+        options
+    ).render();
+
+});
+
+// =======================================
+// AVANCE FINANCIERO VS AVANCE FÍSICO
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    if (typeof graficoAvance === "undefined") return;
+
+
+    const categorias = graficoAvance.map(item =>
+        item.anio
+    );
+
+
+    const series = [
+
+        {
+            name: "Avance Financiero (%)",
+
+            data: graficoAvance.map(item =>
+                Number(item.avanceFinanciero)
+            )
+
+        },
+
+
+        {
+            name: "Avance Físico (%)",
+
+            data: graficoAvance.map(item =>
+                Number(item.avanceFisico)
+            )
+
+        }
+
+    ];
+
+
+
+    const options = {
+
+
+        chart: {
+
+            type: "line",
+
+            height: 360,
+
+            toolbar: {
+
+                show: false
+
+            }
+
+        },
+
+
+        series: series,
+
+
+        xaxis: {
+
+            categories: categorias
+
+        },
+
+
+        yaxis: {
+
+            max: 100,
+
+            labels: {
+
+                formatter: function (value) {
+
+                    return value + "%";
+
+                }
+
+            }
+
+        },
+
+
+        stroke: {
+
+            curve: "smooth",
+
+            width: 3
+
+        },
+
+
+        markers: {
+
+            size: 5
+
+        },
+
+
+        dataLabels: {
+
+            enabled: false
+
+        },
+
+
+        legend: {
+
+            position: "top"
+
+        },
+
+
+        tooltip: {
+
+            y: {
+
+                formatter: function (value) {
+
+                    return value + "%";
+
+                }
+
+            }
+
+        }
+
+
+    };
+
+
+    new ApexCharts(
+
+        document.querySelector("#graficoAvance"),
+
+        options
+
+    ).render();
+
+
+});
+
+// =======================================
+// TOP INVERSION PROGRAMADO
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    if (typeof topProgramado === "undefined") return;
+
+
+
+    const options = {
+
+
+        chart: {
+
+            type: "bar",
+
+            height: 350,
+
+            toolbar: {
+
+                show: false
+
+            }
+
+        },
+
+
+        series: [
+
+            {
+
+                name: "Programado",
+
+                data: topProgramado.map(item =>
+                    Number(item.total)
+                )
+
+            }
+
+        ],
+
+
+        xaxis: {
+
+            categories: topProgramado.map(item =>
+                item.descripcion
+            )
+
+        },
+
+
+        plotOptions: {
+
+            bar: {
+
+                horizontal: true,
+
+                borderRadius: 5,
+
+                barHeight: "55%"
+
+            }
+
+        },
+
+
+        dataLabels: {
+
+            enabled: false
+
+        },
+
+
+        tooltip: {
+
+            y: {
+
+                formatter: function(value){
+
+                    return "S/ " +
+                    value.toLocaleString("es-PE",
+                    {
+                        minimumFractionDigits:2
+                    });
+
+                }
+
+            }
+
+        }
+
+
+    };
+
+
+    new ApexCharts(
+
+        document.querySelector("#topProgramadoChart"),
+
+        options
+
+    ).render();
+
+
+});
+
+// =======================================
+// TOP INVERSION EJECUTADO
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    if (typeof topEjecutado === "undefined") return;
+
+
+
+    const options = {
+
+
+        chart: {
+
+            type: "bar",
+
+            height: 350,
+
+            toolbar: {
+
+                show:false
+
+            }
+
+        },
+
+
+        series:[
+
+            {
+
+                name:"Ejecutado",
+
+                data: topEjecutado.map(item =>
+                    Number(item.total)
+                )
+
+            }
+
+        ],
+
+
+        xaxis:{
+
+            categories:topEjecutado.map(item =>
+                item.descripcion
+            )
+
+        },
+
+
+        plotOptions:{
+
+            bar:{
+
+                horizontal:true,
+
+                borderRadius:5,
+
+                barHeight:"55%"
+
+            }
+
+        },
+
+
+        dataLabels:{
+
+            enabled:false
+
+        },
+
+
+        tooltip:{
+
+            y:{
+
+                formatter:function(value){
+
+                    return "S/ "+
+                    value.toLocaleString("es-PE",
+                    {
+                        minimumFractionDigits:2
+                    });
+
+                }
+
+            }
+
+        }
+
+
+    };
+
+
+    new ApexCharts(
+
+        document.querySelector("#topEjecutadoChart"),
+
+        options
+
+    ).render();
+
+
+});

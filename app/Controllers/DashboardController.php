@@ -48,8 +48,8 @@ class DashboardController
 
         $graficoPrincipal =
             $model->obtenerGraficoPrincipal($filtrosActivos);
-
-
+        $graficoAvance =
+            $model->obtenerGraficoAvance($filtrosActivos);
 
         /*
         |--------------------------------------------------------------------------
@@ -58,11 +58,11 @@ class DashboardController
         |--------------------------------------------------------------------------
         */
 
-        /*
-        $graficoFondos =
-            $model->obtenerGraficoFondos($filtrosActivos);
+        $graficoFondo =
+            $model->obtenerGraficoFondo($filtrosActivos);
 
-
+        $graficoArea =
+            $model->obtenerGraficoArea($filtrosActivos);
 
         /*
         |--------------------------------------------------------------------------
@@ -71,11 +71,12 @@ class DashboardController
         |--------------------------------------------------------------------------
         */
 
-        /*
-        $procesos =
-            $model->obtenerProcesos($filtrosActivos);
+        $topProgramado =
+            $model->obtenerTopInversionProgramado($filtrosActivos);
 
 
+        $topEjecutado =
+            $model->obtenerTopInversionEjecutado($filtrosActivos);
 
         /*
         |--------------------------------------------------------------------------
@@ -83,9 +84,7 @@ class DashboardController
         |--------------------------------------------------------------------------
         */
 
-
         $filtros = $model->obtenerFiltros($filtrosActivos);
-
 
         /*
         |--------------------------------------------------------------------------

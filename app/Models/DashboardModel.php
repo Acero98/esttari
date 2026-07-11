@@ -637,10 +637,10 @@ class DashboardModel
         $areas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         /*
-|--------------------------------------------------------------------------
-| FONDOS
-|--------------------------------------------------------------------------
-*/
+        |--------------------------------------------------------------------------
+        | FONDOS
+        |--------------------------------------------------------------------------
+        */
 
         $params = [];
 
@@ -649,43 +649,31 @@ class DashboardModel
                     f.idFondos,
                     f.codigo,
                     f.nombre
-
                 FROM fondos f
-
                 INNER JOIN inversiones i
                     ON i.idFondos = f.idFondos
-
                 INNER JOIN anio_regulatorio ar
                     ON ar.idInversiones = i.idInversiones
-
                 WHERE 1=1
                 ";
 
-
         if (!empty($filtros['estudio'])) {
-
             $sql .= "
                     AND ar.idEstudioTarifario = ?
                     ";
-
             $params[] = $filtros['estudio'];
         }
 
-
         if (!empty($filtros['anio'])) {
-
             $sql .= "
                     AND ar.anio = ?
                     ";
-
             $params[] = $filtros['anio'];
         }
-
 
         $sql .= "
                 ORDER BY f.nombre ASC
                 ";
-
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
@@ -699,5 +687,393 @@ class DashboardModel
             "areas" => $areas,
             "fondos" => $fondos
         ];
+    }
+
+    public function obtenerGraficoFondo($filtros)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | FILTROS BASE
+        |--------------------------------------------------------------------------
+        */
+
+        $params = [];
+        $where = $this->construirWhere($filtros, $params);
+
+        /*
+        |--------------------------------------------------------------------------
+        | SI EXISTE AÑO
+        |--------------------------------------------------------------------------
+        | Para gráficos de distribución se usa "="
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "="
+            );
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | DISTRIBUCIÓN POR FONDO
+    |--------------------------------------------------------------------------
+    */
+
+        $sql = "
+            SELECT
+                f.nombre,
+                COALESCE(SUM(ar.programado),0) AS total
+            FROM anio_regulatorio ar
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+            INNER JOIN fondos f
+                ON f.idFondos = i.idFondos
+            $where
+            GROUP BY
+                f.idFondos,
+                f.nombre
+            ORDER BY
+                total DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerGraficoArea($filtros)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | FILTROS
+        |--------------------------------------------------------------------------
+        */
+
+        $params = [];
+        $where = $this->construirWhere($filtros, $params);
+
+        /*
+        |--------------------------------------------------------------------------
+        | SI EXISTE AÑO
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "="
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | DISTRIBUCIÓN POR ÁREA
+        |--------------------------------------------------------------------------
+        */
+
+        $sql = "
+
+            SELECT
+
+                a.nombreArea,
+
+                COALESCE(SUM(ar.programado),0) AS total
+
+            FROM anio_regulatorio ar
+
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+
+            INNER JOIN areas a
+                ON a.idAreas = i.idAreas
+
+            $where
+
+            GROUP BY
+                a.idAreas,
+                a.nombreArea
+
+            ORDER BY
+                total DESC
+
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerGraficoAvance($filtros)
+    {
+        /*
+    |--------------------------------------------------------------------------
+    | FILTROS
+    |--------------------------------------------------------------------------
+    */
+
+        $params = [];
+        $where = $this->construirWhere($filtros, $params);
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | SI EXISTE AÑO
+    |--------------------------------------------------------------------------
+    | Mostrar histórico hasta el año seleccionado
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "<="
+            );
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | AVANCE FINANCIERO VS AVANCE FÍSICO
+    |--------------------------------------------------------------------------
+    */
+
+        $sql = "
+            SELECT
+                ar.anio,
+                COALESCE(SUM(ar.programado),0) AS programado,
+                COALESCE(SUM(em.totalEjecutado),0) AS ejecutado,
+                ROUND(
+                    (
+                        COALESCE(SUM(em.totalEjecutado),0)
+                        /
+                        NULLIF(SUM(ar.programado),0)
+                    ) * 100,
+                    2
+                ) AS avanceFinanciero,
+                ROUND(
+                    SUM(
+                        ar.programado * ar.avanceFisico
+                    )
+                    /
+                    NULLIF(
+                        SUM(ar.programado),
+                        0
+                    ),
+                    2
+                ) AS avanceFisico
+            FROM anio_regulatorio ar
+            INNER JOIN inversiones i
+                ON i.idInversiones = ar.idInversiones
+            LEFT JOIN (
+                SELECT
+                    idAnioRegulatorio,
+                    SUM(ejecutado) AS totalEjecutado
+                FROM ejecucion_mensual
+                GROUP BY idAnioRegulatorio
+            ) em
+                ON em.idAnioRegulatorio = ar.idAnioRegulatorio
+        $where
+            GROUP BY ar.anio
+            ORDER BY ar.anio ASC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+
+        $datos = [];
+
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $datos[] = [
+                "anio" => $fila["anio"],
+                "avanceFinanciero" =>
+                (float)$fila["avanceFinanciero"],
+                "avanceFisico" =>
+                (float)$fila["avanceFisico"]
+            ];
+        }
+
+        return $datos;
+    }
+
+    public function obtenerTopInversionProgramado($filtros)
+    {
+
+        /*
+    |--------------------------------------------------------------------------
+    | FILTROS
+    |--------------------------------------------------------------------------
+    */
+
+        $params = [];
+
+        $where = $this->construirWhere(
+            $filtros,
+            $params
+        );
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | SI EXISTE AÑO
+    |--------------------------------------------------------------------------
+    | Acumulado hasta el año seleccionado
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "<="
+            );
+        }
+
+
+        $sql = "
+
+            SELECT
+
+                i.descripcion,
+
+                COALESCE(SUM(ar.programado),0) AS total
+
+
+            FROM inversiones i
+
+
+            INNER JOIN anio_regulatorio ar
+
+                ON ar.idInversiones = i.idInversiones
+
+
+            $where
+
+
+            GROUP BY
+
+                i.idInversiones,
+
+                i.descripcion
+
+
+            ORDER BY
+
+                total DESC
+
+
+            LIMIT 10
+
+        ";
+
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute($params);
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerTopInversionEjecutado($filtros)
+    {
+
+        /*
+    |--------------------------------------------------------------------------
+    | FILTROS
+    |--------------------------------------------------------------------------
+    */
+
+        $params = [];
+
+        $where = $this->construirWhere(
+            $filtros,
+            $params
+        );
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | SI EXISTE AÑO
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($filtros['anio'])) {
+
+            $where = $this->agregarFiltroAnio(
+                $where,
+                $params,
+                $filtros,
+                "<="
+            );
+        }
+
+
+        $sql = "
+
+            SELECT
+
+                i.descripcion,
+
+                COALESCE(
+                    SUM(em.ejecutado),
+                    0
+                ) AS total
+
+
+            FROM inversiones i
+
+
+            INNER JOIN anio_regulatorio ar
+
+                ON ar.idInversiones = i.idInversiones
+
+
+            LEFT JOIN ejecucion_mensual em
+
+                ON em.idAnioRegulatorio = ar.idAnioRegulatorio
+
+
+            $where
+
+
+            GROUP BY
+
+                i.idInversiones,
+
+                i.descripcion
+
+
+            ORDER BY
+
+                total DESC
+
+
+            LIMIT 10
+
+        ";
+
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute($params);
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

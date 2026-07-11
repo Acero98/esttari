@@ -31,6 +31,20 @@
 <script>
     const graficoPrincipal =
         <?= json_encode($graficoPrincipal) ?>;
+
+    const graficoFondo =
+        <?= json_encode($graficoFondo) ?>;
+
+    const graficoArea =
+        <?= json_encode($graficoArea) ?>;
+
+    const graficoAvance =
+        <?= json_encode($graficoAvance) ?>;
+
+    const topProgramado =
+        <?= json_encode($topProgramado) ?>;
+    const topEjecutado =
+        <?= json_encode($topEjecutado) ?>;
 </script>
 
 <?php
