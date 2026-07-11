@@ -32,7 +32,7 @@
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
 
                         <tr>
-                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">Usuario</th>
                             <th class="px-4 py-3">Nombres</th>
                             <th class="px-4 py-3">Correo</th>
@@ -46,10 +46,10 @@
 
                     <tbody class="divide-y divide-slate-200">
 
-                        <?php foreach ($usuarios as $u): ?>
+                        <?php foreach ($usuarios as $index => $u): ?>
 
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="px-4 py-3"><?= $u['idUser'] ?></td>
+                                <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3  font-medium text-slate-700"><?= $u['usuario'] ?></td>
                                 <td class="px-4 py-3"><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
                                 <td class="px-4 py-3"><?= $u['correo'] ?></td>

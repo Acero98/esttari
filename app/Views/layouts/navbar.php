@@ -36,8 +36,49 @@
     <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
 
         <a href="index.php?url=dashboard" class="hover:text-slate-900">Dashboard</a>
+
+        <!-- MEGA MENU ADMINISTRACION -->
+        <div class="relative" x-data="{ open: false }">
+
+            <button @click="open = !open"
+                class="hover:text-slate-900 flex items-center gap-1">
+                Administración
+                <i class="bi bi-chevron-down text-xs"></i>
+            </button>
+
+            <!-- DROPDOWN -->
+            <div x-show="open"
+                @click.outside="open = false"
+                class="absolute left-0 mt-3 w-[200px] bg-white border rounded-xl shadow-lg p-4 z-50">
+
+                <h3 class="text-xs text-slate-400 uppercase mb-2">Gestión de Registros</h3>
+
+                <a href="index.php?url=estudioTarifario"
+                    class="block px-2 py-1 rounded hover:bg-slate-100">
+                    Estudio tarifario
+                </a>
+
+                <a href="index.php?url=fondos"
+                    class="block px-2 py-1 rounded hover:bg-slate-100">
+                    Fondos
+                </a>
+
+                <a href="index.php?url=gerencias"
+                    class="block px-2 py-1 rounded hover:bg-slate-100">
+                    Gerencias
+                </a>
+
+                <a href="index.php?url=areas"
+                    class="block px-2 py-1 rounded hover:bg-slate-100">
+                    Areas
+                </a>
+
+            </div>
+        </div>
+
+        
         <a href="index.php?url=inversiones" class="hover:text-slate-900">Inversiones</a>
-        <a href="index.php?url=fondos" class="hover:text-slate-900">Fondos</a>
+        <a href="index.php?url=fondos" class="hover:text-slate-900">Año Regulatorio</a>
         <a href="index.php?url=reportes" class="hover:text-slate-900">Reportes</a>
 
         <!-- MEGA MENU SEGURIDAD -->
@@ -52,7 +93,7 @@
             <!-- DROPDOWN -->
             <div x-show="open"
                 @click.outside="open = false"
-                class="absolute left-0 mt-3 w-[320px] bg-white border rounded-xl shadow-lg p-4 z-50">
+                class="absolute left-0 mt-3 w-[200px] bg-white border rounded-xl shadow-lg p-4 z-50">
 
                 <h3 class="text-xs text-slate-400 uppercase mb-2">Gestión de acceso</h3>
 

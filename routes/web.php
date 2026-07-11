@@ -185,6 +185,105 @@ elseif ($url == 'roles_permisos_guardar') {
 
 }
 
+//ESTUDIO TARIFARIO
+
+elseif ($url == 'estudioTarifario') {
+
+    autorizar('estudioTarifario');
+
+    require_once "../app/Controllers/EstudioTarifarioController.php";
+
+    $controller = new EstudioTarifarioController();
+    $controller->index();
+
+}
+
+elseif ($url == 'estudioTarifario_store') {
+
+    require_once "../app/Controllers/EstudioTarifarioController.php";
+
+    $controller = new EstudioTarifarioController();
+    $controller->store();
+
+}
+
+
+elseif ($url == 'estudioTarifario_edit') {
+
+    require_once "../app/Controllers/EstudioTarifarioController.php";
+
+    $controller = new EstudioTarifarioController();
+    $controller->edit();
+
+}
+
+
+elseif ($url == 'estudioTarifario_update') {
+
+    require_once "../app/Controllers/EstudioTarifarioController.php";
+
+    $controller = new EstudioTarifarioController();
+    $controller->update();
+
+}
+
+
+elseif ($url == 'estudioTarifario_estado') {
+
+    require_once "../app/Controllers/EstudioTarifarioController.php";
+
+    $controller = new EstudioTarifarioController();
+    $controller->estado();
+
+}
+
+/*
+|-------------------------
+| FONDOS
+|-------------------------
+*/
+
+elseif ($url == 'fondos') {
+
+    autorizar('fondos');
+
+    require_once "../app/Controllers/FondoController.php";
+
+    $controller = new FondoController();
+    $controller->index();
+
+}
+
+
+elseif ($url == 'fondos_store') {
+
+    require_once "../app/Controllers/FondoController.php";
+
+    $controller = new FondoController();
+    $controller->store();
+
+}
+
+
+elseif ($url == 'fondos_edit') {
+
+    require_once "../app/Controllers/FondoController.php";
+
+    $controller = new FondoController();
+    $controller->edit();
+
+}
+
+
+elseif ($url == 'fondos_update') {
+
+    require_once "../app/Controllers/FondoController.php";
+
+    $controller = new FondoController();
+    $controller->update();
+
+}
+
 elseif ($url == 'logout') {
 
     session_destroy();

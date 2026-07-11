@@ -36,7 +36,7 @@
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
 
                         <tr>
-                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">Rol</th>
                             <th class="px-4 py-3">Descripción</th>
                             <th class="px-4 py-3">Creado</th>
@@ -48,10 +48,10 @@
 
                     <tbody class="divide-y divide-slate-200">
 
-                        <?php foreach ($roles as $r): ?>
+                        <?php foreach ($roles as $index => $r): ?>
 
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="px-4 py-3"><?= $r['idRol'] ?></td>
+                                <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3 font-medium text-slate-700"><?= $r['nombreRol'] ?></td>
                                 <td class="px-4 py-3"><?= $r['descripcionRol'] ?></td>
                                 <td class="px-4 py-3"><?= $r['fechaCreado'] ?></td>

@@ -27,7 +27,7 @@
 
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
-                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">Permiso</th>
                             <th class="px-4 py-3">Grupo</th>
                             <th class="px-4 py-3">Ruta</th>
@@ -41,11 +41,11 @@
 
                     <tbody class="divide-y divide-slate-200">
 
-                        <?php foreach ($permisos as $p): ?>
+                        <?php foreach ($permisos as $index => $p): ?>
 
                             <tr class="hover:bg-slate-50 transition">
 
-                                <td class="px-4 py-3"><?= $p['idPermiso'] ?></td>
+                                <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3"><?= $p['permiso'] ?></td>
                                 <td class="px-4 py-3"><?= $p['grupo'] ?></td>
                                 <td class="px-4 py-3"><?= $p['ruta'] ?></td>
