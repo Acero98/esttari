@@ -78,7 +78,7 @@
 
         
         <a href="index.php?url=inversiones" class="hover:text-slate-900">Inversiones</a>
-        <a href="index.php?url=fondos" class="hover:text-slate-900">Año Regulatorio</a>
+        <!-- <a href="index.php?url=anioregulatorio" class="hover:text-slate-900">Año Regulatorio</a> -->
         <a href="index.php?url=reportes" class="hover:text-slate-900">Reportes</a>
 
         <!-- MEGA MENU SEGURIDAD -->

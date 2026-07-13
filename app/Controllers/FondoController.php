@@ -32,15 +32,15 @@ class FondoController
 
         $data = [
 
-            'codigo' => trim($_POST['codigo']),
-            'nombre' => trim($_POST['nombre']),
-            'descripcion' => trim($_POST['descripcion'])
+            'codigoFondo' => trim($_POST['codigoFondo']),
+            'nombreFondo' => trim($_POST['nombreFondo']),
+            'descripcionFondo' => trim($_POST['descripcionFondo'])
 
         ];
 
 
 
-        if ($model->existeFondo($data['codigo'])) {
+        if ($model->existeFondo($data['codigoFondo'])) {
 
 
             $_SESSION['mensaje'] = "Ya existe ese código de fondo.";
@@ -111,16 +111,16 @@ class FondoController
 
         $data = [
 
-            'codigo' => trim($_POST['codigo']),
-            'nombre' => trim($_POST['nombre']),
-            'descripcion' => trim($_POST['descripcion'])
+            'codigoFondo' => trim($_POST['codigoFondo']),
+            'nombreFondo' => trim($_POST['nombreFondo']),
+            'descripcionFondo' => trim($_POST['descripcionFondo'])
 
         ];
 
 
 
 
-        if ($model->existeFondo($data['codigo'], $_POST['idFondos'])) {
+        if ($model->existeFondo($data['codigoFondo'], $_POST['idFondos'])) {
 
 
             $_SESSION['mensaje'] = "Ese código de fondo ya existe.";
@@ -152,6 +152,27 @@ class FondoController
 
 
 
+
+        header("Location:index.php?url=fondos");
+        exit;
+    }
+
+    public function estado()
+    {
+        global $conexion;
+
+        $model = new FondoModel($conexion);
+
+        $id = $_GET['id'];
+        $estado = $_GET['estado'];
+
+        $model->cambiarEstado($id, $estado);
+
+        $_SESSION['mensaje'] = $estado == 1
+            ? "Fondo activado correctamente."
+            : "Fondo deshabilitado correctamente.";
+
+        $_SESSION['tipo'] = "success";
 
         header("Location:index.php?url=fondos");
         exit;

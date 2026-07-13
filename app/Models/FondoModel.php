@@ -18,7 +18,7 @@ class FondoModel
         $sql = "
             SELECT *
             FROM fondos
-            ORDER BY nombre
+            ORDER BY nombreFondo
         ";
 
 
@@ -61,16 +61,16 @@ class FondoModel
         $sql = "
             INSERT INTO fondos
             (
-                codigo,
-                nombre,
-                descripcion,
+                codigoFondo,
+                nombreFondo,
+                descripcionFondo,
                 fechaCreado
             )
             VALUES
             (
-                :codigo,
-                :nombre,
-                :descripcion,
+                :codigoFondo,
+                :nombreFondo,
+                :descripcionFondo,
                 NOW()
             )
         ";
@@ -81,9 +81,9 @@ class FondoModel
 
         return $stmt->execute([
 
-            ':codigo' => $data['codigo'],
-            ':nombre' => $data['nombre'],
-            ':descripcion' => $data['descripcion']
+            ':codigoFondo' => $data['codigoFondo'],
+            ':nombreFondo' => $data['nombreFondo'],
+            ':descripcionFondo' => $data['descripcionFondo']
 
         ]);
     }
@@ -98,9 +98,9 @@ class FondoModel
         $sql = "
             UPDATE fondos
             SET
-                codigo=:codigo,
-                nombre=:nombre,
-                descripcion=:descripcion,
+                codigoFondo=:codigoFondo,
+                nombreFondo=:nombreFondo,
+                descripcionFondo=:descripcionFondo,
                 fechaActualiuzado=NOW()
 
             WHERE idFondos=:id
@@ -112,9 +112,9 @@ class FondoModel
 
         return $stmt->execute([
 
-            ':codigo' => $data['codigo'],
-            ':nombre' => $data['nombre'],
-            ':descripcion' => $data['descripcion'],
+            ':codigoFondo' => $data['codigoFondo'],
+            ':nombreFondo' => $data['nombreFondo'],
+            ':descripcionFondo' => $data['descripcionFondo'],
             ':id' => $id
 
         ]);
@@ -124,7 +124,7 @@ class FondoModel
 
 
 
-    public function existeFondo($codigo, $id = null)
+    public function existeFondo($codigoFondo, $id = null)
     {
 
 
@@ -134,7 +134,7 @@ class FondoModel
             $sql = "
                 SELECT COUNT(*)
                 FROM fondos
-                WHERE codigo=:codigo
+                WHERE codigoFondo=:codigoFondo
             ";
 
 
@@ -142,7 +142,7 @@ class FondoModel
 
 
             $stmt->execute([
-                ':codigo' => $codigo
+                ':codigoFondo' => $codigoFondo
             ]);
         } else {
 
@@ -150,7 +150,7 @@ class FondoModel
             $sql = "
                 SELECT COUNT(*)
                 FROM fondos
-                WHERE codigo=:codigo
+                WHERE codigoFondo=:codigoFondo
                 AND idFondos<>:id
             ";
 
@@ -160,7 +160,7 @@ class FondoModel
 
             $stmt->execute([
 
-                ':codigo' => $codigo,
+                ':codigoFondo' => $codigoFondo,
                 ':id' => $id
 
             ]);
@@ -169,5 +169,19 @@ class FondoModel
 
 
         return $stmt->fetchColumn() > 0;
+    }
+
+    public function cambiarEstado($id, $estado)
+    {
+        $sql = "UPDATE fondos
+            SET estadoFondo = :estado
+            WHERE idFondos = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ':estado' => $estado,
+            ':id' => $id
+        ]);
     }
 }

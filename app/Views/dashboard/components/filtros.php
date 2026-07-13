@@ -201,7 +201,7 @@
                             value="<?= $fondo['idFondos']; ?>"
                             <?= ($filtrosActivos['fondo'] == $fondo['idFondos']) ? 'selected' : '' ?>>
 
-                            <?= $fondo['nombre']; ?>
+                            <?= $fondo['nombreFondo']; ?>
 
                         </option>
 

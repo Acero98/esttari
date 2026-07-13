@@ -647,8 +647,8 @@ class DashboardModel
         $sql = "
                 SELECT DISTINCT
                     f.idFondos,
-                    f.codigo,
-                    f.nombre
+                    f.codigoFondo,
+                    f.nombreFondo
                 FROM fondos f
                 INNER JOIN inversiones i
                     ON i.idFondos = f.idFondos
@@ -672,7 +672,7 @@ class DashboardModel
         }
 
         $sql .= "
-                ORDER BY f.nombre ASC
+                ORDER BY f.nombreFondo ASC
                 ";
 
         $stmt = $this->db->prepare($sql);
@@ -726,7 +726,7 @@ class DashboardModel
 
         $sql = "
             SELECT
-                f.nombre,
+                f.nombreFondo,
                 COALESCE(SUM(ar.programado),0) AS total
             FROM anio_regulatorio ar
             INNER JOIN inversiones i
@@ -736,7 +736,7 @@ class DashboardModel
             $where
             GROUP BY
                 f.idFondos,
-                f.nombre
+                f.nombreFondo
             ORDER BY
                 total DESC
         ";

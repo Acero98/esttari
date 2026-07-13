@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     const labels = graficoFondo.map(item =>
-        item.nombre
+        item.nombreFondo
     );
 
     const options = {

@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto p-6 space-y-6">
+<div class="w-full px-4 md:px-6 xl:px-8 space-y-6">
 
     <!-- HEADER -->
     <div class="flex items-center justify-between">
@@ -116,49 +116,36 @@
 <div
     id="modalPermiso"
     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
-
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4">
-
         <!-- HEADER -->
         <div class="flex items-center justify-between px-6 py-5 border-b">
-
             <div>
                 <h2 class="text-xl font-bold text-slate-800">
                     Nuevo Permiso
                 </h2>
-
                 <p class="text-sm text-slate-500">
                     Registra un nuevo permiso del sistema
                 </p>
             </div>
-
             <button
                 type="button"
                 id="cerrarModalPermiso"
                 class="text-slate-400 hover:text-slate-600 transition">
-
                 <i class="bi bi-x-lg text-xl"></i>
-
             </button>
-
         </div>
-
         <!-- FORM -->
         <form
             id="formPermiso"
             method="POST"
             action="index.php?url=permisos_store">
-
             <div class="p-6">
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
                     <!-- Permiso -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Permiso
                         </label>
-
                         <input
                             type="text"
                             name="permiso"
@@ -166,13 +153,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Grupo -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Grupo
                         </label>
-
                         <input
                             type="text"
                             name="grupo"
@@ -180,13 +165,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Ruta -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Ruta
                         </label>
-
                         <input
                             type="text"
                             name="ruta"
@@ -194,13 +177,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Icono -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Icono
                         </label>
-
                         <input
                             type="text"
                             name="icono"
@@ -208,13 +189,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Orden -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Orden
                         </label>
-
                         <input
                             type="number"
                             name="orden"
@@ -222,90 +201,63 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                 </div>
-
             </div>
-
             <!-- FOOTER -->
             <div class="flex justify-end gap-3 px-6 py-5 bg-slate-50 rounded-b-2xl">
-
                 <button
                     type="button"
                     id="cancelarModalPermiso"
                     class="px-5 py-2.5 rounded-lg border border-slate-300
                            hover:bg-slate-100 transition">
-
                     Cancelar
-
                 </button>
-
                 <button
                     type="submit"
                     class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition">
-
                     <i class="bi bi-floppy mr-1"></i>
                     Guardar
-
                 </button>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
 
 <!-- MODAL EDITAR PERMISO -->
 <div
     id="modalEditar"
     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
-
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4">
-
         <!-- HEADER -->
         <div class="flex items-center justify-between px-6 py-5 border-b">
-
             <div>
                 <h2 class="text-xl font-bold text-slate-800">
                     Editar Permiso
                 </h2>
-
                 <p class="text-sm text-slate-500">
                     Actualice la información del permiso
                 </p>
             </div>
-
             <button
                 type="button"
                 id="cerrarModalEditarPermiso"
                 class="text-slate-400 hover:text-slate-600 transition">
-
                 <i class="bi bi-x-lg text-xl"></i>
-
             </button>
-
         </div>
-
         <!-- FORM -->
         <form
             id="formEditarPermiso"
             method="POST"
             action="index.php?url=permisos_update">
-
             <input type="hidden" name="idPermiso" id="edit_id">
-
             <div class="p-6">
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
                     <!-- Permiso -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Permiso
                         </label>
-
                         <input
                             type="text"
                             name="permiso"
@@ -314,13 +266,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Grupo -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Grupo
                         </label>
-
                         <input
                             type="text"
                             name="grupo"
@@ -329,13 +279,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Ruta -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Ruta
                         </label>
-
                         <input
                             type="text"
                             name="ruta"
@@ -344,13 +292,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Icono -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Icono
                         </label>
-
                         <input
                             type="text"
                             name="icono"
@@ -359,13 +305,11 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                     <!-- Orden -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Orden
                         </label>
-
                         <input
                             type="number"
                             name="orden"
@@ -374,39 +318,26 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
-
                 </div>
-
             </div>
-
             <!-- FOOTER -->
             <div class="flex justify-end gap-3 px-6 py-5 bg-slate-50 rounded-b-2xl">
-
                 <button
                     type="button"
                     id="cancelarModalEditarPermiso"
                     class="px-5 py-2.5 rounded-lg border border-slate-300
                            hover:bg-slate-100 transition">
-
                     Cancelar
-
                 </button>
-
                 <button
                     type="submit"
                     class="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition">
-
                     <i class="bi bi-floppy mr-1"></i>
                     Guardar cambios
-
                 </button>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
 
 <?php

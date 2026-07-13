@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto p-6 space-y-6">
+<div class="w-full px-4 md:px-6 xl:px-8 space-y-6">
 
 
     <!-- Encabezado -->
@@ -69,6 +69,10 @@
                             </th>
 
                             <th class="px-4 py-3">
+                                Estado
+                            </th>
+
+                            <th class="px-4 py-3">
                                 Acciones
                             </th>
 
@@ -93,22 +97,40 @@
 
 
                                 <td class="px-4 py-3 font-medium text-slate-700">
-                                    <?= $f['codigo'] ?>
+                                    <?= $f['codigoFondo'] ?>
                                 </td>
 
 
                                 <td class="px-4 py-3">
-                                    <?= $f['nombre'] ?>
+                                    <?= $f['nombreFondo'] ?>
                                 </td>
 
 
                                 <td class="px-4 py-3">
-                                    <?= $f['descripcion'] ?>
+                                    <?= $f['descripcionFondo'] ?>
                                 </td>
 
 
                                 <td class="px-4 py-3">
                                     <?= $f['fechaCreado'] ?>
+                                </td>
+
+                                <td class="px-4 py-3">
+
+                                    <?php if ($f['estadoFondo'] == 1): ?>
+
+                                        <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                            Activo
+                                        </span>
+
+                                    <?php else: ?>
+
+                                        <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                            Inactivo
+                                        </span>
+
+                                    <?php endif; ?>
+
                                 </td>
 
 
@@ -127,6 +149,33 @@
 
 
                                     </button>
+
+                                    <!-- Estado -->
+                                    <?php if ($f['estadoFondo'] == 1): ?>
+
+                                        <button
+                                            class="btnEstadoFondo inline-flex items-center justify-center p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                                            data-id="<?= $f['idFondos'] ?>"
+                                            data-estado="0"
+                                            data-nombre="<?= htmlspecialchars($f['nombreFondo']) ?>">
+
+                                            <i class="bi bi-x-lg"></i>
+
+                                        </button>
+
+                                    <?php else: ?>
+
+                                        <button
+                                            class="btnEstadoFondo inline-flex items-center justify-center p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition"
+                                            data-id="<?= $f['idFondos'] ?>"
+                                            data-estado="1"
+                                            data-nombre="<?= htmlspecialchars($f['nombreFondo']) ?>">
+
+                                            <i class="bi bi-check2"></i>
+
+                                        </button>
+
+                                    <?php endif; ?>
 
 
                                 </td>
@@ -215,7 +264,7 @@
 
                             type="text"
 
-                            name="codigo"
+                            name="codigoFondo"
 
                             required
 
@@ -236,7 +285,7 @@
 
                             type="text"
 
-                            name="nombre"
+                            name="nombreFondo"
 
                             required
 
@@ -257,7 +306,7 @@
 
                             type="text"
 
-                            name="descripcion"
+                            name="descripcionFondo"
 
                             class="w-full border rounded-lg px-4 py-2">
 
@@ -381,7 +430,7 @@
 
                             type="text"
 
-                            name="codigo"
+                            name="codigoFondo"
 
                             id="edit_codigo"
 
@@ -402,7 +451,7 @@
 
                             type="text"
 
-                            name="nombre"
+                            name="nombreFondo"
 
                             id="edit_nombre"
 
@@ -423,7 +472,7 @@
 
                             type="text"
 
-                            name="descripcion"
+                            name="descripcionFondo"
 
                             id="edit_descripcion"
 
@@ -487,7 +536,6 @@
 <?php
 
 $titulo = "Fondos";
-
 $js = "fondos.js";
 
 ?>
