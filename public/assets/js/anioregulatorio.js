@@ -281,128 +281,97 @@ function iniciarModalEjecucionMensual() {
     );
 }
 function cargarEjecuciones(id) {
-
     fetch(
         "index.php?url=ejecucionmensual_lista&idAnioRegulatorio="
         + id
     )
         .then(res => res.json())
         .then(data => {
-
             let tbody =
                 document.getElementById(
                     "listaEjecucionesMensuales"
                 );
-
-
             tbody.innerHTML = "";
-
-
             if (data.length === 0) {
-
                 tbody.innerHTML = `
                 <tr>
                     <td colspan="3"
                         class="px-4 py-6 text-center text-sm text-slate-500">
-                        
                         <i class="bi bi-calendar-x text-lg"></i>
                         <br>
                         No existen registros mensuales
-
                     </td>
                 </tr>
             `;
-
                 return;
             }
-
-
-
-            data.forEach(e => {
-
+            data.forEach((e, index) => {
 
                 tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50 transition">
 
-            <tr class="border-b hover:bg-slate-50 transition">
+                        <!-- N° -->
+                        <td class="px-4 py-3 text-center text-slate-500">
+                            ${index + 1}
+                        </td>
 
-                <!-- MES -->
-                <td class="px-4 py-3 font-medium text-slate-700">
-                    ${nombreMes(e.mes)}
-                </td>
+                        <!-- MES -->
+                        <td class="px-4 py-3 font-medium text-slate-700">
+                            ${nombreMes(e.mes)}
+                        </td>
 
+                        <!-- EJECUTADO -->
+                        <td class="px-4 py-2">
+                            <span
+                                class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                S/ ${parseFloat(e.ejecutado).toFixed(2)}
+                            </span>
+                        </td>
 
-                <!-- EJECUTADO -->
-                <td class="px-4 py-2">
+                        <!-- ACCIÓN -->
+                        <td class="px-4 py-2">
+                            <button
+                                type="button"
+                                class="btnEditarEjecucion
+                                inline-flex
+                                p-2
+                                rounded-lg
+                                bg-amber-100
+                                text-amber-600
+                                hover:bg-amber-200
+                                text-center
+                                transition"
+                                data-id="${e.idEjecucionMensual}"
+                                title="Editar ejecución">
 
-                    <span
-                    class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                <i class="bi bi-pencil"></i>
 
-                        S/ ${parseFloat(e.ejecutado).toFixed(2)}
+                            </button>
+                        </td>
 
-                    </span>
-
-                </td>
-
-
-
-                <!-- ACCIÓN -->
-                <td class="px-4 py-2">
-
-                    <button
-                        type="button"
-                        class="btnEditarEjecucion
-                        inline-flex
-                        p-2
-                        rounded-lg
-                        bg-amber-100
-                        text-amber-600
-                        hover:bg-amber-200
-                        transition"
-
-                        data-id="${e.idEjecucionMensual}"
-
-                        title="Editar ejecución">
-
-                        <i class="bi bi-pencil"></i>
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
+                    </tr>
+                `;
 
             });
-
         });
 }
-
 // =====================================
 // EDITAR EJECUCIÓN
 // =====================================
 document.addEventListener(
     "click",
     function (e) {
-
         const btn =
             e.target.closest(
                 ".btnEditarEjecucion"
             );
-
         if (!btn) return;
-
-
         e.preventDefault();
-
-
         editarEjecucion(
             btn.dataset.id
         );
-
     }
 );
-
 function nombreMes(numero) {
     const meses = [
         "",
@@ -421,9 +390,7 @@ function nombreMes(numero) {
     ];
     return meses[numero];
 }
-
 function editarEjecucion(id) {
-
     fetch(
         "index.php?url=ejecucionmensual_show&id="
         + id
@@ -431,65 +398,344 @@ function editarEjecucion(id) {
         .then(res => res.json())
         .then(data => {
             //console.log(data);
-
             document.getElementById(
                 "idEjecucionMensual"
             ).value =
                 data.idEjecucionMensual;
-
-
             document.getElementById(
                 "mes"
             ).value =
                 data.mes;
-
-
             document.getElementById(
                 "ejecutado"
             ).value =
                 data.ejecutado;
-
-
             document.getElementById(
                 "tituloModalEjecucion"
             ).innerHTML =
                 "Editar Ejecución";
-
-
             document.getElementById(
                 "textoGuardar"
             ).innerHTML =
                 "Actualizar";
-
             abrirModalEjecucion();
-
         });
 }
-
 function limpiarFormularioEjecucion() {
-
     document.getElementById(
         "idEjecucionMensual"
     ).value = "";
-
     document.getElementById(
         "mes"
     ).value = "";
-
     document.getElementById(
         "ejecutado"
     ).value = 0;
-
-
     document.getElementById(
         "tituloModalEjecucion"
     ).innerHTML =
         "Ejecución Mensual";
-
-
     document.getElementById(
         "textoGuardar"
     ).innerHTML =
         "Guardar";
+}
+
+// =====================================
+// SEGUIMIENTO
+// =====================================
+
+// =====================================
+// ABRIR MODAL SEGUIMIENTO
+// =====================================
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".btnSeguimiento");
+
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    const anio = btn.dataset.anio;
+    const inversion = btn.dataset.inversion;
+
+    document.getElementById("idAnioRegulatorioSeguimiento").value = id;
+    document.getElementById("idInversionesSeguimiento").value = inversion;
+    document.getElementById("idSeguimientoMensual").value = "";
+
+    document.getElementById("tituloAnioSeguimiento").innerHTML = anio;
+    document.getElementById("tituloModalSeguimiento").innerHTML = "Seguimiento";
+    document.getElementById("textoGuardarSeguimiento").innerHTML = "Guardar";
+
+    limpiarFormularioSeguimiento();
+    cargarSeguimientos(id);
+    abrirModalSeguimiento();
+
+});
+
+function abrirModalSeguimiento() {
+
+    const modal = document.getElementById("modalSeguimientoMensual");
+
+    if (!modal) return;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
 
 }
+
+function cerrarModalSeguimiento() {
+
+    const modal = document.getElementById("modalSeguimientoMensual");
+
+    if (!modal) return;
+
+    limpiarFormularioSeguimiento();
+
+    modal.classList.remove("flex");
+    modal.classList.add("hidden");
+
+}
+
+function iniciarModalSeguimientoMensual() {
+
+    const modal = document.getElementById("modalSeguimientoMensual");
+
+    if (!modal) return;
+
+    document.getElementById("cerrarModalSeguimiento")
+        ?.addEventListener("click", cerrarModalSeguimiento);
+
+    document.getElementById("cancelarModalSeguimiento")
+        ?.addEventListener("click", cerrarModalSeguimiento);
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+            cerrarModalSeguimiento();
+        }
+
+    });
+
+}
+
+function cargarSeguimientos(id) {
+
+    fetch("index.php?url=seguimientomensual_lista&idAnioRegulatorio=" + id)
+
+        .then(res => res.json())
+
+        .then(data => {
+            //console.log(data);
+
+            const tbody = document.getElementById("listaSeguimientosMensuales");
+
+            tbody.innerHTML = "";
+
+            if (data.length === 0) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6"
+                            class="px-4 py-6 text-center text-slate-500">
+
+                            No existen seguimientos registrados
+
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+            data.forEach((s, index) => {
+
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+
+                        <td class="px-4 py-3 text-center">
+                            ${index + 1}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            ${s.producto}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            ${s.estadoInver}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            ${s.acciones}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            ${s.fechas}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            ${s.situacion}
+                        </td>
+
+                        <td class="px-4 py-3">
+
+                            <div class="flex items-center justify-center gap-2">
+
+                                <!-- EDITAR -->
+                                <button
+                                    type="button"
+                                    class="btnEditarSeguimiento inline-flex p-2 rounded-lg bg-amber-100 text-amber-600 hover:bg-amber-200"
+                                    data-id="${s.idSeguimientoMensual}">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </button>
+
+
+                                <!-- ELIMINAR -->
+                                <button
+                                    type="button"
+                                    class="btnEliminarSeguimiento inline-flex p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
+                                    data-id="${s.idSeguimientoMensual}">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            });
+
+        });
+
+}
+
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".btnEliminarSeguimiento");
+
+    if (!btn) return;
+
+    eliminarSeguimiento(btn.dataset.id);
+
+});
+
+function eliminarSeguimiento(id) {
+
+    if (!confirm("¿Está seguro de eliminar este seguimiento?")) {
+        return;
+    }
+
+
+    fetch(
+        "index.php?url=seguimientomensual_delete&id=" + id,
+        {
+            method: "GET"
+        }
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        if (data.success) {
+
+            alert("Seguimiento eliminado correctamente");
+
+            cargarSeguimientos(
+                document.getElementById(
+                    "idAnioRegulatorioSeguimiento"
+                ).value
+            );
+
+        } else {
+
+            alert("No se pudo eliminar");
+
+        }
+
+    });
+
+}
+
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".btnEditarSeguimiento");
+
+    if (!btn) return;
+
+    editarSeguimiento(btn.dataset.id);
+
+});
+
+function editarSeguimiento(id) {
+
+    fetch("index.php?url=seguimientomensual_show&id=" + id)
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            document.getElementById("idSeguimientoMensual").value =
+                data.idSeguimientoMensual;
+
+            document.getElementById("producto").value =
+                data.producto;
+
+            document.getElementById("estadoInver").value =
+                data.estadoInver;
+
+            document.getElementById("fechas").value =
+                data.fechas;
+
+            document.getElementById("situacion").value =
+                data.situacion;
+
+            document.getElementById("acciones").value =
+                data.acciones;
+
+            document.getElementById("tituloModalSeguimiento").innerHTML =
+                "Editar Seguimiento";
+
+            document.getElementById("textoGuardarSeguimiento").innerHTML =
+                "Actualizar";
+
+            abrirModalSeguimiento();
+
+        });
+
+}
+
+function limpiarFormularioSeguimiento() {
+
+    document.getElementById("idSeguimientoMensual").value = "";
+
+    document.getElementById("producto").value = "";
+
+    document.getElementById("estadoInver").value = "";
+
+    document.getElementById("fechas").value = "";
+
+    document.getElementById("situacion").value = "";
+
+    document.getElementById("acciones").value = "";
+
+    document.getElementById("tituloModalSeguimiento").innerHTML =
+        "Seguimiento";
+
+    document.getElementById("textoGuardarSeguimiento").innerHTML =
+        "Guardar";
+
+}
+
+// INICIAR EVENTOS DEL MODAL
+document.addEventListener("DOMContentLoaded", () => {
+
+    iniciarModalSeguimientoMensual();
+
+});

@@ -311,12 +311,38 @@ elseif ($url == 'ejecucionmensual_lista') {
     $controller->lista();
 }
 elseif ($url == 'ejecucionmensual_show') {
-
     require_once "../app/Controllers/EjecucionMensualController.php";
-
     $controller = new EjecucionMensualController();
-
     $controller->show();
+}
+
+/*
+|-------------------------
+| SEGUIMIENTO MENSUAL
+|-------------------------
+*/
+elseif ($url == 'seguimientomensual_store') {
+    require_once "../app/Controllers/SeguimientoMensualController.php";
+    $controller = new SeguimientoMensualController();
+    $controller->store();
+}
+elseif ($url == 'seguimientomensual_lista') {
+    require_once "../app/Controllers/SeguimientoMensualController.php";
+    $controller = new SeguimientoMensualController();
+    $controller->lista();
+}
+elseif ($url == 'seguimientomensual_show') {
+    require_once "../app/Controllers/SeguimientoMensualController.php";
+    $controller = new SeguimientoMensualController();
+    $controller->show();
+}
+elseif ($url == 'seguimientomensual_delete') {
+
+    require_once "../app/Controllers/SeguimientoMensualController.php";
+
+    $controller = new SeguimientoMensualController();
+
+    $controller->delete();
 
 }
 

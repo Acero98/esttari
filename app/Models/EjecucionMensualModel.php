@@ -57,7 +57,7 @@ class EjecucionMensualModel
                 fisico
             FROM ejecucion_mensual
             WHERE idAnioRegulatorio = :id
-            ORDER BY mes
+            ORDER BY mes ASC
             ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
