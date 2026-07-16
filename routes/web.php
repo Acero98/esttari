@@ -346,6 +346,84 @@ elseif ($url == 'seguimientomensual_delete') {
 
 }
 
+/*
+|-------------------------
+| DOCUMENTOS
+|-------------------------
+*/
+elseif ($url == 'documento_store') {
+
+    require_once "../app/Controllers/DocumentoController.php";
+
+    $controller = new DocumentoController();
+
+    $controller->store();
+
+}
+elseif ($url == 'documento_lista') {
+
+    require_once "../app/Controllers/DocumentoController.php";
+
+    $controller = new DocumentoController();
+
+    $controller->lista();
+
+}
+elseif ($url == 'documento_download') {
+
+    require_once "../app/Controllers/DocumentoController.php";
+
+    $controller = new DocumentoController();
+
+    $controller->download();
+
+}
+elseif ($url == 'documento_delete') {
+
+    require_once "../app/Controllers/DocumentoController.php";
+
+    $controller = new DocumentoController();
+
+    $controller->delete();
+
+}
+elseif ($url == 'ejecucionmensual_descargar') {
+
+    require_once "../app/Controllers/EjecucionMensualController.php";
+
+    $controller = new EjecucionMensualController();
+
+    $controller->descargar();
+
+}
+elseif ($url == 'ejecucionmensual_download') {
+
+    require_once "../app/Controllers/EjecucionMensualController.php";
+
+    $controller = new EjecucionMensualController();
+
+    $controller->download();
+
+}
+elseif ($url == 'ejecucionmensual_ver') {
+
+    require_once "../app/Controllers/EjecucionMensualController.php";
+
+    $controller = new EjecucionMensualController();
+
+    $controller->ver();
+
+}
+elseif ($url == 'ejecucionmensual_delete') {
+
+    require_once "../app/Controllers/EjecucionMensualController.php";
+
+    $controller = new EjecucionMensualController();
+
+    $controller->delete();
+
+}
+
 elseif ($url == 'logout') {
     session_destroy();
     header("Location: index.php?url=login");

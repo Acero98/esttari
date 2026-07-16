@@ -70,99 +70,54 @@ class AnioRegulatorioController
     public function store()
     {
         global $conexion;
-
         $model = new AnioRegulatorioModel($conexion);
-
-
         $idInversion = $_POST['idInversiones'];
-
-
         $data = [
-
             'idEstudioTarifario' => $_POST['idEstudioTarifario'],
-
             'idInversiones' => $idInversion,
-
             'anio' => trim($_POST['anio']),
-
             'programado' => $_POST['programado'],
-
             'ejecutado' => $_POST['ejecutado'] ?? null,
-
             'rdr' => $_POST['rdr'] ?? 0,
-
             'et' => $_POST['et'] ?? 0,
-
             'avanceFisico' => $_POST['avanceFisico'] ?? null,
-
             'observaciones' => $_POST['observaciones'] ?? null
-
         ];
-
-
-
         /*
     |--------------------------------------------------------------------------
     | VALIDAR DUPLICADO
     |--------------------------------------------------------------------------
     */
-
         if ($model->existeAnio(
             $data['idInversiones'],
             $data['anio']
         )) {
-
-
             $_SESSION['mensaje'] =
                 "Ya existe un año regulatorio registrado para esta inversión.";
-
-
             $_SESSION['tipo'] = "warning";
-
-
             header(
                 "Location:index.php?url=anioregulatorio&idInversiones=" . $idInversion
             );
-
             exit;
         }
-
-
-
         /*
     |--------------------------------------------------------------------------
     | GUARDAR
     |--------------------------------------------------------------------------
     */
-
         $ok = $model->create($data);
-
-
-
         if ($ok) {
-
-
             $_SESSION['mensaje'] =
                 "Año regulatorio registrado correctamente";
-
-
             $_SESSION['tipo'] = "success";
         } else {
-
-
             $_SESSION['mensaje'] =
                 "Error al registrar año regulatorio";
-
-
             $_SESSION['tipo'] = "error";
         }
-
-
-
         header(
             "Location:index.php?url=anioregulatorio&idInversiones=" . $idInversion
         );
-
         exit;
     }
     /*
@@ -173,13 +128,9 @@ class AnioRegulatorioController
     public function edit()
     {
         global $conexion;
-
         $model = new AnioRegulatorioModel($conexion);
-
         $anio = $model->getById($_GET['id']);
-
         header('Content-Type: application/json');
-
         echo json_encode([
             'anio' => $anio
         ]);
@@ -193,51 +144,31 @@ class AnioRegulatorioController
     public function update()
     {
         global $conexion;
-
         $model = new AnioRegulatorioModel($conexion);
-
         $id = $_POST['idAnioRegulatorio'];
-
         $data = [
-
             'idEstudioTarifario' => $_POST['idEstudioTarifario'],
-
             'anio' => trim($_POST['anio']),
-
             'programado' => $_POST['programado'],
-
             'ejecutado' => $_POST['ejecutado'],
-
             'rdr' => $_POST['rdr'],
-
             'et' => $_POST['et'],
-
             'avanceFisico' => $_POST['avanceFisico'],
-
             'observaciones' => trim($_POST['observaciones'])
-
         ];
-
         $ok = $model->update($id, $data);
-
         if ($ok) {
-
             $_SESSION['mensaje'] =
                 "Año regulatorio actualizado correctamente";
-
             $_SESSION['tipo'] = "success";
         } else {
-
             $_SESSION['mensaje'] =
                 "Error al actualizar el año regulatorio";
-
             $_SESSION['tipo'] = "error";
         }
-
         header(
             "Location:index.php?url=anioregulatorio&idInversiones=" . $_POST['idInversiones']
         );
-
         exit;
     }
 }

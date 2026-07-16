@@ -1,3 +1,5 @@
+<?php require_once 'modalDocumentos.php'; ?>
+
 <div class="w-full px-4 md:px-6 xl:px-8 space-y-6">
     <!-- HEADER -->
     <div class="flex items-center justify-between">
@@ -26,10 +28,10 @@
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">N°</th>
+                            <th class="px-4 py-3">CUI</th>
                             <th class="px-4 py-3">Nom. Resumen</th>
                             <th class="px-4 py-3">Fondo</th>
                             <th class="px-4 py-3">Área</th>
-                            <th class="px-4 py-3">CUI</th>
                             <!-- <th class="px-4 py-3">Nombre</th> -->
                             <th class="px-4 py-3">Creado</th>
                             <th class="px-4 py-3">Estado</th>
@@ -39,27 +41,15 @@
                     <tbody class="divide-y divide-slate-200">
                         <?php foreach ($inversiones as $index => $i): ?>
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="px-4 py-3">
-                                    <?= $index + 1 ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $i['descripcion'] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $i['nombreFondo'] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $i['nombreArea'] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $i['cui'] ?: '-' ?>
-                                </td>
+                                <td class="px-4 py-3"><?= $index + 1 ?></td>
+                                <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
+                                <td class="px-4 py-3"><?= $i['descripcion'] ?></td>
+                                <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
+                                <td class="px-4 py-3"><?= $i['nombreArea'] ?></td>
                                 <!-- <td class="px-4 py-3 max-w-md whitespace-normal">
                                     <= $i['nombre'] ?>
                                 </td> -->
-                                <td class="px-4 py-3">
-                                    <?= $i['fechaCreado'] ?>
-                                </td>
+                                <td class="px-4 py-3"><?= $i['fechaCreado'] ?></td>
                                 <td class="px-4 py-3">
                                     <?php if ($i['estado'] == 1): ?>
                                         <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
@@ -80,6 +70,14 @@
                                             title="Año Regulatorio">
                                             <i class="bi bi-calendar3"></i>
                                         </a>
+                                        <!-- Documentos -->
+                                        <button
+                                            class="btnDocumentos inline-flex p-2 rounded-lg bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition"
+                                            data-id="<?= $i['idInversiones'] ?>"
+                                            data-nombre="<?= htmlspecialchars($i['descripcion']) ?>"
+                                            title="Documentos">
+                                            <i class="bi bi-folder2-open"></i>
+                                        </button>
                                         <!-- Editar -->
                                         <button
                                             class="btnEditarInversion inline-flex p-2 rounded-lg bg-amber-100 text-amber-600 hover:bg-amber-200 transition"
