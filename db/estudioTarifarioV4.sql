@@ -1,0 +1,467 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         8.0.30 - MySQL Community Server - GPL
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.1.0.6537
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Volcando estructura de base de datos para bd_seprin
+CREATE DATABASE IF NOT EXISTS `bd_seprin` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `bd_seprin`;
+
+-- Volcando estructura para tabla bd_seprin.anio_regulatorio
+CREATE TABLE IF NOT EXISTS `anio_regulatorio` (
+  `idAnioRegulatorio` int NOT NULL AUTO_INCREMENT,
+  `idEstudioTarifario` int DEFAULT NULL,
+  `idInversiones` int DEFAULT NULL,
+  `anio` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `programado` decimal(20,2) DEFAULT NULL,
+  `ejecutado` decimal(20,2) DEFAULT NULL,
+  `rdr` decimal(20,2) DEFAULT NULL,
+  `et` decimal(20,2) DEFAULT NULL,
+  `avanceFisico` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `observaciones` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idAnioRegulatorio`) USING BTREE,
+  UNIQUE KEY `idInversiones_anio` (`idInversiones`,`anio`),
+  KEY `idInversiones` (`idInversiones`),
+  KEY `idEstudioTarifario` (`idEstudioTarifario`),
+  CONSTRAINT `FK_anio_regulatorio_estudio_tarifario` FOREIGN KEY (`idEstudioTarifario`) REFERENCES `estudio_tarifario` (`idEstudioTarifario`),
+  CONSTRAINT `FK_anio_regulatorio_inversiones` FOREIGN KEY (`idInversiones`) REFERENCES `inversiones` (`idInversiones`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.anio_regulatorio: ~11 rows (aproximadamente)
+INSERT INTO `anio_regulatorio` (`idAnioRegulatorio`, `idEstudioTarifario`, `idInversiones`, `anio`, `programado`, `ejecutado`, `rdr`, `et`, `avanceFisico`, `observaciones`, `fechaCreado`, `fechaActualizado`) VALUES
+	(13, 1, 6, '2025', 100000.00, NULL, 0.00, 0.00, NULL, NULL, NULL, NULL),
+	(14, 1, 7, '2025', 70000.00, NULL, 0.00, 0.00, NULL, NULL, NULL, NULL),
+	(15, 1, 8, '2026', 85000.00, NULL, 0.00, 52800.00, NULL, NULL, NULL, NULL),
+	(16, 1, 7, '2026', 180000.00, NULL, 0.00, 180000.00, NULL, NULL, NULL, NULL),
+	(17, 1, 8, '2028', 67000.00, NULL, 0.00, 0.00, NULL, NULL, NULL, NULL),
+	(18, 1, 9, '2025', 373084.00, NULL, 0.00, 0.00, '50', NULL, NULL, NULL),
+	(19, 1, 9, '2026', 517335.00, NULL, 0.00, 517335.00, '50', NULL, NULL, NULL),
+	(20, 1, 9, '2027', 55173.00, NULL, 0.00, 0.00, '0', '', NULL, '2026-07-13 01:08:50'),
+	(21, 1, 9, '2028', 55173.00, NULL, 0.00, 0.00, '0', '', NULL, '2026-07-13 01:08:56'),
+	(22, 1, 10, '2027', 195000.00, NULL, 0.00, 0.00, '0', 'Revisar registroo.', '2026-07-12 14:56:24', '2026-07-12 16:22:16'),
+	(23, 1, 10, '2028', 55000.00, NULL, 0.00, 0.00, '0', 'Revisar datos.', '2026-07-12 15:16:47', '2026-07-12 16:22:30'),
+	(24, 1, 13, '2025', 50000.00, NULL, 0.00, 0.00, '100', '', '2026-07-12 18:00:28', NULL);
+
+-- Volcando estructura para tabla bd_seprin.areas
+CREATE TABLE IF NOT EXISTS `areas` (
+  `idAreas` int NOT NULL AUTO_INCREMENT,
+  `idGerencias` int DEFAULT NULL,
+  `siglasArea` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreArea` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estadoArea` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idAreas`),
+  KEY `idGerencias` (`idGerencias`),
+  CONSTRAINT `FK_areas_gerencias` FOREIGN KEY (`idGerencias`) REFERENCES `gerencias` (`idGerencias`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.areas: ~11 rows (aproximadamente)
+INSERT INTO `areas` (`idAreas`, `idGerencias`, `siglasArea`, `nombreArea`, `estadoArea`, `fechaCreado`, `fechaActualizado`) VALUES
+	(1, 3, 'OIPO', 'OFICINA DE INGENIERIA, PROYECTOS Y OBRAS', 1, '2026-07-04 13:14:06', NULL),
+	(2, 2, 'OCCMF', 'OFICINA DE CATASTRO COMERCIAL, MEDICION Y FACTURACION', 1, '2026-07-04 13:14:54', NULL),
+	(3, 4, 'OTIC', 'OFICINA DE TECNOLOGIA DE LA INFORMACION Y COMUNICACIONES', 1, '2026-07-04 13:15:30', NULL),
+	(4, 3, 'GO', 'GERENCIA DE OPERACIONES', 1, '2026-07-04 13:16:08', NULL),
+	(5, 4, 'GAF', 'GERENCIA DE ADMINISTRACION Y FINANZAS', 1, '2026-07-07 22:13:35', NULL),
+	(6, 2, 'GC', 'GERENCIA COMERCIAL', 1, '2026-07-07 22:14:35', NULL),
+	(7, 2, 'OCCC', 'OFICINA DE COBRANZA Y CONTROL COMERCIAL', 1, '2026-07-07 22:15:35', NULL),
+	(8, 1, 'EAC', 'EQUIPO DE ASEGURAMIENTO DE CALIDAD', 1, '2026-07-07 22:16:02', NULL),
+	(9, 1, 'ODP', 'OFICINA DE DESARROLLO Y PRESUPUESTO', 1, '2026-07-09 20:55:12', '2026-07-12 01:08:40'),
+	(10, 3, 'MRSE', 'EQUIPO MRSE', 1, '2026-07-11 11:43:34', NULL),
+	(11, 4, 'ORH', 'OFICINA DE RECURSOS HUMANOS', 1, '2026-07-12 01:10:56', NULL);
+
+-- Volcando estructura para tabla bd_seprin.documentos_inversion
+CREATE TABLE IF NOT EXISTS `documentos_inversion` (
+  `idDocumento` int NOT NULL AUTO_INCREMENT,
+  `idInversiones` int NOT NULL,
+  `tipoDocumento` varchar(50) NOT NULL,
+  `nombreOriginal` varchar(255) NOT NULL,
+  `nombreGuardado` varchar(255) NOT NULL,
+  `ruta` varchar(255) NOT NULL,
+  `tipoMime` varchar(100) NOT NULL,
+  `tamanio` bigint NOT NULL,
+  `observacion` text,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `fechaRegistro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idDocumento`),
+  KEY `idInversiones` (`idInversiones`),
+  CONSTRAINT `documentos_inversion_ibfk_1` FOREIGN KEY (`idInversiones`) REFERENCES `inversiones` (`idInversiones`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla bd_seprin.documentos_inversion: ~30 rows (aproximadamente)
+INSERT INTO `documentos_inversion` (`idDocumento`, `idInversiones`, `tipoDocumento`, `nombreOriginal`, `nombreGuardado`, `ruta`, `tipoMime`, `tamanio`, `observacion`, `estado`, `fechaRegistro`) VALUES
+	(1, 8, 'Expediente Técnico', 'pdf-1.pdf', '6a5712680ed1f.pdf', 'uploads/documentos/8/6a5712680ed1f.pdf', 'application/pdf', 271938, 'todo ok', 1, '2026-07-14 23:54:00'),
+	(2, 8, 'Informe', 'Anexos+telefonicos+setiembre+2023+.pdf', '6a5712a89a491.pdf', 'uploads/documentos/8/6a5712a89a491.pdf', 'application/pdf', 616425, 'revisar', 1, '2026-07-14 23:55:04'),
+	(3, 8, 'Acta', 'Acta-1.pdf', '6a5712e178d34.pdf', 'uploads/documentos/8/6a5712e178d34.pdf', 'application/pdf', 15231, 'acta xd', 1, '2026-07-14 23:56:01'),
+	(4, 8, 'Bases', 'BEM6 - Material complementario.pdf', '6a571300a508a.pdf', 'uploads/documentos/8/6a571300a508a.pdf', 'application/pdf', 83408, 'bases', 1, '2026-07-14 23:56:32'),
+	(5, 8, 'Contrato', 'Consulta de Multas Electorales.pdf', '6a57131487806.pdf', 'uploads/documentos/8/6a57131487806.pdf', 'application/pdf', 68492, 'xd', 0, '2026-07-14 23:56:52'),
+	(6, 8, 'Contrato', 'temario_84433_07062026104026.pdf', '6a57133018f51.pdf', 'uploads/documentos/8/6a57133018f51.pdf', 'application/pdf', 185913, 'zs', 1, '2026-07-14 23:57:20'),
+	(7, 8, 'Acta', 'Acta-1.pdf', '6a57134345f6e.pdf', 'uploads/documentos/8/6a57134345f6e.pdf', 'application/pdf', 15231, '', 1, '2026-07-14 23:57:39'),
+	(8, 8, 'Bases', 'horario-por-periodo (1).pdf', '6a583f611c892.pdf', 'uploads/documentos/8/6a583f611c892.pdf', 'application/pdf', 28683, 'hora', 0, '2026-07-15 21:18:09'),
+	(9, 8, 'Bases', 'horario-por-periodo (1).pdf', '6a583f611c892.pdf', 'uploads/documentos/8/6a583f611c892.pdf', 'application/pdf', 28683, 'hora', 0, '2026-07-15 21:18:09'),
+	(10, 7, 'Expediente Técnico', 'horario-por-periodo (1).pdf', '6a583f9738efe.pdf', 'uploads/documentos/7/6a583f9738efe.pdf', 'application/pdf', 28683, 'expe', 0, '2026-07-15 21:19:03'),
+	(11, 7, 'Expediente Técnico', 'horario-por-periodo (1).pdf', '6a583f9738efe.pdf', 'uploads/documentos/7/6a583f9738efe.pdf', 'application/pdf', 28683, 'expe', 1, '2026-07-15 21:19:03'),
+	(12, 7, 'Contrato', 'Acta-1.pdf', '6a583fba0dbd2.pdf', 'uploads/documentos/7/6a583fba0dbd2.pdf', 'application/pdf', 15231, '1', 0, '2026-07-15 21:19:38'),
+	(13, 7, 'Contrato', 'Acta-1.pdf', '6a583fba0dbd2.pdf', 'uploads/documentos/7/6a583fba0dbd2.pdf', 'application/pdf', 15231, '1', 1, '2026-07-15 21:19:38'),
+	(14, 7, 'Informe', 'frac 2.pdf', '6a583fed848a3.pdf', 'uploads/documentos/7/6a583fed848a3.pdf', 'application/pdf', 797802, 'xd', 0, '2026-07-15 21:20:29'),
+	(15, 7, 'Informe', 'frac 2.pdf', '6a583fed848a3.pdf', 'uploads/documentos/7/6a583fed848a3.pdf', 'application/pdf', 797802, 'xd', 1, '2026-07-15 21:20:29'),
+	(16, 7, 'Acta', 'document.pdf', '6a58418fabf8a.pdf', 'uploads/documentos/7/6a58418fabf8a.pdf', 'application/pdf', 33968, 'doc', 0, '2026-07-15 21:27:27'),
+	(17, 7, 'Acta', 'document.pdf', '6a58418fabf8a.pdf', 'uploads/documentos/7/6a58418fabf8a.pdf', 'application/pdf', 33968, 'doc', 1, '2026-07-15 21:27:27'),
+	(18, 7, 'Otro', 'FUT DREMO.pdf', '6a5841e797b07.pdf', 'uploads/documentos/7/6a5841e797b07.pdf', 'application/pdf', 361550, 'fut', 0, '2026-07-15 21:28:55'),
+	(19, 7, 'Otro', 'FUT DREMO.pdf', '6a5841e797b07.pdf', 'uploads/documentos/7/6a5841e797b07.pdf', 'application/pdf', 361550, 'fut', 1, '2026-07-15 21:28:55'),
+	(20, 8, 'Contrato', 'SinTitulo1.pdf', '6a5842e17dbb7.pdf', 'uploads/documentos/8/6a5842e17dbb7.pdf', 'application/pdf', 79087, 'sin', 0, '2026-07-15 21:33:05'),
+	(21, 8, 'Contrato', 'SinTitulo1.pdf', '6a5842e17dbb7.pdf', 'uploads/documentos/8/6a5842e17dbb7.pdf', 'application/pdf', 79087, 'sin', 0, '2026-07-15 21:33:05'),
+	(22, 8, 'Contrato', 'horario-por-periodo.pdf', '6a58432d0738d.pdf', 'uploads/documentos/8/6a58432d0738d.pdf', 'application/pdf', 28683, '', 0, '2026-07-15 21:34:21'),
+	(23, 8, 'Contrato', 'horario-por-periodo.pdf', '6a58432d0738d.pdf', 'uploads/documentos/8/6a58432d0738d.pdf', 'application/pdf', 28683, '', 0, '2026-07-15 21:34:21'),
+	(24, 8, 'Bases', 'horario-por-periodo.pdf', '6a5843a22f100.pdf', 'uploads/documentos/8/6a5843a22f100.pdf', 'application/pdf', 28683, '', 0, '2026-07-15 21:36:18'),
+	(25, 8, 'Bases', 'horario-por-periodo.pdf', '6a5843a22f100.pdf', 'uploads/documentos/8/6a5843a22f100.pdf', 'application/pdf', 28683, '', 0, '2026-07-15 21:36:18'),
+	(26, 8, 'Otro', 'horario-por-periodo.pdf', '6a5845ef9f5fc.pdf', 'uploads/documentos/8/6a5845ef9f5fc.pdf', 'application/pdf', 28683, 'hora', 0, '2026-07-15 21:46:07'),
+	(27, 6, 'Informe', 'horario-por-periodo.pdf', '6a58465830681.pdf', 'uploads/documentos/6/6a58465830681.pdf', 'application/pdf', 28683, 'hora', 1, '2026-07-15 21:47:52'),
+	(28, 6, 'Bases', 'horario-por-periodo.pdf', '6a5846f8f3f39.pdf', 'uploads/documentos/6/6a5846f8f3f39.pdf', 'application/pdf', 28683, 'x', 1, '2026-07-15 21:50:33'),
+	(29, 6, 'Contrato', 'horario-por-periodo.pdf', '6a5847cae4b4e.pdf', 'uploads/documentos/6/6a5847cae4b4e.pdf', 'application/pdf', 28683, 'd', 1, '2026-07-15 21:54:02'),
+	(30, 10, 'Expediente Técnico', 'Acta-1 (2).pdf', '6a584b63c814e.pdf', 'uploads/documentos/10/6a584b63c814e.pdf', 'application/pdf', 15231, 'acta', 1, '2026-07-15 22:09:23');
+
+-- Volcando estructura para tabla bd_seprin.ejecucion_mensual
+CREATE TABLE IF NOT EXISTS `ejecucion_mensual` (
+  `idEjecucionMensual` int NOT NULL AUTO_INCREMENT,
+  `idAnioRegulatorio` int DEFAULT NULL,
+  `mesOld` tinyint DEFAULT NULL,
+  `mes` date DEFAULT NULL,
+  `programado` decimal(20,2) DEFAULT NULL,
+  `ejecutado` decimal(20,2) DEFAULT NULL,
+  `igv` decimal(20,2) DEFAULT NULL,
+  `total` decimal(20,2) DEFAULT NULL,
+  `archivo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fisico` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idEjecucionMensual`),
+  KEY `idInversiones` (`idAnioRegulatorio`) USING BTREE,
+  CONSTRAINT `FK_ejecucion_mensual_anio_regulatorio` FOREIGN KEY (`idAnioRegulatorio`) REFERENCES `anio_regulatorio` (`idAnioRegulatorio`)
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.ejecucion_mensual: ~53 rows (aproximadamente)
+INSERT INTO `ejecucion_mensual` (`idEjecucionMensual`, `idAnioRegulatorio`, `mesOld`, `mes`, `programado`, `ejecutado`, `igv`, `total`, `archivo`, `fisico`, `estado`, `fechaCreado`, `fechaActualizado`) VALUES
+	(45, 13, 1, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(46, 13, 2, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(47, 13, 3, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(48, 13, 4, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(49, 13, 5, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(50, 13, 6, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(51, 13, 7, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(52, 13, 8, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(53, 13, 9, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(54, 13, 10, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(55, 13, 11, NULL, NULL, 3898.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(56, 13, 12, NULL, NULL, 3906.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(57, 14, 1, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(58, 14, 2, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(59, 14, 3, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(60, 14, 4, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(61, 14, 5, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(62, 14, 6, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(63, 14, 7, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(64, 14, 8, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(65, 14, 9, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(66, 14, 10, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(67, 14, 11, NULL, NULL, 1221.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(68, 14, 12, NULL, NULL, 1226.00, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(69, 15, 1, '2026-07-14', 0.00, 2640.00, 0.00, 2640.00, 'uploads/ejecuciones/15/6a5adf766e4a6.pdf', NULL, 1, NULL, '2026-07-17 21:05:42'),
+	(70, 15, 2, '2026-07-14', 0.00, 2640.00, 0.00, 2640.00, NULL, NULL, 1, NULL, '2026-07-17 21:03:05'),
+	(71, 15, 3, '2026-07-14', 0.00, 2640.00, 0.00, 2640.00, NULL, NULL, 1, NULL, '2026-07-16 23:30:40'),
+	(72, 15, 4, '2026-07-14', 0.00, 2640.00, 0.00, 2640.00, NULL, NULL, 1, NULL, '2026-07-17 21:08:11'),
+	(73, 15, 5, '2026-07-14', 0.00, 2640.00, 0.00, 2640.00, NULL, NULL, 1, NULL, '2026-07-16 03:27:07'),
+	(74, 18, 1, '2026-07-15', 0.00, 12616.68, 0.00, 12616.68, NULL, NULL, 1, NULL, '2026-07-18 12:04:19'),
+	(76, 18, 2, '2026-07-16', 0.00, 12616.68, 0.00, 12616.68, NULL, NULL, 1, NULL, '2026-07-18 12:04:26'),
+	(77, 18, 3, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:06:46'),
+	(78, 18, 4, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:06:54'),
+	(79, 18, 5, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:12'),
+	(80, 18, 6, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:21'),
+	(81, 18, 7, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:28'),
+	(82, 18, 8, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:36'),
+	(83, 18, 9, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:43'),
+	(84, 18, 10, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:54'),
+	(85, 18, 11, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:08:03'),
+	(86, 18, 12, '2026-07-16', 0.00, 12616.68, NULL, NULL, NULL, NULL, 1, NULL, '2026-07-16 00:07:02'),
+	(87, 19, 1, '2026-07-17', 0.00, 7201.73, 0.00, 7201.73, NULL, NULL, 1, NULL, '2026-07-17 21:09:16'),
+	(88, 19, 2, '2026-07-17', 0.00, 7201.73, 0.00, 7201.73, NULL, NULL, 1, NULL, '2026-07-17 23:01:20'),
+	(89, 19, 3, NULL, NULL, 7201.73, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(90, 19, 4, '2026-07-18', 0.00, 7201.73, 0.00, 7201.73, NULL, NULL, 1, NULL, '2026-07-18 12:10:52'),
+	(91, 19, 5, NULL, NULL, 7201.73, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(96, 24, 1, NULL, 0.00, 3001.00, NULL, NULL, NULL, NULL, 1, '2026-07-12 18:01:13', '2026-07-12 19:12:39'),
+	(97, 24, 2, NULL, 0.00, 3001.00, NULL, NULL, NULL, NULL, 1, '2026-07-12 18:01:29', '2026-07-12 18:55:38'),
+	(98, 24, 3, NULL, 0.00, 3001.00, NULL, NULL, NULL, NULL, 1, '2026-07-12 18:01:45', '2026-07-12 19:13:03'),
+	(103, 15, NULL, '2026-07-14', 0.00, 100.00, 0.00, 100.00, 'uploads/ejecuciones/15/6a589958e17ff.pdf', NULL, 1, '2026-07-14 00:13:33', '2026-07-16 03:42:00'),
+	(104, 15, NULL, '2026-07-16', 0.00, 200.00, 0.00, 200.00, 'uploads/ejecuciones/15/6a587c15ac8ae.pdf', NULL, 1, '2026-07-16 01:37:09', '2026-07-16 03:29:13'),
+	(105, 17, NULL, '2026-07-16', 0.00, 100.00, 18.00, 118.00, 'uploads/ejecuciones/17/6a587c4c22c36.pdf', NULL, 1, '2026-07-16 01:38:04', NULL),
+	(106, 15, NULL, '2026-07-16', 0.00, 2000.00, 360.00, 2360.00, 'uploads/ejecuciones/15/6a58824e143ab.pdf', NULL, 1, '2026-07-16 02:03:42', '2026-07-16 03:17:25'),
+	(107, 18, NULL, '2026-07-17', 0.00, 0.00, 0.00, 0.00, NULL, NULL, 1, '2026-07-17 23:08:21', NULL);
+
+-- Volcando estructura para tabla bd_seprin.estudio_tarifario
+CREATE TABLE IF NOT EXISTS `estudio_tarifario` (
+  `idEstudioTarifario` int NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `nombre` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anioInicio` smallint DEFAULT NULL,
+  `anioFin` smallint DEFAULT NULL,
+  `estado` enum('ACTIVO','CERRADO') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idEstudioTarifario`),
+  UNIQUE KEY `codigo` (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.estudio_tarifario: ~3 rows (aproximadamente)
+INSERT INTO `estudio_tarifario` (`idEstudioTarifario`, `codigo`, `nombre`, `anioInicio`, `anioFin`, `estado`, `fechaCreado`, `fechaActualizado`) VALUES
+	(1, 'ET-01', 'Estudio Tarifario 25-28', 2025, 2028, 'ACTIVO', '2026-07-09 20:48:44', NULL),
+	(2, 'ET-02', 'Estudio Tarifario 2029-2030', 2029, 2032, 'ACTIVO', '2026-07-09 20:50:54', NULL),
+	(3, 'ET-03', 'Estudio Tarifario 2031-2034', 2031, 2034, 'ACTIVO', '2026-07-11 16:23:40', NULL);
+
+-- Volcando estructura para tabla bd_seprin.fondos
+CREATE TABLE IF NOT EXISTS `fondos` (
+  `idFondos` int NOT NULL AUTO_INCREMENT,
+  `codigoFondo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreFondo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcionFondo` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estadoFondo` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualiuzado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idFondos`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.fondos: ~9 rows (aproximadamente)
+INSERT INTO `fondos` (`idFondos`, `codigoFondo`, `nombreFondo`, `descripcionFondo`, `estadoFondo`, `fechaCreado`, `fechaActualiuzado`) VALUES
+	(1, 'FI', 'FONDO DE INVERSION', 'INVERSION', 1, '2026-07-04 13:10:20', NULL),
+	(2, 'PCC&PAS', 'FONDO DE PCC&PAS', 'RESERVA', 1, '2026-07-04 13:10:41', NULL),
+	(3, 'GRD&ACC', 'GESTION DE RIESGO GRD&ACC', 'RIESGO', 1, '2026-07-04 13:12:08', '2026-07-12 11:26:34'),
+	(4, 'MRSE', 'MRSE', 'MRSE', 1, '2026-07-07 22:10:18', NULL),
+	(5, 'EJEM', 'FONDO EJEMPLO', 'REGISTRO DE EJEMPLO', 1, '2026-07-09 20:54:23', NULL),
+	(6, 'PRBA', 'PRUEBA', 'PREBA DE PRUEBAS', 1, '2026-07-11 16:54:53', '2026-07-12 11:27:00'),
+	(7, 'FONDO2', 'FONDO2', 'FONDO2', 1, '2026-07-12 11:27:38', '2026-07-12 11:31:50'),
+	(8, 'FONDO3', 'FONDO3', 'FONDO3', 1, '2026-07-12 11:32:02', '2026-07-12 11:35:17'),
+	(9, 'FONDO4', 'FONDO4', 'FONDO4', 1, '2026-07-12 11:35:04', NULL);
+
+-- Volcando estructura para tabla bd_seprin.gerencias
+CREATE TABLE IF NOT EXISTS `gerencias` (
+  `idGerencias` int NOT NULL AUTO_INCREMENT,
+  `siglasGerencia` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombreGerencia` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estadoGerencia` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idGerencias`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.gerencias: ~5 rows (aproximadamente)
+INSERT INTO `gerencias` (`idGerencias`, `siglasGerencia`, `nombreGerencia`, `estadoGerencia`, `fechaCreado`, `fechaActualizado`) VALUES
+	(1, 'GG', 'GERENCIA GENERAL', 1, '2026-07-05 16:05:20', NULL),
+	(2, 'GC', 'GERENCIA COMERCIAL', 1, '2026-07-05 16:05:36', NULL),
+	(3, 'GO', 'GERENCIA DE OPERACIONES', 1, '2026-07-05 16:05:49', NULL),
+	(4, 'GAF', 'GERENCIA DE ADMINISTRACION Y FINANZAS', 1, '2026-07-05 16:06:10', NULL),
+	(5, 'GAJ', 'GERENCIA DE ASESORIA JURIDICA', 1, '2026-07-05 16:06:25', NULL),
+	(6, 'EJE', 'GERENCIA EJEMPLO', 1, '2026-07-09 20:54:54', NULL),
+	(7, 'GP', 'GERENCIA DE PRUEBA', 1, '2026-07-11 23:57:13', '2026-07-11 23:57:44');
+
+-- Volcando estructura para tabla bd_seprin.inversiones
+CREATE TABLE IF NOT EXISTS `inversiones` (
+  `idInversiones` int NOT NULL AUTO_INCREMENT,
+  `idFondos` int DEFAULT NULL,
+  `idAreas` int DEFAULT NULL,
+  `cui` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `observaciones` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idInversiones`),
+  UNIQUE KEY `cui` (`cui`),
+  KEY `idFondos` (`idFondos`),
+  KEY `idAreas` (`idAreas`),
+  CONSTRAINT `FK_inversiones_areas` FOREIGN KEY (`idAreas`) REFERENCES `areas` (`idAreas`),
+  CONSTRAINT `FK_inversiones_fondos` FOREIGN KEY (`idFondos`) REFERENCES `fondos` (`idFondos`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.inversiones: ~6 rows (aproximadamente)
+INSERT INTO `inversiones` (`idInversiones`, `idFondos`, `idAreas`, `cui`, `descripcion`, `nombre`, `observaciones`, `estado`, `fechaCreado`, `fechaActualizado`) VALUES
+	(6, 2, 8, NULL, 'ADQUISICIÓN DE UN SPECTOFOTOMETRO', 'ADQUISICIÓN DE UN SPECTOFOTOMETRO PARA EL MONITOREO DE NUEVOS PARÁMETROS DEL PCC', NULL, 1, '2026-07-09 23:12:50', NULL),
+	(7, 2, 8, NULL, 'ADQUISICIÓN DE EQUIPOS DE CONTROL', 'ADQUISICIÓN DE EQUIPOS DE CONTROL DE CALIDAD PARA EL MONITOREO DE NUEVOS PARAMETROS DEL PCC EPS ILO S.A.', NULL, 1, '2026-07-09 23:13:01', NULL),
+	(8, 2, 8, '', 'ACTUALIZACION DEL PCC Y PAS DE LA EPS ILO S.A.', 'ACTUALIZACION DEL PCC Y PAS DE LA EPS ILO S.A.', '', 1, '2026-07-09 23:13:43', NULL),
+	(9, 4, 10, NULL, 'PLAN DE INTERVENCIÓN EN MECANISMO DE RETRIBUCION', 'PLAN DE INTERVENCIÓN EN MECANISMO DE RETRIBUCION DE SERVICIOS ECOSISTEMATICOS HIDRICOS DE LA EPS ILO S.A. CONSERVACION Y RECUPERACION DE LOS SERVICIOS ECOSISTEMATICOS HIDRICOS DE REGULACION HIDRICA Y CALIDAD DE AGUA DE LA CUENCA ILO - MOQUEGUA ', NULL, 1, '2026-07-11 11:44:09', NULL),
+	(10, 3, 1, NULL, 'REFORZAMIENTO DE TALUD EN LA CAPTACION ITE', 'REFORZAMIENTO DE TALUD EN LA CAPTACION ITE NORTE DE LA EPS ILO', '', 1, '2026-07-12 12:26:09', NULL),
+	(13, 3, 1, NULL, 'IMPLEMENTACION DE SISTEMA DE ALERTA TEMPRANA', 'IMPLEMENTACION DE SISTEMA DE ALERTA TEMPRANA ANTE CRECIDAS DEL RIO PARA EL SISTEMA PASTO GRANDE E ITE', '', 1, '2026-07-12 17:57:38', NULL);
+
+-- Volcando estructura para tabla bd_seprin.permisos
+CREATE TABLE IF NOT EXISTS `permisos` (
+  `idPermiso` int NOT NULL AUTO_INCREMENT,
+  `permiso` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grupo` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ruta` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icono` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `orden` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idPermiso`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.permisos: ~12 rows (aproximadamente)
+INSERT INTO `permisos` (`idPermiso`, `permiso`, `grupo`, `ruta`, `icono`, `orden`, `estado`, `fechaCreado`) VALUES
+	(1, 'Dashboard', 'General', 'dashboard', 'bi-speedometer2', '1', 1, '2026-06-27 21:51:11'),
+	(2, 'Usuarios', 'Seguridad', 'usuarios', 'bi-people', '2', 1, '2026-06-27 21:51:12'),
+	(3, 'Roles', 'Seguridad', 'roles', 'bi-person-badge', '3', 1, '2026-06-27 21:51:13'),
+	(4, 'Permisos', 'Seguridad', 'permisos', 'bi-shield-lock', '4', 1, '2026-06-27 21:51:14'),
+	(5, 'Inversion', 'General', 'inversiones', 'bi-speedometer2', '5', 1, '2026-06-27 23:04:00'),
+	(7, 'Reporte General', 'General', 'reportes', 'bi-people', '7', 1, '2026-06-28 14:30:23'),
+	(8, 'prueba', 'prueba', 'Prueba', 'prueba', '8', 0, '2026-06-29 21:34:30'),
+	(9, 'Estudio Tarifario', 'Administración', 'estudioTarifario', 'bi-calendar-range', '1', 1, '2026-07-11 16:05:34'),
+	(10, 'Fondos', 'Administración', 'fondos', 'bi bi-wallet2', '2', 1, '2026-07-11 17:04:47'),
+	(11, 'Gerencias', 'Administración', 'gerencias', 'bi-building', '3', 1, '2026-07-11 23:36:18'),
+	(12, 'Areas', 'Administración', 'areas', 'bi-diagram-3', '4', 1, '2026-07-12 00:17:18'),
+	(13, 'Año Regulatorio', 'General', 'anioregulatorio', 'bi-calendar3', '4', 1, '2026-07-12 13:50:00');
+
+-- Volcando estructura para tabla bd_seprin.roles
+CREATE TABLE IF NOT EXISTS `roles` (
+  `idRol` int NOT NULL AUTO_INCREMENT,
+  `nombreRol` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcionRol` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaCreado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idRol`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.roles: ~6 rows (aproximadamente)
+INSERT INTO `roles` (`idRol`, `nombreRol`, `descripcionRol`, `estado`, `fechaCreado`) VALUES
+	(1, 'Super Admin', 'Administracion total.', '1', '2026-06-28 00:38:21'),
+	(2, 'Admin', 'Administracion Parcial', '1', '2026-06-28 00:38:22'),
+	(3, 'Operador', 'Usuario general.', '0', '2026-06-28 00:38:23'),
+	(8, 'Jefe', 'Jefe de Oficina', '1', '2026-06-28 01:28:35'),
+	(9, 'Asistente', 'Personal de apoyo', '1', '2026-06-29 19:47:51'),
+	(10, 'Soporte', 'Soporte al sistema', '1', '2026-06-29 23:13:35');
+
+-- Volcando estructura para tabla bd_seprin.rol_permiso
+CREATE TABLE IF NOT EXISTS `rol_permiso` (
+  `idRolPermiso` int NOT NULL AUTO_INCREMENT,
+  `idRol` int DEFAULT NULL,
+  `idPermiso` int DEFAULT NULL,
+  PRIMARY KEY (`idRolPermiso`),
+  KEY `FK_rol_permiso_roles` (`idRol`),
+  KEY `FK_rol_permiso_permisos` (`idPermiso`),
+  CONSTRAINT `FK_rol_permiso_permisos` FOREIGN KEY (`idPermiso`) REFERENCES `permisos` (`idPermiso`),
+  CONSTRAINT `FK_rol_permiso_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`idRol`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.rol_permiso: ~19 rows (aproximadamente)
+INSERT INTO `rol_permiso` (`idRolPermiso`, `idRol`, `idPermiso`) VALUES
+	(5, 8, 2),
+	(6, 8, 3),
+	(7, 8, 4),
+	(17, 9, 5),
+	(19, 3, 1),
+	(20, 3, 5),
+	(21, 10, 2),
+	(22, 10, 3),
+	(23, 10, 4),
+	(55, 1, 9),
+	(56, 1, 10),
+	(57, 1, 11),
+	(58, 1, 12),
+	(59, 1, 1),
+	(60, 1, 13),
+	(61, 1, 5),
+	(62, 1, 2),
+	(63, 1, 3),
+	(64, 1, 4);
+
+-- Volcando estructura para tabla bd_seprin.seguimiento_mensual
+CREATE TABLE IF NOT EXISTS `seguimiento_mensual` (
+  `idSeguimientoMensual` int NOT NULL AUTO_INCREMENT,
+  `idAnioRegulatorio` int DEFAULT NULL,
+  `producto` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estadoInver` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `acciones` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechas` date DEFAULT NULL,
+  `situacion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint DEFAULT '1',
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaActualizado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idSeguimientoMensual`),
+  KEY `idAnioRegulatorio` (`idAnioRegulatorio`),
+  CONSTRAINT `FK_seguimiento_mensual_anio_regulatorio` FOREIGN KEY (`idAnioRegulatorio`) REFERENCES `anio_regulatorio` (`idAnioRegulatorio`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.seguimiento_mensual: ~3 rows (aproximadamente)
+INSERT INTO `seguimiento_mensual` (`idSeguimientoMensual`, `idAnioRegulatorio`, `producto`, `estadoInver`, `acciones`, `fechas`, `situacion`, `estado`, `fechaCreado`, `fechaActualizado`) VALUES
+	(1, 19, '1ER AÑO REG. : EXPEDIENTE TECNICO', '1. ACTUALIZACION DE EXPEDIENTE TECNICO.', '1. APROBACION  EXPEDIENTE TECNICO "COCHA EN ASANA" ET 2024 mediante RGG', '2026-07-13', 'prueba', 0, '2026-07-12 23:55:23', '2026-07-13 00:17:14'),
+	(2, 19, '2DO AÑO REG. : TDR', '2. ELABORACION DE TDR', '1.1. NP PARA CONSTRUCCIONf', '2026-07-31', 'Se presento la reformulacion de actividades a SUNASS.', 1, '2026-07-13 00:16:51', '2026-07-13 01:02:57'),
+	(4, 19, NULL, '2. ELABORACION DE TDR.', '1.2 NP PARA SUPERVISION.', '2026-07-18', 'sin novedades.', 1, '2026-07-13 00:34:34', '2026-07-18 11:43:05'),
+	(9, 19, NULL, 'Prueba 2', 'Prueba 2', '2026-07-18', 'Prueba123', 1, '2026-07-18 11:41:41', '2026-07-18 12:03:17');
+
+-- Volcando estructura para tabla bd_seprin.usuarios
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `idUser` int NOT NULL AUTO_INCREMENT,
+  `idRol` int DEFAULT NULL,
+  `usuario` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contrasena` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombres` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `apellidos` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `correo` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaCreado` datetime DEFAULT NULL,
+  `fechaAcceso` datetime DEFAULT NULL,
+  PRIMARY KEY (`idUser`) USING BTREE,
+  UNIQUE KEY `usuario` (`usuario`),
+  KEY `idRolUser` (`idRol`) USING BTREE,
+  CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`idRol`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.usuarios: ~13 rows (aproximadamente)
+INSERT INTO `usuarios` (`idUser`, `idRol`, `usuario`, `contrasena`, `nombres`, `apellidos`, `correo`, `estado`, `fechaCreado`, `fechaAcceso`) VALUES
+	(4, 1, 'admin', '$2y$10$t5ju7zILJVZw/obgqSwRmeDlDUVW60ibK4vg4..RdF/O3WN1cgd1m', 'Administrador TI', 'Del Sistema', 'admin@empresa.com', '1', '2026-06-26 23:13:08', NULL),
+	(5, 2, 'cesar', '$2y$10$evgiEpgf7rEya6vaK4RvSed3lzpejyi2pkdeAi0akLvSu9Iy6ufd6', 'Desarin Romantico', 'Aceros Arequipa', 'roman@empresa.com', '1', '2026-06-27 00:23:21', NULL),
+	(6, 2, 'operador', '$2y$10$utWLpvEZ7bM9UqKuas8zCulhVCgnAfHenjJQZLf.wBs7fSGTVUiUm', 'Aperador', 'Num', 'operador1@empresa.com', '1', '2026-06-27 00:34:01', NULL),
+	(8, 3, 'operador2', '$2y$10$jAnSEzNKbcZb99X4Sn.nhuoPVbojSjCmgo6jsIhmGHkZf62i8VSNC', 'Operador', 'Num 02', 'operador2@empresa.com', '1', '2026-06-27 10:51:24', NULL),
+	(9, 3, 'operador3', '$2y$10$/qoxhyfR6hU6lmshbMS8yeE1hjE/6g2Nr2EXF58ELUbxozdlioKa6', 'Operador', 'Num 03', 'operador3@empresa.com', '1', '2026-06-27 11:25:58', NULL),
+	(10, 3, 'operador4', '$2y$10$ZItI.bnOy9.sGQYRsr092ecOF0lCzwgUz3riTLMjPhkxx3w.s35me', 'Operador', 'Num 04', 'operador4@empresa.com', '1', '2026-06-27 11:54:21', NULL),
+	(11, 8, 'operador5', '$2y$10$0ncDaB3.bQwKlk12TRxno.6Igaqk8qXt7OVQkFJbMqwRoN6ZZkJ5C', 'Operador', 'Num 05', 'operador5@empresa.com', '1', '2026-06-27 13:31:01', NULL),
+	(12, 3, 'operador6', '$2y$10$8q5WBoseETojlBtDzkxnPOS34gGPf2NhWRrtf3XMXFA1z26Oj6ilW', 'Operador', 'Num 06', 'operador@empresa.com', '0', '2026-06-27 13:45:56', NULL),
+	(13, 3, 'operador7', '$2y$10$zNdFWeHgW.3Y.5y9B2wex.UrM39out3SMKejro.31mzoTk7jGwb7O', 'Operador', 'Num 07', 'operador@empresa.com', '0', '2026-06-27 13:46:56', NULL),
+	(14, 3, 'operador8', '$2y$10$cdV19DbGqtXYc3ZvtXgYSOXiEGw.34BdDjirv7GpFGC4Fo9myzrk6', 'Operador', 'Num 08', 'operador@empresa.com', '0', '2026-06-27 13:47:43', NULL),
+	(15, 3, 'operador9', '$2y$10$8667U85KdPQiELcut3U4l.TYQLYWnG2cYiNRoNcPVjyU33bquZYdG', 'Operador', 'Num 09', 'operador@empresa.com', '1', '2026-06-27 13:48:27', NULL),
+	(16, 3, 'operador10', '$2y$10$izrm6NZwvq.yFbHx7ZctJedbMaJxKFsuB2VLUajgYOq1qIybxV3sO', 'Operador', 'Num 10', 'operador@empresa.com', '1', '2026-06-27 13:49:31', NULL),
+	(17, 8, 'operador11', '$2y$10$NGM60o3Khckol4i5P6KQsekh5Wynqvfu7xnDsGx2QIRsLF0pYKuqS', 'Operador', 'Num 11', 'operador@empresa.com', '1', '2026-06-29 18:45:56', NULL);
+
+-- Volcando estructura para tabla bd_seprin.usuarios_areas
+CREATE TABLE IF NOT EXISTS `usuarios_areas` (
+  `idUsuariosAreas` int NOT NULL AUTO_INCREMENT,
+  `idUser` int DEFAULT NULL,
+  `idAreas` int DEFAULT NULL,
+  `fechaCreado` datetime DEFAULT NULL,
+  PRIMARY KEY (`idUsuariosAreas`),
+  KEY `idUser` (`idUser`),
+  KEY `idAreas` (`idAreas`),
+  CONSTRAINT `FK_usuarios_areas_areas` FOREIGN KEY (`idAreas`) REFERENCES `areas` (`idAreas`),
+  CONSTRAINT `FK_usuarios_areas_usuarios` FOREIGN KEY (`idUser`) REFERENCES `usuarios` (`idUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla bd_seprin.usuarios_areas: ~0 rows (aproximadamente)
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

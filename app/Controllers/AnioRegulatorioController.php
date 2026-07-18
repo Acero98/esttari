@@ -62,6 +62,7 @@ class AnioRegulatorioController
         require_once "../app/Views/anioregulatorio/detalle.php";
         require_once "../app/Views/layouts/footer.php";
     }
+    
     /*
     |--------------------------------------------------------------------------
     | REGISTRAR AÑO REGULATORIO

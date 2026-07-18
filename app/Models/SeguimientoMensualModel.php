@@ -67,7 +67,7 @@ class SeguimientoMensualModel
                 fechas,
                 situacion
             FROM seguimiento_mensual
-            WHERE idAnioRegulatorio = :id
+            WHERE idAnioRegulatorio = :id AND estado = 1
             ORDER BY fechas ASC
         ";
 
@@ -140,12 +140,15 @@ class SeguimientoMensualModel
     public function delete($id)
     {
         $sql = "
-            DELETE FROM seguimiento_mensual
-            WHERE idSeguimientoMensual = ?
+            UPDATE seguimiento_mensual
+            SET estado = 0
+            WHERE idSeguimientoMensual = :id
         ";
 
         $stmt = $this->db->prepare($sql);
 
-        return $stmt->execute([$id]);
+        return $stmt->execute([
+            ":id" => $id
+        ]);
     }
 }

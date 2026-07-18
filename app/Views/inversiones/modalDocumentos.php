@@ -57,33 +57,13 @@
                             name="tipoDocumento"
                             class="w-full rounded-lg border px-4 py-2.5"
                             required>
-
                             <option value="">Seleccionar</option>
-
-                            <option value="Expediente Técnico">
-                                Expediente Técnico
-                            </option>
-
-                            <option value="Bases">
-                                Bases
-                            </option>
-
-                            <option value="Contrato">
-                                Contrato
-                            </option>
-
-                            <option value="Informe">
-                                Informe
-                            </option>
-
-                            <option value="Acta">
-                                Acta
-                            </option>
-
-                            <option value="Otro">
-                                Otro
-                            </option>
-
+                            <option value="Expediente Técnico">Expediente Técnico</option>
+                            <option value="Bases">Bases</option>
+                            <option value="Contrato">Contrato</option>
+                            <option value="Informe">Informe</option>
+                            <option value="Acta">Acta</option>
+                            <option value="Otro">Otro</option>
                         </select>
 
                     </div>
@@ -134,50 +114,24 @@
 
                     </div>
 
-                    <div class="max-h-[350px] overflow-auto">
-
+                    <div class="max-h-[250px] overflow-y-auto overflow-x-auto">
                         <table class="min-w-full text-sm">
-
                             <thead class="sticky top-0 bg-white border-b">
-
                                 <tr class="text-left text-slate-500">
-
                                     <th class="px-4 py-2 w-16 text-center">N°</th>
-
-                                    <th class="px-4 py-2">
-                                        Tipo
-                                    </th>
-
-                                    <th class="px-4 py-2">
-                                        Archivo
-                                    </th>
-
-                                    <th class="px-4 py-2">
-                                        Fecha
-                                    </th>
-
-                                    <th class="px-4 py-2 text-center">
-                                        Acciones
-                                    </th>
-
+                                    <th class="px-4 py-2">Tipo</th>
+                                    <th class="px-4 py-2">Archivo</th>
+                                    <th class="px-4 py-2">Fecha</th>
+                                    <th class="px-4 py-2 text-center">Acciones</th>
                                 </tr>
-
                             </thead>
-
                             <tbody id="listaDocumentos">
-
                                 <!-- AJAX -->
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="flex justify-end gap-3 px-6 py-3 bg-slate-50">
 
                 <button

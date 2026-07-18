@@ -387,6 +387,7 @@ elseif ($url == 'documento_delete') {
     $controller->delete();
 
 }
+//EJECUCION MENSUAL
 elseif ($url == 'ejecucionmensual_descargar') {
 
     require_once "../app/Controllers/EjecucionMensualController.php";
@@ -422,6 +423,35 @@ elseif ($url == 'ejecucionmensual_delete') {
 
     $controller->delete();
 
+}
+//USUARIO_AREAS
+elseif ($url == 'usuarioarea_lista') {
+    require_once "../app/Controllers/UsuarioAreaController.php";
+    $controller = new UsuarioAreaController();
+    $controller->listar();
+}
+elseif ($url == 'usuarioarea_guardar') {
+    require_once "../app/Controllers/UsuarioAreaController.php";
+    $controller = new UsuarioAreaController();
+    $controller->guardar();
+}
+elseif ($url == 'usuarioarea_eliminar') {
+    require_once "../app/Controllers/UsuarioAreaController.php";
+    $controller = new UsuarioAreaController();
+    $controller->eliminar();
+}
+elseif ($url == 'usuarioarea_por_area') {
+    require_once "../app/Controllers/UsuarioAreaController.php";
+    $controller = new UsuarioAreaController();
+    $controller->usuariosPorArea();
+}
+elseif ($url == 'usuarioarea_areas') {
+
+    require_once "../app/Controllers/UsuarioAreaController.php";
+
+    $controller = new UsuarioAreaController();
+
+    $controller->areas();
 }
 
 elseif ($url == 'logout') {

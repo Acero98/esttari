@@ -452,7 +452,8 @@
         <form
             id="formEjecucionMensual"
             method="POST"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+            class="flex flex-col flex-1 overflow-hidden">
             <input
                 type="hidden"
                 name="idAnioRegulatorio"
@@ -465,12 +466,12 @@
                 type="hidden"
                 name="idEjecucionMensual"
                 id="idEjecucionMensual">
-            <div class="p-6 shrink-0">
+            <div class="p-6">
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-5 mb-6">
+                <div class="grid grid-cols-12 gap-4 items-end mb-6">
 
                     <!-- FECHA -->
-                    <div>
+                    <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Fecha
                         </label>
@@ -484,7 +485,7 @@
                     </div>
 
                     <!-- MONTO -->
-                    <div>
+                    <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Monto (S/)
                         </label>
@@ -499,29 +500,25 @@
                             required
                             class="w-full rounded-lg border px-4 py-2.5 text-right">
                     </div>
-                    <!-- APLICA IGV -->
-                    <div class="flex items-center mt-8">
-
-                        <input
-                            type="checkbox"
-                            id="aplicaIgv"
-                            checked
-                            class="w-4 h-4 text-blue-600 rounded">
-
-                        <label
-                            for="aplicaIgv"
-                            class="ml-2 text-sm text-slate-700">
-
-                            Aplicar IGV 18%
-
-                        </label>
-
-                    </div>
 
                     <!-- IGV -->
-                    <div>
-                        <label class="block text-sm font-medium mb-2">
-                            IGV (18%)
+                    <div class="col-span-2">
+                        <label class="flex items-center justify-between text-sm font-medium mb-2">
+
+                            <span>IGV (18%)</span>
+
+                            <label class="flex items-center gap-1 text-xs font-normal cursor-pointer">
+
+                                <input
+                                    type="checkbox"
+                                    id="aplicaIgv"
+                                    checked
+                                    class="rounded">
+
+                                Aplicar
+
+                            </label>
+
                         </label>
 
                         <input
@@ -535,7 +532,7 @@
                     </div>
 
                     <!-- TOTAL -->
-                    <div>
+                    <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Total (S/)
                         </label>
@@ -551,7 +548,7 @@
                     </div>
 
                     <!-- ARCHIVO -->
-                    <div class="md:col-span-5">
+                    <div class="col-span-4">
                         <label class="block text-sm font-medium mb-2">
                             Comprobante PDF
                         </label>
@@ -571,27 +568,60 @@
                             Ejecuciones Mensuales
                         </h3>
                     </div>
-                    <div class="max-h-[350px] overflow-y-auto overflow-x-auto">
-                        <table class="min-w-[1100px] w-full text-sm">
-                            <thead class="sticky top-0 bg-white z-10 border-b">
-                                <tr class="text-left text-slate-500">
-                                    <th class="px-4 py-2 w-16 text-center">N°</th>
-                                    <th class="px-4 py-2">Fecha</th>
-                                    <th class="px-4 py-2 text-right">Monto</th>
-                                    <th class="px-4 py-2 text-right">IGV</th>
-                                    <th class="px-4 py-2 text-right">Total</th>
-                                    <th class="px-4 py-2 text-center">Archivo</th>
-                                    <th class="px-4 py-2 text-center">Acciones</th>
+                    <div class="max-h-[250px] overflow-y-auto overflow-x-auto">
+                        <table class="min-w-full text-sm">
+
+                            <thead class="sticky top-0 bg-white border-b z-10">
+
+                                <tr class="text-slate-500">
+
+                                    <th class="w-14 px-3 py-2 text-center">
+                                        N°
+                                    </th>
+
+                                    <th class="px-3 py-2 whitespace-nowrap">
+                                        Fecha
+                                    </th>
+
+                                    <th class="px-3 py-2 text-right whitespace-nowrap">
+                                        Monto
+                                    </th>
+
+                                    <th class="px-3 py-2 text-right whitespace-nowrap">
+                                        IGV
+                                    </th>
+
+                                    <th class="px-3 py-2 text-right whitespace-nowrap">
+                                        Total
+                                    </th>
+
+                                    <th class="w-24 px-3 py-2 text-center">
+                                        PDF
+                                    </th>
+
+                                    <th class="w-28 px-3 py-2 text-center">
+                                        Acciones
+                                    </th>
+
                                 </tr>
+
                             </thead>
 
-                            <tbody id="listaEjecucionesMensuales">
-                            </tbody>
+                            <tbody id="listaEjecucionesMensuales"></tbody>
+
                         </table>
+
                     </div>
                 </div>
             </div>
             <div class="flex justify-end gap-3 px-6 py-3 bg-slate-50 shrink-0">
+                <button
+                    type="button"
+                    id="limpiarEjecucionMensual"
+                    class="px-5 py-2.5 border border-slate-300 rounded-lg hover:bg-slate-100">
+                    <i class="bi bi-eraser"></i>
+                    Limpiar
+                </button>
                 <button
                     type="button"
                     id="cancelarModalEjecucionMensual"
@@ -651,87 +681,85 @@
                 type="hidden"
                 name="idSeguimientoMensual"
                 id="idSeguimientoMensual">
-            <div class="p-6 space-y-12">
+            <div class="px-5 pt-3 pb-5 space-y-5">
                 <!-- FORMULARIO -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <!-- PRODUCTO -->
-                    <div>
-                        <label class="block text-sm font-medium mb-2">
-                            Producto
-                        </label>
-                        <input
-                            type="text"
-                            name="producto"
-                            id="producto"
-                            class="w-full rounded-lg border px-4 py-2.5"
-                            placeholder="Ingrese el producto">
-                    </div>
+                <div class="grid grid-cols-12 gap-4">
+
                     <!-- ESTADO -->
-                    <div>
-                        <label class="block text-sm font-medium mb-2">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">
                             Estado de la inversión
                         </label>
+
                         <input
                             type="text"
                             name="estadoInver"
                             id="estadoInver"
-                            class="w-full rounded-lg border px-4 py-2.5"
+                            class="w-full rounded-lg border px-3 py-2"
                             placeholder="Ingrese el estado">
                     </div>
+
+                    <!-- HITOS -->
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">
+                            Hitos
+                        </label>
+
+                        <input
+                            type="text"
+                            name="acciones"
+                            id="acciones"
+                            class="w-full rounded-lg border px-3 py-2"
+                            placeholder="Ingrese el hito">
+                    </div>
+
                     <!-- FECHA -->
-                    <div>
-                        <label class="block text-sm font-medium mb-2">
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">
                             Fecha
                         </label>
+
                         <input
                             type="date"
                             name="fechas"
                             id="fechas"
-                            class="w-full rounded-lg border px-4 py-2.5">
+                            required
+                            class="w-full rounded-lg border px-3 py-2">
                     </div>
+
                     <!-- SITUACIÓN -->
-                    <div>
-                        <label class="block text-sm font-medium mb-2">
+                    <div class="col-span-4">
+                        <label class="block text-sm font-medium mb-1">
                             Situación
                         </label>
+
                         <input
                             type="text"
                             name="situacion"
                             id="situacion"
-                            class="w-full rounded-lg border px-4 py-2.5"
+                            class="w-full rounded-lg border px-3 py-2"
                             placeholder="Ingrese la situación">
                     </div>
-                    <!-- ACCIONES -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium mb-2">
-                            Hitos
-                        </label>
-                        <textarea
-                            name="acciones"
-                            id="acciones"
-                            rows="1"
-                            class="w-full rounded-lg border px-4 py-2.5 resize-none"
-                            placeholder="Describa las acciones realizadas..."></textarea>
-                    </div>
+
                 </div>
                 <!-- TABLA -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="px-5 py-3 border-b bg-slate-50">
                         <h3 class="text-sm font-semibold text-slate-700">
                             Seguimientos Mensuales
                         </h3>
                     </div>
-                    <div class="max-h-[260px] overflow-y-auto overflow-x-auto">
-                        <table class="min-w-[900px] w-full text-sm">
-                            <thead class="sticky top-0 bg-white border-b z-10">
+                    <div class="max-h-[250px] overflow-y-auto overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="sticky top-0 bg-white border-b">
                                 <tr class="text-left text-slate-500">
-                                    <th class="px-4 py-3 text-center w-16">N°</th>
-                                    <th class="px-4 py-3">Producto</th>
-                                    <th class="px-4 py-3">Estado Inv.</th>
-                                    <th class="px-4 py-3">Hitos</th>
-                                    <th class="px-10 py-3">Fecha</th>
-                                    <th class="px-4 py-3">Situación</th>
-                                    <th class="px-4 py-3 text-center">Acciones</th>
+                                    <th class="px-3 py-2 text-center w-16">N°</th>
+                                    <!-- <th class="px-3 py-2">Producto</th> -->
+                                    <th class="px-3 py-2">Estado Inv.</th>
+                                    <th class="px-3 py-2">Hitos</th>
+                                    <th class="px-10 py-2">Fecha</th>
+                                    <th class="px-3 py-2">Situación</th>
+                                    <th class="px-3 py-2 text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="listaSeguimientosMensuales">
@@ -740,20 +768,36 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-end gap-3 px-6 py-3 bg-slate-50">
+            <div class="flex justify-end gap-3 px-5 py-2 border-t bg-slate-50">
+                <button
+                    type="button"
+                    id="limpiarSeguimiento"
+                    class="px-5 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100">
+
+                    <i class="bi bi-eraser"></i>
+                    Limpiar
+
+                </button>
+
                 <button
                     type="button"
                     id="cancelarModalSeguimiento"
                     class="px-5 py-2.5 border rounded-lg">
+
                     Cancelar
+
                 </button>
+
                 <button
                     type="submit"
                     class="px-5 py-2.5 bg-blue-600 text-white rounded-lg">
+
                     <i class="bi bi-save"></i>
+
                     <span id="textoGuardarSeguimiento">
                         Guardar
                     </span>
+
                 </button>
             </div>
         </form>

@@ -300,3 +300,398 @@ function iniciarDataTable() {
     });
 
 }
+
+//USUARIOS_AREAS
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    iniciarModalUsuarioArea();
+    iniciarEditarUsuarioArea();
+    iniciarGuardarUsuarioArea();
+
+});
+
+
+// =====================================
+// MODAL USUARIO AREA
+// =====================================
+function iniciarModalUsuarioArea() {
+
+    const modal = document.getElementById("modalUsuarioArea");
+
+    if (!modal) return;
+
+
+    document.getElementById("cerrarModalUsuarioArea")
+        ?.addEventListener("click", cerrarModalUsuarioArea);
+
+
+    document.getElementById("cancelarModalUsuarioArea")
+        ?.addEventListener("click", cerrarModalUsuarioArea);
+
+
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+
+            cerrarModalUsuarioArea();
+
+        }
+
+    });
+
+}
+
+
+// =====================================
+// ABRIR MODAL Y CARGAR AREAS
+// =====================================
+function iniciarEditarUsuarioArea() {
+
+
+    document.addEventListener("click", function (e) {
+
+
+        const btn = e.target.closest(".btnAreas");
+
+
+        if (!btn) return;
+        //console.log("Botón áreas presionado");
+
+
+        const idUser = btn.dataset.id;
+
+
+        document.getElementById("idUsuarioArea").value = idUser;
+
+
+        cargarAreasUsuario(idUser);
+
+
+        const modal = document.getElementById("modalUsuarioArea");
+
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+
+    });
+
+}
+
+
+
+// =====================================
+// CARGAR AREAS DEL USUARIO
+// =====================================
+function cargarAreasUsuario(idUser) {
+
+
+    fetch(
+        "index.php?url=usuarioarea_lista&idUser=" + idUser
+    )
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            //console.log("RESPUESTA COMPLETA:");
+            //console.log(data);
+
+
+            const lista = document.getElementById("listaAreas");
+
+
+            lista.innerHTML = "";
+
+
+            if (!data.success) {
+                return;
+            }
+
+
+            data.data.forEach(area => {
+
+
+                const div = document.createElement("div");
+
+
+                div.className =
+                    "flex items-center gap-2";
+
+
+                div.innerHTML = `
+
+                <input
+                    type="checkbox"
+                    name="areas[]"
+                    value="${area.idArea}"
+                    id="area_${area.idArea}"
+                    class="rounded border-gray-300"
+                    checked
+                >
+
+                <label 
+                    for="area_${area.idArea}"
+                    class="text-sm text-gray-700"
+                >
+                    ${area.nombreArea}
+                </label>
+
+            `;
+
+
+                lista.appendChild(div);
+
+
+            });
+
+
+            cargarTodasLasAreasAsignables(
+                idUser,
+                data.data
+            );
+
+
+        });
+
+}
+
+// =====================================
+// CARGAR TODAS LAS AREAS DISPONIBLES
+// =====================================
+function cargarTodasLasAreasAsignables(idUser, asignadas) {
+
+
+    fetch(
+        "index.php?url=usuarioarea_areas"
+    )
+
+        .then(res => res.json())
+
+        .then(response => {
+
+
+            //console.log("AREAS DISPONIBLES:", response);
+
+
+            const lista =
+                document.getElementById("listaAreas");
+
+
+            lista.innerHTML = "";
+
+
+            const areas = response.data ?? response;
+
+
+            areas.forEach(area => {
+
+                const marcado = asignadas.some(
+                    a => a.idAreas == area.idAreas
+                );
+                const div = document.createElement("div");
+
+
+                div.className =
+                    "flex items-center gap-2";
+
+
+                div.innerHTML = `
+
+                <input
+                    type="checkbox"
+                    name="areas[]"
+                    value="${area.idAreas}"
+                    id="area_${area.idAreas}"
+                    class="rounded border-gray-300"
+                    ${marcado ? "checked" : ""}
+                >
+
+                <label 
+                    for="area_${area.idArea}"
+                    class="text-sm text-gray-700"
+                >
+                    ${area.nombreArea}
+                </label>
+
+            `;
+
+
+                lista.appendChild(div);
+
+
+            });
+
+
+            //marcarAreasUsuario(idUser);
+
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error cargando áreas:",
+                error
+            );
+
+        });
+
+}
+
+// =====================================
+// MARCAR AREAS ACTUALES
+// =====================================
+/*
+function marcarAreasUsuario(idUser) {
+
+
+    fetch(
+        "index.php?url=usuarioarea_lista&idUser=" + idUser
+    )
+
+        .then(res => res.json())
+
+        .then(data => {
+
+
+            if (!data.success)
+                return;
+
+
+            data.data.forEach(area => {
+
+
+                const check =
+                    document.getElementById(
+                        "area_" + area.idAreas
+                    );
+
+
+                if (check) {
+
+                    check.checked = true;
+
+                }
+
+
+            });
+
+
+        });
+
+}*/
+
+
+
+// =====================================
+// GUARDAR AREAS
+// =====================================
+function iniciarGuardarUsuarioArea() {
+
+
+    const form =
+        document.getElementById("formUsuarioArea");
+
+
+    if (!form) return;
+
+
+
+    form.addEventListener("submit", function (e) {
+
+
+        e.preventDefault();
+
+
+        Dialog.confirm({
+
+            tipo: "info",
+
+            titulo: "Actualizar áreas",
+
+            mensaje:
+                "¿Desea guardar las áreas asignadas al usuario?",
+
+
+            textoAceptar: "Guardar",
+
+            textoCancelar: "Cancelar",
+
+
+            onAceptar() {
+
+
+                const datos =
+                    new FormData(form);
+
+
+
+                fetch(
+                    "index.php?url=usuarioarea_guardar",
+                    {
+                        method: "POST",
+                        body: datos
+                    }
+                )
+
+                    .then(res => res.json())
+
+                    .then(data => {
+
+
+                        if (data.success) {
+
+
+                            Dialog.alert({
+
+                                tipo: "success",
+
+                                titulo: "Se registro correctamente.",
+
+                                mensaje: data.message
+
+                            });
+
+
+                            cerrarModalUsuarioArea();
+
+
+                        }
+
+
+                    });
+
+
+            }
+
+        });
+
+
+    });
+
+
+}
+
+
+
+// =====================================
+// CERRAR MODAL
+// =====================================
+function cerrarModalUsuarioArea() {
+
+
+    const modal =
+        document.getElementById("modalUsuarioArea");
+
+
+    if (!modal) return;
+
+
+    modal.classList.remove("flex");
+
+    modal.classList.add("hidden");
+
+
+}

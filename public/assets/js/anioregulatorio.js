@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     iniciarModalEjecucionMensual();
     iniciarCalculoIGV();
     iniciarRegistroEjecucion();
-    iniciarModalEjecucionMensual();
+    iniciarModalSeguimientoMensual();
     iniciarEliminarEjecucion();
     iniciarDataTable();
 });
@@ -261,20 +261,12 @@ function iniciarModalEjecucionMensual() {
         modal.classList.remove("flex");
         modal.classList.add("hidden");
     }
-    document.getElementById(
-        "cerrarModalEjecucionMensual"
-    )
-        ?.addEventListener(
-            "click",
-            cerrarModalEjecucion
-        );
-    document.getElementById(
-        "cancelarModalEjecucionMensual"
-    )
-        ?.addEventListener(
-            "click",
-            cerrarModalEjecucion
-        );
+    document.getElementById("cerrarModalEjecucionMensual")
+        ?.addEventListener("click", cerrarModalEjecucion);
+    document.getElementById("cancelarModalEjecucionMensual")
+        ?.addEventListener("click", cerrarModalEjecucion);
+    document.getElementById("limpiarEjecucionMensual")
+        ?.addEventListener("click", limpiarFormularioEjecucion);
     modal.addEventListener(
         "click",
         function (e) {
@@ -311,11 +303,9 @@ function cargarEjecuciones(id) {
                 return;
             }
             data.forEach((e, index) => {
-
                 const archivo = e.archivo
                     ? `
                     <div class="flex justify-center items-center gap-2">
-
                         <!-- VER PDF -->
                         <button
                             type="button"
@@ -329,12 +319,8 @@ function cargarEjecuciones(id) {
                                 transition"
                             data-ruta="${e.archivo}"
                             title="Ver PDF">
-
                             <i class="bi bi-eye-fill"></i>
-
                         </button>
-
-
                         <!-- DESCARGAR -->
                         <button
                             type="button"
@@ -348,11 +334,8 @@ function cargarEjecuciones(id) {
                                 transition"
                             data-id="${e.idEjecucionMensual}"
                             title="Descargar PDF">
-
                             <i class="bi bi-download"></i>
-
                         </button>
-
                     </div>
                     `
                     :
@@ -361,38 +344,28 @@ function cargarEjecuciones(id) {
                     Sin archivo
                     </span>
                     `;
-
                 tbody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
-
                         <td class="px-4 py-2 text-center">
                             ${index + 1}
                         </td>
-
                         <td class="px-4 py-2">
                             ${e.mes}
                         </td>
-
                         <td class="px-4 py-2 text-right">
                             S/ ${parseFloat(e.ejecutado).toFixed(2)}
                         </td>
-
                         <td class="px-4 py-2 text-right">
                             S/ ${parseFloat(e.igv).toFixed(2)}
                         </td>
-
                         <td class="px-4 py-2 text-right font-semibold text-blue-700">
                             S/ ${parseFloat(e.total).toFixed(2)}
                         </td>
-
                         <td class="px-4 py-2 text-center">
                             ${archivo}
                         </td>
-
                         <td class="px-4 py-2 text-center">
-
                             <div class="flex justify-center items-center gap-2">
-
                                 <!-- EDITAR -->
                                 <button
                                     type="button"
@@ -406,12 +379,8 @@ function cargarEjecuciones(id) {
                                         transition"
                                     data-id="${e.idEjecucionMensual}"
                                     title="Editar">
-
                                     <i class="bi bi-pencil"></i>
-
                                 </button>
-
-
                                 <!-- ELIMINAR
                                 <button
                                     type="button"
@@ -425,94 +394,51 @@ function cargarEjecuciones(id) {
                                         transition"
                                     data-id="${e.idEjecucionMensual}"
                                     title="Eliminar">
-
                                     <i class="bi bi-trash"></i>
-
                                 </button>-->
-
                             </div>
-
                         </td>
-
                     </tr>
                 `;
-
             });
         });
 }
-
 // =====================================
 // ELIMINAR EJECUCIÓN MENSUAL
 // =====================================
 function iniciarEliminarEjecucion() {
-
     document.addEventListener("click", function (e) {
-
         const btn =
             e.target.closest(".btnEliminarEjecucion");
-
-
         if (!btn) return;
-
-
         const id =
             btn.dataset.id;
-
-
         const idAnio =
             document.getElementById("idAnioRegulatorio").value;
-
-
         Dialog.confirm({
-
             tipo: "danger",
-
             titulo: "Desactivar ejecución",
-
             mensaje: `
                 ¿Desea desactivar esta ejecución mensual?
                 <br><br>
                 El registro no será eliminado, solo quedará inactivo.
             `,
-
             textoAceptar: "Desactivar",
-
             textoCancelar: "Cancelar",
-
-
             onAceptar() {
-
-
                 fetch(
                     "index.php?url=ejecucionmensual_delete&id="
                     + id
                 )
-
                     .then(res => res.json())
-
                     .then(data => {
-
-
                         if (data.success) {
-
-
                             cargarEjecuciones(idAnio);
-
-
                         }
-
-
                     });
-
-
             }
-
-
         });
-
-
     });
-
 }
 // =====================================
 // EDITAR EJECUCIÓN
@@ -550,294 +476,176 @@ function nombreMes(numero) {
     return meses[numero];
 }
 function editarEjecucion(id) {
-
     fetch(
         "index.php?url=ejecucionmensual_show&id=" + id
     )
-
         .then(res => res.json())
-
         .then(data => {
-
             //console.log(data);
-
-
             document.getElementById(
                 "idEjecucionMensual"
             ).value = data.idEjecucionMensual;
-
-
             document.getElementById(
                 "mes"
             ).value = data.mes;
-
-
             document.getElementById(
                 "ejecutado"
             ).value = data.ejecutado;
-
-
             // Calculamos automáticamente
             const monto = parseFloat(data.ejecutado) || 0;
-
             const igv = monto * 0.18;
-
             document.getElementById(
                 "igv"
             ).value = igv.toFixed(2);
-
-
             document.getElementById(
                 "total"
             ).value =
                 (monto + igv).toFixed(2);
-
             const aplicaIgv =
                 document.getElementById("aplicaIgv");
-
-
             aplicaIgv.checked =
                 Number(data.igv) > 0;
-
             // luego recalcular
             document.getElementById("ejecutado")
                 .dispatchEvent(
                     new Event("input")
                 );
-
             document.getElementById(
                 "tituloModalEjecucion"
             ).innerHTML =
                 "Editar Ejecución";
-
-
             document.getElementById(
                 "textoGuardar"
             ).innerHTML =
                 "Actualizar";
-
-
             abrirModalEjecucion();
-
-
         });
-
 }
 function limpiarFormularioEjecucion() {
-
     document.getElementById("idEjecucionMensual").value = "";
-
     document.getElementById("mes").value = "";
-
     document.getElementById("ejecutado").value = "0.00";
-
     document.getElementById("igv").value = "0.00";
-
     document.getElementById("total").value = "0.00";
-    document.getElementById("aplicaIgv").checked = true;
-
     document.getElementById("archivo").value = "";
-
+    document.getElementById("aplicaIgv").checked = true;
     document.getElementById("tituloModalEjecucion").innerHTML =
         "Ejecución Mensual";
-
     document.getElementById("textoGuardar").innerHTML =
         "Guardar";
-
+    // Recalcular para dejar los valores consistentes
+    document.getElementById("ejecutado")
+        .dispatchEvent(new Event("input"));
 }
-
 // =====================================
 // CALCULAR IGV Y TOTAL
 // =====================================
 function iniciarCalculoIGV() {
-
     const monto =
         document.getElementById("ejecutado");
-
     const igv =
         document.getElementById("igv");
-
     const total =
         document.getElementById("total");
-
     const aplicaIgv =
         document.getElementById("aplicaIgv");
-
-
     if (!monto || !igv || !total || !aplicaIgv) return;
-
-
     function calcular() {
-
         const valor =
             parseFloat(monto.value) || 0;
-
-
         let valorIgv = 0;
-
-
         if (aplicaIgv.checked) {
-
             valorIgv = valor * 0.18;
-
         }
-
-
         igv.value =
             valorIgv.toFixed(2);
-
-
         total.value =
             (valor + valorIgv).toFixed(2);
-
     }
-
-
     monto.addEventListener(
         "input",
         calcular
     );
-
-
     aplicaIgv.addEventListener(
         "change",
         calcular
     );
-
-
     // calcular al abrir o editar
     calcular();
-
 }
-
 // =====================================
 // REGISTRAR / ACTUALIZAR EJECUCIÓN
 // =====================================
-
 function iniciarRegistroEjecucion() {
-
     const form = document.getElementById("formEjecucionMensual");
-
     if (!form) return;
-
     form.addEventListener("submit", function (e) {
-
         e.preventDefault();
-
         const editando =
             document.getElementById("idEjecucionMensual").value !== "";
-
         Dialog.confirm({
-
             tipo: editando ? "warning" : "info",
-
             titulo: editando
                 ? "Actualizar ejecución"
                 : "Registrar ejecución",
-
             mensaje: editando
                 ? "¿Desea actualizar este registro de ejecución?"
                 : "¿Desea registrar esta ejecución mensual?",
-
             textoAceptar: editando
                 ? "Actualizar"
                 : "Guardar",
-
             textoCancelar: "Cancelar",
-
             onAceptar() {
-
                 const datos = new FormData(form);
-
                 fetch("index.php?url=ejecucionmensual_store", {
-
                     method: "POST",
-
                     body: datos
-
                 })
-
                     .then(r => r.json())
-
                     .then(res => {
-
                         if (res.success) {
-
                             Dialog.toast({
-
                                 tipo: "success",
-
                                 mensaje: res.mensaje
-
                             });
-
                             cargarEjecuciones(
                                 document.getElementById("idAnioRegulatorio").value
                             );
-
                             limpiarFormularioEjecucion();
-
                         } else {
-
                             Dialog.toast({
-
                                 tipo: "error",
-
                                 mensaje: res.mensaje
-
                             });
-
                         }
-
                     });
-
             }
-
         });
-
     });
-
 }
 // =====================================
 // ARCHIVO PDF EJECUCIÓN
 // =====================================
-
 document.addEventListener(
     "click",
     function (e) {
-
         const btn =
             e.target.closest(".btnArchivoEjecucion");
-
-
         if (!btn) return;
-
-
         const ruta = btn.dataset.ruta;
-
-
         window.open(
             ruta,
             "_blank"
         );
-
     }
 );
 document.addEventListener("click", function (e) {
-
-
     const btn =
         e.target.closest(".btnDescargarEjecucion");
-
-
     if (!btn) return;
-
-
     window.location =
         "index.php?url=ejecucionmensual_download&id=" +
         btn.dataset.id;
-
-
 });
 // =====================================
 // DESCARGAR PDF EJECUCIÓN
@@ -846,41 +654,20 @@ document.addEventListener("click", function (e) {
 document.addEventListener(
     "click",
     function (e) {
-
         const btn =
             e.target.closest(".btnDescargarEjecucion");
-
-
         if (!btn) return;
-
-
         const ruta =
             btn.dataset.ruta;
-
-
         const enlace =
             document.createElement("a");
-
-
         enlace.href = ruta;
-
         enlace.download = "";
-
-
         document.body.appendChild(enlace);
-
-
         enlace.click();
-
-
         enlace.remove();
-
-
     }
 );*/
-// =====================================
-// SEGUIMIENTO
-// =====================================
 // =====================================
 // ABRIR MODAL SEGUIMIENTO
 // =====================================
@@ -920,6 +707,8 @@ function iniciarModalSeguimientoMensual() {
         ?.addEventListener("click", cerrarModalSeguimiento);
     document.getElementById("cancelarModalSeguimiento")
         ?.addEventListener("click", cerrarModalSeguimiento);
+    document.getElementById("limpiarSeguimiento")
+        ?.addEventListener("click", limpiarFormularioSeguimiento);
     modal.addEventListener("click", function (e) {
         if (e.target === modal) {
             cerrarModalSeguimiento();
@@ -947,25 +736,25 @@ function cargarSeguimientos(id) {
             data.forEach((s, index) => {
                 tbody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
-                        <td class="px-4 py-3 text-center">
+                        <td class="px-4 py-2 text-center">
                             ${index + 1}
                         </td>
-                        <td class="px-4 py-3">
-                            ${s.producto}
-                        </td>
-                        <td class="px-4 py-3">
+                        <!--<td class="px-4 py-2">
+                            {s.producto}
+                        </td>-->
+                        <td class="px-4 py-2">
                             ${s.estadoInver}
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-2">
                             ${s.acciones}
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-2">
                             ${s.fechas}
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-2">
                             ${s.situacion}
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-2">
                             <div class="flex items-center justify-center gap-2">
                                 <!-- EDITAR -->
                                 <button
@@ -994,28 +783,38 @@ document.addEventListener("click", function (e) {
     eliminarSeguimiento(btn.dataset.id);
 });
 function eliminarSeguimiento(id) {
-    if (!confirm("¿Está seguro de eliminar este seguimiento?")) {
-        return;
-    }
-    fetch(
-        "index.php?url=seguimientomensual_delete&id=" + id,
-        {
-            method: "GET"
+    Dialog.confirm({
+        tipo: "danger",
+        titulo: "Eliminar seguimiento",
+        mensaje: "¿Desea eliminar este seguimiento?",
+        textoAceptar: "Eliminar",
+        textoCancelar: "Cancelar",
+        onAceptar() {
+            fetch(
+                "index.php?url=seguimientomensual_delete&id=" + id
+            )
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Dialog.alert({
+                            tipo: "success",
+                            titulo: "Correcto",
+                            mensaje: "Seguimiento eliminado correctamente."
+                        });
+                        cargarSeguimientos(
+                            document.getElementById("idAnioRegulatorioSeguimiento").value
+                        );
+                        limpiarFormularioSeguimiento();
+                    } else {
+                        Dialog.alert({
+                            tipo: "error",
+                            titulo: "Error",
+                            mensaje: "No se pudo eliminar el seguimiento."
+                        });
+                    }
+                });
         }
-    )
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                alert("Seguimiento eliminado correctamente");
-                cargarSeguimientos(
-                    document.getElementById(
-                        "idAnioRegulatorioSeguimiento"
-                    ).value
-                );
-            } else {
-                alert("No se pudo eliminar");
-            }
-        });
+    });
 }
 document.addEventListener("click", function (e) {
     const btn = e.target.closest(".btnEditarSeguimiento");
@@ -1026,28 +825,19 @@ function editarSeguimiento(id) {
     fetch("index.php?url=seguimientomensual_show&id=" + id)
         .then(res => res.json())
         .then(data => {
-            document.getElementById("idSeguimientoMensual").value =
-                data.idSeguimientoMensual;
-            document.getElementById("producto").value =
-                data.producto;
-            document.getElementById("estadoInver").value =
-                data.estadoInver;
-            document.getElementById("fechas").value =
-                data.fechas;
-            document.getElementById("situacion").value =
-                data.situacion;
-            document.getElementById("acciones").value =
-                data.acciones;
-            document.getElementById("tituloModalSeguimiento").innerHTML =
-                "Editar Seguimiento";
-            document.getElementById("textoGuardarSeguimiento").innerHTML =
-                "Actualizar";
+            document.getElementById("idSeguimientoMensual").value = data.idSeguimientoMensual;
+            //document.getElementById("producto").value = data.producto;
+            document.getElementById("estadoInver").value = data.estadoInver;
+            document.getElementById("fechas").value = data.fechas;
+            document.getElementById("situacion").value = data.situacion;
+            document.getElementById("acciones").value = data.acciones;
+            document.getElementById("tituloModalSeguimiento").innerHTML = "Editar Seguimiento";
+            document.getElementById("textoGuardarSeguimiento").innerHTML = "Actualizar";
             abrirModalSeguimiento();
         });
 }
 function limpiarFormularioSeguimiento() {
     document.getElementById("idSeguimientoMensual").value = "";
-    document.getElementById("producto").value = "";
     document.getElementById("estadoInver").value = "";
     document.getElementById("fechas").value = "";
     document.getElementById("situacion").value = "";
@@ -1056,8 +846,37 @@ function limpiarFormularioSeguimiento() {
         "Seguimiento";
     document.getElementById("textoGuardarSeguimiento").innerHTML =
         "Guardar";
+    document.getElementById("estadoInver").focus();
 }
-// INICIAR EVENTOS DEL MODAL
-document.addEventListener("DOMContentLoaded", () => {
-    iniciarModalSeguimientoMensual();
-});
+document
+    .getElementById("formSeguimientoMensual")
+    .addEventListener("submit", guardarSeguimiento);
+function guardarSeguimiento(e) {
+    e.preventDefault();
+    const form = document.getElementById("formSeguimientoMensual");
+    const datos = new FormData(form);
+    fetch("index.php?url=seguimientomensual_store", {
+        method: "POST",
+        body: datos
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                Dialog.alert({
+                    tipo: "success",
+                    titulo: "Correcto",
+                    mensaje: data.mensaje
+                });
+                cargarSeguimientos(
+                    document.getElementById("idAnioRegulatorioSeguimiento").value
+                );
+                limpiarFormularioSeguimiento();
+            } else {
+                Dialog.alert({
+                    tipo: "error",
+                    titulo: "Error",
+                    mensaje: data.mensaje
+                });
+            }
+        });
+}
