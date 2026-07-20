@@ -69,7 +69,7 @@
                         <option
                             value="<?= $estudio['idEstudioTarifario']; ?>"
                             <?= ($filtrosActivos['estudio'] == $estudio['idEstudioTarifario']) ? 'selected' : '' ?>>
-                            <?= $estudio['codigo']; ?> - <?= $estudio['nombre']; ?>
+                            <?= $estudio['nombre']; ?> | <?= $estudio['anioInicio']; ?> - <?= $estudio['anioFin']; ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -162,10 +162,10 @@
                     name="area"
                     <?= empty($filtrosActivos['fondo']) ? 'disabled' : '' ?>
                     class="w-full rounded-xl border-slate-300 px-4 py-2.5
-                    focus:ring-2 focus:ring-blue-500
-                    disabled:bg-slate-100
-                    disabled:text-slate-400
-                    disabled:cursor-not-allowed">
+                            focus:ring-2 focus:ring-blue-500
+                            disabled:bg-slate-100
+                            disabled:text-slate-400
+                            disabled:cursor-not-allowed">
                     <option value="">Todas</option>
                     <?php foreach ($filtros['areas'] as $area): ?>
                         <option

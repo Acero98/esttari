@@ -16,6 +16,7 @@ class AnioRegulatorioController
         $model = new AnioRegulatorioModel($conexion);
         $inversionModel = new InversionModel($conexion);
         $idInversion = $_GET['idInversiones'] ?? null;
+        $estudioTarifario = null;
         if (!$idInversion) {
             $_SESSION['mensaje'] =
                 "No se encontró la inversión.";
@@ -23,14 +24,15 @@ class AnioRegulatorioController
             header("Location:index.php?url=inversiones");
             exit;
         }
-        $inversion =
-            $inversionModel->getById($idInversion);
-        $anios =
-            $model->getByInversion($idInversion);
-        $estudioModel =
-            new EstudioTarifarioModel($conexion);
-        $estudiosTarifarios =
-            $estudioModel->getAll();
+        $inversion = $inversionModel->getById($idInversion);
+        // Obtener el estudio tarifario de la inversión
+        $estudioTarifario =
+            $model->obtenerEstudioTarifarioPorInversion(
+                $idInversion
+            );
+        $anios = $model->getByInversion($idInversion);
+        $estudioModel = new EstudioTarifarioModel($conexion);
+        $estudiosTarifarios = $estudioModel->getAll();
         require_once "../app/Views/layouts/header.php";
         require_once "../app/Views/layouts/navbar.php";
         require_once "../app/Views/anioregulatorio/index.php";
@@ -62,7 +64,7 @@ class AnioRegulatorioController
         require_once "../app/Views/anioregulatorio/detalle.php";
         require_once "../app/Views/layouts/footer.php";
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | REGISTRAR AÑO REGULATORIO

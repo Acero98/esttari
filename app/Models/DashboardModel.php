@@ -471,7 +471,9 @@ class DashboardModel
             SELECT
                 idEstudioTarifario,
                 codigo,
-                nombre
+                nombre,
+                anioInicio,
+                anioFin
             FROM estudio_tarifario
             WHERE estado = 'ACTIVO'
             ORDER BY anioInicio ASC

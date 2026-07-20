@@ -131,23 +131,23 @@
                         value="<?= $inversion['idInversiones'] ?>">
                     <!-- ESTUDIO TARIFARIO -->
                     <div>
+
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Estudio Tarifario
                         </label>
-                        <select
+
+                        <div class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2.5 text-slate-700">
+
+                            <?= htmlspecialchars($estudioTarifario['nombre']) ?>
+                            (<?= $estudioTarifario['anioInicio'] ?> - <?= $estudioTarifario['anioFin'] ?>)
+
+                        </div>
+
+                        <input
+                            type="hidden"
                             name="idEstudioTarifario"
-                            required
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                            <option value="">
-                                Seleccionar
-                            </option>
-                            <?php foreach ($estudiosTarifarios as $et): ?>
-                                <option value="<?= $et['idEstudioTarifario'] ?>">
-                                    <?= $et['nombre'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                            value="<?= $estudioTarifario['idEstudioTarifario'] ?>">
+
                     </div>
                     <!-- AÑO -->
                     <div>
@@ -296,24 +296,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <!-- ESTUDIO TARIFARIO -->
                     <div>
+
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Estudio Tarifario
                         </label>
-                        <select
+
+                        <div
+                            id="edit_estudioTarifarioNombre"
+                            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2.5 text-slate-700">
+
+                        </div>
+
+                        <input
+                            type="hidden"
                             name="idEstudioTarifario"
-                            id="edit_idEstudioTarifario"
-                            required
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                            <option value="">
-                                Seleccionar
-                            </option>
-                            <?php foreach ($estudiosTarifarios as $et): ?>
-                                <option value="<?= $et['idEstudioTarifario'] ?>">
-                                    <?= $et['nombre'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                            id="edit_idEstudioTarifario">
+
                     </div>
                     <!-- AÑO -->
                     <div>

@@ -81,7 +81,16 @@ function iniciarEditarAnioRegulatorio() {
                 //console.log(data);
                 const a = data.anio;
                 document.getElementById("edit_idAnioRegulatorio").value = a.idAnioRegulatorio;
-                document.getElementById("edit_idEstudioTarifario").value = a.idEstudioTarifario;
+                document.getElementById("edit_idEstudioTarifario").value =
+                    data.anio.idEstudioTarifario;
+
+                document.getElementById("edit_estudioTarifarioNombre").textContent =
+                    data.anio.estudioTarifario +
+                    " (" +
+                    data.anio.anioInicio +
+                    " - " +
+                    data.anio.anioFin +
+                    ")";
                 document.getElementById("edit_anio").value = a.anio;
                 document.getElementById("edit_programado").value = a.programado;
                 //document.getElementById("edit_ejecutado").value = a.ejecutado ?? 0;

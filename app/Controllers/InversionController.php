@@ -15,6 +15,7 @@ class InversionController
             'idUser' => $_SESSION['idUser'],
             'idRol'  => $_SESSION['idRol']
         ]);
+        $estudios = $model->getEstudiosTarifarios();
         $fondos = $model->getFondos();
         $areas = $model->getAreas();
 
@@ -31,6 +32,7 @@ class InversionController
         $model = new InversionModel($conexion);
 
         $data = [
+            'idEstudioTarifario' => $_POST['idEstudioTarifario'],
             'idFondos'      => $_POST['idFondos'],
             'idAreas'       => $_POST['idAreas'],
             'cui'           => trim($_POST['cui']),
@@ -84,6 +86,7 @@ class InversionController
         $model = new InversionModel($conexion);
 
         $data = [
+            'idEstudioTarifario' => $_POST['idEstudioTarifario'],
             'idFondos'      => $_POST['idFondos'],
             'idAreas'       => $_POST['idAreas'],
             'cui'           => trim($_POST['cui']),

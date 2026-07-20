@@ -11,6 +11,7 @@ class InversionModel
     {
         $sql = "SELECT
                     i.idInversiones,
+                    i.idEstudioTarifario,
                     i.idFondos,
                     i.idAreas,
                     f.nombreFondo,
@@ -36,6 +37,7 @@ class InversionModel
     {
         $sql = "SELECT
                     idInversiones,
+                    idEstudioTarifario,
                     idFondos,
                     idAreas,
                     cui,
@@ -77,6 +79,7 @@ class InversionModel
     {
         $sql = "INSERT INTO inversiones
                 (
+                    idEstudioTarifario,
                     idFondos,
                     idAreas,
                     cui,
@@ -88,6 +91,7 @@ class InversionModel
                 )
                 VALUES
                 (
+                    :idEstudioTarifario,
                     :idFondos,
                     :idAreas,
                     :cui,
@@ -99,6 +103,7 @@ class InversionModel
                 )";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
+            ':idEstudioTarifario'      => $data['idEstudioTarifario'],
             ':idFondos'      => $data['idFondos'],
             ':idAreas'       => $data['idAreas'],
             ':cui'           => empty($data['cui']) ? null : $data['cui'],
@@ -112,6 +117,7 @@ class InversionModel
     {
         $sql = "UPDATE inversiones
                 SET
+                    idEstudioTarifario = :idEstudioTarifario,
                     idFondos = :idFondos,
                     idAreas = :idAreas,
                     cui = :cui,
@@ -121,6 +127,7 @@ class InversionModel
                 WHERE idInversiones = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
+            ':idEstudioTarifario'      => $data['idEstudioTarifario'],
             ':idFondos'      => $data['idFondos'],
             ':idAreas'       => $data['idAreas'],
             ':cui'           => $data['cui'],
@@ -179,6 +186,7 @@ class InversionModel
         $sql = "
             SELECT
                 i.idInversiones,
+                i.idEstudioTarifario,
                 i.idFondos,
                 i.idAreas,
                 f.nombreFondo,
@@ -251,16 +259,27 @@ class InversionModel
         $sql = "
             SELECT
                 i.*,
+                et.nombre AS nombreEstudioTarifario,
+                et.anioInicio,
+                et.anioFin,
                 f.nombreFondo,
                 a.nombreArea,
+                a.siglasArea,
                 g.nombreGerencia
+
             FROM inversiones i
+
+            INNER JOIN estudio_tarifario et
+                ON et.idEstudioTarifario = i.idEstudioTarifario
+
             INNER JOIN fondos f
-            ON f.idFondos = i.idFondos
+                ON f.idFondos = i.idFondos
+
             INNER JOIN areas a
-            ON a.idAreas = i.idAreas
+                ON a.idAreas = i.idAreas
+
             INNER JOIN gerencias g
-            ON g.idGerencias = a.idGerencias
+                ON g.idGerencias = a.idGerencias
         ";
         // Super Admin, Admin, Gerente General
         if (
@@ -314,5 +333,23 @@ class InversionModel
             $idEstudioTarifario
         ]);
         return $stmt->fetchColumn() > 0;
+    }
+
+    public function getEstudiosTarifarios()
+    {
+        $sql = "
+            SELECT
+                idEstudioTarifario,
+                nombre,
+                anioInicio,
+                anioFin
+            FROM estudio_tarifario
+            WHERE estado = 1
+            ORDER BY anioInicio DESC
+        ";
+
+        return $this->db
+            ->query($sql)
+            ->fetchAll(PDO::FETCH_ASSOC);
     }
 }

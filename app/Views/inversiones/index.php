@@ -30,26 +30,28 @@
                             <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">CUI</th>
                             <th class="px-4 py-3">Nom. Resumen</th>
+                            <th class="px-4 py-3">Est. Tarifario</th>
                             <th class="px-4 py-3">Fondo</th>
                             <th class="px-4 py-3">Área</th>
-                            <!-- <th class="px-4 py-3">Nombre</th> -->
-                            <th class="px-4 py-3">Creado</th>
+                            <!-- <th class="px-4 py-3">Nombre</th> 
+                            <th class="px-4 py-3">Creado</th>-->
                             <th class="px-4 py-3">Estado</th>
                             <th class="px-4 py-3">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200">
+                    <tbody class="divide-y divide-slate-200 align-middle">
                         <?php foreach ($inversiones as $index => $i): ?>
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
                                 <td class="px-4 py-3"><?= $i['descripcion'] ?></td>
+                                <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'].' ('.$i['anioInicio'].' - '.$i['anioFin'].')' ?></td>
                                 <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
-                                <td class="px-4 py-3"><?= $i['nombreArea'] ?></td>
+                                <td class="px-4 py-3"><?= $i['siglasArea'] ?></td>
                                 <!-- <td class="px-4 py-3 max-w-md whitespace-normal">
                                     <= $i['nombre'] ?>
-                                </td> -->
-                                <td class="px-4 py-3"><?= $i['fechaCreado'] ?></td>
+                                </td> 
+                                <td class="px-4 py-3"><= $i['fechaCreado'] ?></td>-->
                                 <td class="px-4 py-3">
                                     <?php if ($i['estado'] == 1): ?>
                                         <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
@@ -141,6 +143,32 @@
             action="index.php?url=inversiones_store">
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Estudio Tarifario -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Estudio Tarifario
+                        </label>
+
+                        <select
+                            name="idEstudioTarifario"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                focus:ring-2 focus:ring-blue-500
+                                focus:border-blue-500 outline-none">
+
+                            <option value="">Seleccione...</option>
+
+                            <?php foreach ($estudios as $e): ?>
+
+                                <option value="<?= $e['idEstudioTarifario'] ?>">
+                                    <?= htmlspecialchars($e['nombre']) ?>
+                                    (<?= $e['anioInicio'] ?> - <?= $e['anioFin'] ?>)
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
                     <!-- Fondo -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
@@ -150,8 +178,8 @@
                             name="idFondos"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                             <option value="">Seleccione...</option>
                             <?php foreach ($fondos as $f): ?>
                                 <option value="<?= $f['idFondos'] ?>">
@@ -160,24 +188,32 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <!-- Área -->
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">
-                            Área
-                        </label>
-                        <select
-                            name="idAreas"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
-                            <option value="">Seleccione...</option>
-                            <?php foreach ($areas as $a): ?>
-                                <option value="<?= $a['idAreas'] ?>">
-                                    <?= $a['nombreArea'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                </div>
+                <!-- Área ocupa toda la fila -->
+                <div class="mt-5">
+
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Área Responsable
+                    </label>
+
+                    <select
+                        name="idAreas"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                focus:ring-2 focus:ring-blue-500
+                                focus:border-blue-500 outline-none">
+
+                        <option value="">Seleccione...</option>
+
+                        <?php foreach ($areas as $a): ?>
+                            <option value="<?= $a['idAreas'] ?>">
+                                <?= $a['nombreArea'] ?>
+                            </option>
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-2 gap-5 mt-5">
                     <!-- CUI -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
@@ -188,8 +224,8 @@
                             name="cui"
                             maxlength="20"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Descripción -->
                     <div>
@@ -201,8 +237,8 @@
                             name="descripcion"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombre -->
                     <div class="md:col-span-2">
@@ -214,10 +250,10 @@
                             rows="4"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none resize-none"></textarea>
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none resize-none"></textarea>
                     </div>
-                    <!-- Observaciones -->
+                    <!-- Observaciones 
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Observaciones
@@ -228,7 +264,7 @@
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
                                    focus:ring-2 focus:ring-blue-500
                                    focus:border-blue-500 outline-none resize-none"></textarea>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- FOOTER -->
@@ -282,6 +318,31 @@
                 id="edit_id">
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Estudio Tarifario -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Estudio Tarifario
+                        </label>
+
+                        <select
+                            name="idEstudioTarifario"
+                            id="edit_idEstudioTarifario"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
+
+                            <option value="">Seleccione...</option>
+
+                            <?php foreach ($estudios as $e): ?>
+                                <option value="<?= $e['idEstudioTarifario'] ?>">
+                                    <?= $e['nombre'] ?>
+                                    (<?= $e['anioInicio'] ?> - <?= $e['anioFin'] ?>)
+                                </option>
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
                     <!-- Fondo -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
@@ -302,26 +363,37 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <!-- Área -->
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">
-                            Área
-                        </label>
-                        <select
-                            name="idAreas"
-                            id="edit_idAreas"
-                            required
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
-                            <option value="">Seleccione...</option>
-                            <?php foreach ($areas as $a): ?>
-                                <option value="<?= $a['idAreas'] ?>">
-                                    <?= $a['nombreArea'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                </div>
+
+                <!-- Área ocupa toda la fila -->
+                <div class="mt-5">
+
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Área Responsable
+                    </label>
+
+                    <select
+                        name="idAreas"
+                        id="edit_idAreas"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                focus:ring-2 focus:ring-blue-500
+                                focus:border-blue-500 outline-none">
+
+                        <option value="">Seleccione...</option>
+
+                        <?php foreach ($areas as $a): ?>
+                            <option value="<?= $a['idAreas'] ?>">
+                                <?= $a['nombreArea'] ?>
+                            </option>
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+
+                <!-- CUI / Nombre Resumen -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                     <!-- CUI -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
@@ -333,8 +405,8 @@
                             id="edit_cui"
                             maxlength="20"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Descripción -->
                     <div>
@@ -347,8 +419,8 @@
                             id="edit_descripcion"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombre -->
                     <div class="md:col-span-2">
@@ -361,10 +433,10 @@
                             rows="4"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none resize-none"></textarea>
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none resize-none"></textarea>
                     </div>
-                    <!-- Observaciones -->
+                    <!-- Observaciones
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Observaciones
@@ -374,9 +446,9 @@
                             id="edit_observaciones"
                             rows="3"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none resize-none"></textarea>
-                    </div>
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none resize-none"></textarea>
+                    </div> -->
                 </div>
             </div>
             <!-- FOOTER -->
