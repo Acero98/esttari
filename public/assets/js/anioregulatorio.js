@@ -381,7 +381,7 @@ function cargarEjecuciones(id) {
                                     title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <!-- ELIMINAR
+                                <!-- ELIMINAR-->
                                 <button
                                     type="button"
                                     class="btnEliminarEjecucion 
@@ -395,7 +395,7 @@ function cargarEjecuciones(id) {
                                     data-id="${e.idEjecucionMensual}"
                                     title="Eliminar">
                                     <i class="bi bi-trash"></i>
-                                </button>-->
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -417,13 +417,13 @@ function iniciarEliminarEjecucion() {
             document.getElementById("idAnioRegulatorio").value;
         Dialog.confirm({
             tipo: "danger",
-            titulo: "Desactivar ejecución",
+            titulo: "Eliminar ejecución",
             mensaje: `
-                ¿Desea desactivar esta ejecución mensual?
+                ¿Desea eliminar esta ejecución mensual?
                 <br><br>
-                El registro no será eliminado, solo quedará inactivo.
+                El registro se eliminará permanentemente.
             `,
-            textoAceptar: "Desactivar",
+            textoAceptar: "Eliminar",
             textoCancelar: "Cancelar",
             onAceptar() {
                 fetch(
@@ -433,7 +433,19 @@ function iniciarEliminarEjecucion() {
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
+                            Dialog.alert({
+                                tipo: "success",
+                                titulo: "Éxito",
+                                mensaje: data.mensaje
+                            });
+
                             cargarEjecuciones(idAnio);
+                        } else {
+                            Dialog.alert({
+                                tipo: "error",
+                                titulo: "Error",
+                                mensaje: data.mensaje
+                            });
                         }
                     });
             }
@@ -769,7 +781,7 @@ function cargarSeguimientos(id) {
                                     class="btnEliminarSeguimiento inline-flex p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
                                     data-id="${s.idSeguimientoMensual}">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </button>v
                             </div>
                         </td>
                     </tr>

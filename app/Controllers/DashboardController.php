@@ -12,6 +12,27 @@ class DashboardController
             exit;
         }
 
+        $idRol = $_SESSION['idRol'] ?? null;
+
+
+        $rolesGerenciales = [
+            1, // Super Admin
+            2, // Admin
+            3  // GerenteGeneral
+        ];
+
+
+        // Si NO es gerencial mostramos dashboard operativo
+
+        if (!in_array($idRol, $rolesGerenciales)) {
+
+            header(
+                "Location: index.php?url=dashboardInversion"
+            );
+
+            exit;
+        }
+
         global $conexion;
 
         $model = new DashboardModel($conexion);

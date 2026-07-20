@@ -24,7 +24,7 @@
     </div>
     <!-- MENÚ PRINCIPAL -->
     <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
-        <a href="index.php?url=dashboard" class="hover:text-slate-900">Dashboard</a>
+        <!-- <a href="index.php?url=dashboard" class="hover:text-slate-900">Dashboard</a> -->
         <div class="relative" x-data="{ open: false }">
             <button @click="open = !open"
                 class="hover:text-slate-900 flex items-center gap-1">
@@ -40,7 +40,7 @@
                     class="block px-2 py-1 rounded hover:bg-slate-100">
                     Dashboard Gerencial
                 </a>
-                <a href="index.php?url=dashboardinversion"
+                <a href="index.php?url=dashboardInversion"
                     class="block px-2 py-1 rounded hover:bg-slate-100">
                     Dashboard Inversiones
                 </a>

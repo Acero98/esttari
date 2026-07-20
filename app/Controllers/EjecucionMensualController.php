@@ -296,7 +296,7 @@ class EjecucionMensualController
             "success" => $ok,
 
             "mensaje" => $ok
-                ? "Ejecución desactivada correctamente"
+                ? "Ejecución eliminada correctamente"
                 : "Error al desactivar"
 
         ]);

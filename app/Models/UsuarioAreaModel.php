@@ -205,4 +205,35 @@ class UsuarioAreaModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function obtenerAreasUsuario($idUser)
+    {
+        $sql = "
+            SELECT idAreas
+            FROM usuarios_areas
+            WHERE idUser = ?
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idUser]);
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+    public function usuarioTieneArea($idUser, $idArea)
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM usuarios_areas
+            WHERE idUser = ?
+            AND idAreas = ?
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            $idUser,
+            $idArea
+        ]);
+
+        return $stmt->fetchColumn() > 0;
+    }
 }

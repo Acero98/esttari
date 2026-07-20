@@ -446,12 +446,17 @@ elseif ($url == 'usuarioarea_por_area') {
     $controller->usuariosPorArea();
 }
 elseif ($url == 'usuarioarea_areas') {
-
     require_once "../app/Controllers/UsuarioAreaController.php";
-
     $controller = new UsuarioAreaController();
-
     $controller->areas();
+}
+
+// DASHBOARD EJECUTIVO DE INVERSIÓN
+elseif ($url == 'dashboardInversion') {
+    autorizar('dashboardInversion');
+    require_once "../app/Controllers/DashboardInversionController.php";
+    $controller = new DashboardInversionController();
+    $controller->index();
 }
 
 elseif ($url == 'logout') {

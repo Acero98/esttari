@@ -187,14 +187,11 @@ class EjecucionMensualModel
     public function cambiarEstado($id)
     {
 
-        $sql = "
-        UPDATE ejecucion_mensual
-        SET
-            estado = 0,
-            fechaActualizado = NOW()
-        WHERE idEjecucionMensual = :id
-    ";
 
+        $sql = "
+            DELETE FROM ejecucion_mensual
+            WHERE idEjecucionMensual = :id
+        ";
 
         $stmt = $this->db->prepare($sql);
 

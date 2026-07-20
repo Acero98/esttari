@@ -182,7 +182,6 @@ class InversionModel
             $stmt->execute([
                 ':cui' => $cui
             ]);
-
         } else {
 
             $sql = "SELECT COUNT(*)
@@ -197,6 +196,191 @@ class InversionModel
                 ':id'  => $id
             ]);
         }
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    /*
+|--------------------------------------------------------------------------
+| LISTAR INVERSIONES SEGÚN USUARIO
+|--------------------------------------------------------------------------
+*/
+    public function getByUsuario($idUser)
+    {
+        $sql = "
+            SELECT
+                i.idInversiones,
+                i.idFondos,
+                i.idAreas,
+                f.nombreFondo,
+                a.nombreArea,
+                i.cui,
+                i.descripcion,
+                i.nombre,
+                i.observaciones,
+                i.estado,
+                i.fechaCreado
+            FROM inversiones i
+            INNER JOIN fondos f
+                ON f.idFondos = i.idFondos
+            INNER JOIN areas a
+                ON a.idAreas = i.idAreas
+            INNER JOIN usuarios_areas ua
+                ON ua.idAreas = i.idAreas
+            WHERE ua.idUser = ?
+            ORDER BY i.descripcion
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idUser]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function usuarioTieneAcceso($idUser, $idInversion)
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM inversiones i
+            INNER JOIN usuarios_areas ua
+                ON ua.idAreas = i.idAreas
+            WHERE ua.idUser = ?
+            AND i.idInversiones = ?
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            $idUser,
+            $idInversion
+        ]);
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function listarPermitidas($usuario)
+    {
+
+        $sql = "
+            SELECT 
+                i.*,
+                a.nombreArea,
+                g.nombreGerencia
+
+            FROM inversiones i
+
+            INNER JOIN areas a
+            ON a.idAreas=i.idAreas
+
+            INNER JOIN gerencias g
+            ON g.idGerencias=a.idGerencias
+        ";
+
+
+        // Roles que ven todo
+        if (
+            in_array(
+                $usuario['idRol'],
+                [1, 2]
+            )
+        ) {
+            return $this->db
+                ->query($sql)
+                ->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function listarSegunUsuario($usuario)
+    {
+
+        $idRol = $usuario['idRol'];
+
+
+        $sql = "
+            SELECT
+                i.*,
+                a.nombreArea,
+                g.nombreGerencia
+
+            FROM inversiones i
+
+            INNER JOIN areas a
+            ON a.idAreas = i.idAreas
+
+            INNER JOIN gerencias g
+            ON g.idGerencias = a.idGerencias
+        ";
+
+
+        // Super Admin, Admin, Gerente General
+
+        if (
+            in_array($idRol, [1, 2, 11])
+        ) {
+
+            return $this->db
+                ->query($sql)
+                ->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+
+        // Jefe Oficina / Asistente
+
+        if (
+            in_array($idRol, [13, 9])
+        ) {
+
+            $sql .= "
+                WHERE i.idAreas IN (
+                    SELECT idAreas
+                    FROM usuarios_areas
+                    WHERE idUser = ?
+                )
+                ";
+
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([
+                $usuario['idUser']
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+
+        return [];
+    }
+
+    public function obtenerEstudioTarifario($idInversion)
+    {
+        $sql = "
+            SELECT idEstudioTarifario
+            FROM inversiones
+            WHERE idInversiones = ?
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idInversion]);
+
+        return $stmt->fetchColumn();
+    }
+
+    public function perteneceAlEstudio($idInversion, $idEstudioTarifario)
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM inversiones
+            WHERE idInversiones = ?
+            AND idEstudioTarifario = ?
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            $idInversion,
+            $idEstudioTarifario
+        ]);
 
         return $stmt->fetchColumn() > 0;
     }
