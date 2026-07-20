@@ -1,30 +1,21 @@
 <div class="w-full px-4 md:px-6 xl:px-8 space-y-6">
-
     <!-- HEADER -->
     <div class="flex items-center justify-between">
-
         <div>
             <h1 class="text-2xl font-bold text-slate-800">Permisos</h1>
             <p class="text-sm text-slate-500">Gestiona los permisos del sistema</p>
         </div>
-
         <button id="abrirModalPermiso" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
             <i class="bi bi-plus-lg"></i>
             Nuevo Permiso
         </button>
-
     </div>
-
     <!-- CARD -->
     <div class="bg-white rounded-xl shadow border border-slate-200">
-
         <div class="overflow-x-auto">
-
             <div class="p-6">
-
                 <table id="tablaPermisos"
                     class="min-w-full text-sm text-left whitespace-nowrap">
-
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">N°</th>
@@ -38,13 +29,9 @@
                             <th class="px-4 py-3">Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody class="divide-y divide-slate-200">
-
                         <?php foreach ($permisos as $index => $p): ?>
-
                             <tr class="hover:bg-slate-50 transition">
-
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3"><?= $p['permiso'] ?></td>
                                 <td class="px-4 py-3"><?= $p['grupo'] ?></td>
@@ -52,7 +39,6 @@
                                 <td class="px-4 py-3"><?= $p['icono'] ?></td>
                                 <td class="px-4 py-3"><?= $p['orden'] ?></td>
                                 <td class="px-4 py-3"><?= $p['fechaCreado'] ?></td>
-
                                 <td class="px-4 py-3">
                                     <?php if ($p['estado'] == 1): ?>
                                         <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
@@ -64,54 +50,37 @@
                                         </span>
                                     <?php endif; ?>
                                 </td>
-
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-2">
-
                                         <button class="btnEditar inline-flex p-2 rounded-lg bg-amber-100 text-amber-600 hover:bg-amber-200 transition"
                                             data-id="<?= $p['idPermiso'] ?>">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-
                                         <?php if ($p['estado'] == 1): ?>
-
                                             <button class="btnEstado inline-flex p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
                                                 data-id="<?= $p['idPermiso'] ?>"
                                                 data-estado="0"
                                                 data-nombre="<?= htmlspecialchars($p['permiso']) ?>">
                                                 <i class="bi bi-x-lg"></i>
                                             </button>
-
                                         <?php else: ?>
-
                                             <button class="btnEstado inline-flex p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition"
                                                 data-id="<?= $p['idPermiso'] ?>"
                                                 data-estado="1"
                                                 data-nombre="<?= htmlspecialchars($p['permiso']) ?>">
                                                 <i class="bi bi-check2"></i>
                                             </button>
-
                                         <?php endif; ?>
-
                                     </div>
                                 </td>
-
                             </tr>
-
                         <?php endforeach; ?>
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
 <!-- MODAL PERMISO -->
 <div
     id="modalPermiso"
@@ -222,7 +191,6 @@
         </form>
     </div>
 </div>
-
 <!-- MODAL EDITAR PERMISO -->
 <div
     id="modalEditar"
@@ -339,7 +307,6 @@
         </form>
     </div>
 </div>
-
 <?php
 $titulo = "Permisos";
 $js = "permisos.js";

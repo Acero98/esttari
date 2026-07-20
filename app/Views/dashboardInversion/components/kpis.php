@@ -81,266 +81,115 @@
         </div>
     </div>
 </div>
-
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-
-
     <!-- Cabecera -->
     <div class="px-6 py-5 bg-blue-50 border-b border-blue-100">
-
-
         <div class="flex items-center gap-3">
-
-
             <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center">
-
-
                 <i class="bi bi-bar-chart-line-fill text-xl text-blue-600"></i>
-
-
             </div>
-
-
             <div>
-
-
                 <h2 class="text-lg font-bold text-slate-800">
-
                     Resumen por Año Regulatorio
-
                 </h2>
-
-
                 <p class="text-sm text-slate-500">
-
                     Evolución financiera y física de la inversión.
-
                 </p>
-
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
-
-
     <!-- Tabla -->
     <div class="p-5">
-
-
         <div class="overflow-x-auto rounded-xl border border-slate-200">
-
-
             <table class="min-w-full text-sm">
-
-
                 <thead class="bg-slate-100 text-slate-700">
-
-
                     <tr>
-
-
                         <th class="px-4 py-3 text-left font-semibold">
                             Año
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             Programado
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             Ejecutado
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             Saldo
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             PIM
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             Avance Físico
                         </th>
-
-
                         <th class="px-4 py-3 text-right font-semibold">
                             Avance Financiero
                         </th>
-
-
                     </tr>
-
-
                 </thead>
-
-
-
                 <tbody class="divide-y divide-slate-100">
-
-
                     <?php foreach ($resumenAnios as $fila): ?>
-
-
                         <tr class="hover:bg-blue-50 transition">
-
-
                             <!-- Año -->
                             <td class="px-4 py-3">
-
-
                                 <span class="inline-flex px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold text-xs">
-
-
                                     <?= $fila['anio'] ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                             <!-- Programado -->
                             <td class="px-4 py-3 text-right font-medium text-slate-700">
-
-
                                 S/
                                 <?= number_format($fila['programado'], 2) ?>
-
-
                             </td>
-
-
-
                             <!-- Ejecutado -->
                             <td class="px-4 py-3 text-right">
-
-
                                 <span class="font-semibold text-emerald-600">
-
-
                                     S/
                                     <?= $fila['total'] > 0
                                         ? number_format($fila['total'], 2)
                                         : '-'
                                     ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                             <!-- Saldo -->
                             <td class="px-4 py-3 text-right">
-
-
                                 <span class="font-semibold text-rose-600">
-
-
                                     S/
                                     <?= number_format($fila['saldo'], 2) ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                             <!-- PIM -->
                             <td class="px-4 py-3 text-right">
-
-
                                 <span class="font-semibold text-purple-600">
-
-
                                     <?= $fila['pim'] > 0
                                         ? 'S/ ' . number_format($fila['pim'], 2)
                                         : '-'
                                     ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                             <!-- Avance físico -->
                             <td class="px-4 py-3 text-right">
-
-
                                 <span class="inline-flex px-3 py-1 rounded-full bg-green-100 text-green-700 font-semibold text-xs">
-
-
                                     <?= isset($fila['avanceFisico']) &&
                                         $fila['avanceFisico'] !== ''
                                         ? $fila['avanceFisico'] . '%'
                                         : '-'
                                     ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                             <!-- Avance financiero -->
                             <td class="px-4 py-3 text-right">
-
-
                                 <span class="inline-flex px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold text-xs">
-
-
                                     <?= isset($fila['avanceFinanciero'])
                                         ? number_format($fila['avanceFinanciero'], 2) . '%'
                                         : '-'
                                     ?>
-
-
                                 </span>
-
-
                             </td>
-
-
-
                         </tr>
-
-
                     <?php endforeach; ?>
-
-
                 </tbody>
-
-
             </table>
-
-
         </div>
-
-
     </div>
-
-
 </div>

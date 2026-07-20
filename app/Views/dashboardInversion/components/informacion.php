@@ -1,47 +1,19 @@
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-
-
     <!-- Cabecera -->
     <div class="px-6 py-4 bg-indigo-50 border-b border-indigo-100">
-
-
         <div class="flex items-center gap-3">
-
-
             <div class="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-100">
-
-
                 <i class="bi bi-info-circle-fill text-indigo-600 text-xl"></i>
-
-
             </div>
-
-
-
             <div>
-
-
                 <h2 class="text-lg font-bold text-slate-800">
-
                     Información General de la Inversión
-
                 </h2>
-
-
-
                 <p class="text-sm text-slate-500">
-
                     Datos principales, responsables y clasificación del proyecto.
-
                 </p>
-
-
             </div>
-
-
         </div>
-
-
     </div>
     <!-- Contenido -->
     <div class="p-6">

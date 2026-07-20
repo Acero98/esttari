@@ -11,7 +11,10 @@ class InversionController
 
         $model = new InversionModel($conexion);
 
-        $inversiones = $model->getAll();
+        $inversiones = $model->listarSegunUsuario([
+            'idUser' => $_SESSION['idUser'],
+            'idRol'  => $_SESSION['idRol']
+        ]);
         $fondos = $model->getFondos();
         $areas = $model->getAreas();
 

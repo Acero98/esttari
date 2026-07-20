@@ -36,21 +36,27 @@
                 @click.outside="open = false"
                 class="absolute left-0 mt-3 w-[200px] bg-white border rounded-xl shadow-lg p-4 z-50">
                 <h3 class="text-xs text-slate-400 uppercase mb-2">Dashboards Ejecutivos</h3>
-                <a href="index.php?url=dashboard"
-                    class="block px-2 py-1 rounded hover:bg-slate-100">
-                    Dashboard Gerencial
-                </a>
+                <?php if (permiso('usuarios')): ?>
+                    <a href="index.php?url=dashboard"
+                        class="block px-2 py-1 rounded hover:bg-slate-100">
+                        Dashboard Gerencial
+                    </a>
+                <?php endif; ?>
                 <a href="index.php?url=dashboardInversion"
                     class="block px-2 py-1 rounded hover:bg-slate-100">
                     Dashboard Inversiones
                 </a>
             </div>
         </div>
+
+        <a href="index.php?url=inversiones" class="hover:text-slate-900">Inversiones</a>
+        <!-- <a href="index.php?url=anioregulatorio" class="hover:text-slate-900">Año Regulatorio</a> -->
+        <a href="index.php?url=reportes" class="hover:text-slate-900">Reportes</a>
         <!-- MEGA MENU ADMINISTRACION -->
         <div class="relative" x-data="{ open: false }">
             <button @click="open = !open"
                 class="hover:text-slate-900 flex items-center gap-1">
-                Administración
+                Gestión
                 <i class="bi bi-chevron-down text-xs"></i>
             </button>
             <!-- DROPDOWN -->
@@ -76,37 +82,35 @@
                 </a>
             </div>
         </div>
-        <a href="index.php?url=inversiones" class="hover:text-slate-900">Inversiones</a>
-        <!-- <a href="index.php?url=anioregulatorio" class="hover:text-slate-900">Año Regulatorio</a> -->
-        <a href="index.php?url=reportes" class="hover:text-slate-900">Reportes</a>
-        <!-- MEGA MENU SEGURIDAD -->
-        <div class="relative" x-data="{ open: false }">
-            <button @click="open = !open"
-                class="hover:text-slate-900 flex items-center gap-1">
-                Seguridad
-                <i class="bi bi-chevron-down text-xs"></i>
-            </button>
-            <!-- DROPDOWN -->
-            <div x-show="open"
-                @click.outside="open = false"
-                class="absolute left-0 mt-3 w-[200px] bg-white border rounded-xl shadow-lg p-4 z-50">
-                <h3 class="text-xs text-slate-400 uppercase mb-2">Gestión de acceso</h3>
-                <?php if (permiso('usuarios')): ?>
+        <?php if (permiso('usuarios')): ?>
+            <!-- MEGA MENU SEGURIDAD -->
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open"
+                    class="hover:text-slate-900 flex items-center gap-1">
+                    Seguridad
+                    <i class="bi bi-chevron-down text-xs"></i>
+                </button>
+                <!-- DROPDOWN -->
+                <div x-show="open"
+                    @click.outside="open = false"
+                    class="absolute left-0 mt-3 w-[200px] bg-white border rounded-xl shadow-lg p-4 z-50">
+                    <h3 class="text-xs text-slate-400 uppercase mb-2">Gestión de acceso</h3>
+
                     <a href="index.php?url=usuarios"
                         class="block px-2 py-1 rounded hover:bg-slate-100">
                         Usuarios
                     </a>
-                <?php endif; ?>
-                <a href="index.php?url=roles"
-                    class="block px-2 py-1 rounded hover:bg-slate-100">
-                    Roles
-                </a>
-                <a href="index.php?url=permisos"
-                    class="block px-2 py-1 rounded hover:bg-slate-100">
-                    Permisos
-                </a>
+                    <a href="index.php?url=roles"
+                        class="block px-2 py-1 rounded hover:bg-slate-100">
+                        Roles
+                    </a>
+                    <a href="index.php?url=permisos"
+                        class="block px-2 py-1 rounded hover:bg-slate-100">
+                        Permisos
+                    </a>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     </nav>
     <!-- USUARIO -->
     <div class="relative" x-data="{ open: false }">

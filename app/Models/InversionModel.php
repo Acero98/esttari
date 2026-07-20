@@ -1,14 +1,11 @@
 <?php
-
 class InversionModel
 {
     private $db;
-
     public function __construct($conexion)
     {
         $this->db = $conexion;
     }
-
     // LISTAR INVERSIONES
     public function getAll()
     {
@@ -30,13 +27,10 @@ class InversionModel
                 INNER JOIN areas a
                     ON i.idAreas = a.idAreas
                 ORDER BY i.descripcion";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     // OBTENER INVERSIÓN
     public function getById($id)
     {
@@ -51,14 +45,11 @@ class InversionModel
                 FROM inversiones
                 WHERE idInversiones = :id
                 LIMIT 1";
-
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
     // LISTAR FONDOS
     public function getFondos()
     {
@@ -68,10 +59,8 @@ class InversionModel
                 FROM fondos
                 WHERE estadoFondo = 1
                 ORDER BY nombreFondo";
-
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
-
     // LISTAR ÁREAS
     public function getAreas()
     {
@@ -81,10 +70,8 @@ class InversionModel
                 FROM areas
                 WHERE estadoArea = 1
                 ORDER BY nombreArea";
-
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
-
     // REGISTRAR
     public function create($data)
     {
@@ -110,9 +97,7 @@ class InversionModel
                     1,
                     NOW()
                 )";
-
         $stmt = $this->db->prepare($sql);
-
         return $stmt->execute([
             ':idFondos'      => $data['idFondos'],
             ':idAreas'       => $data['idAreas'],
@@ -122,7 +107,6 @@ class InversionModel
             ':observaciones' => $data['observaciones']
         ]);
     }
-
     // ACTUALIZAR
     public function update($id, $data)
     {
@@ -135,9 +119,7 @@ class InversionModel
                     nombre = :nombre,
                     observaciones = :observaciones
                 WHERE idInversiones = :id";
-
         $stmt = $this->db->prepare($sql);
-
         return $stmt->execute([
             ':idFondos'      => $data['idFondos'],
             ':idAreas'       => $data['idAreas'],
@@ -148,58 +130,45 @@ class InversionModel
             ':id'            => $id
         ]);
     }
-
     // CAMBIAR ESTADO
     public function cambiarEstado($id, $estado)
     {
         $sql = "UPDATE inversiones
                 SET estado = :estado
                 WHERE idInversiones = :id";
-
         $stmt = $this->db->prepare($sql);
-
         return $stmt->execute([
             ':estado' => $estado,
             ':id'     => $id
         ]);
     }
-
     // VALIDAR CUI
     public function existeCui($cui, $id = null)
     {
         if (empty($cui)) {
             return false;
         }
-
         if ($id == null) {
-
             $sql = "SELECT COUNT(*)
                     FROM inversiones
                     WHERE cui = :cui";
-
             $stmt = $this->db->prepare($sql);
-
             $stmt->execute([
                 ':cui' => $cui
             ]);
         } else {
-
             $sql = "SELECT COUNT(*)
                     FROM inversiones
                     WHERE cui = :cui
                     AND idInversiones <> :id";
-
             $stmt = $this->db->prepare($sql);
-
             $stmt->execute([
                 ':cui' => $cui,
                 ':id'  => $id
             ]);
         }
-
         return $stmt->fetchColumn() > 0;
     }
-
     /*
 |--------------------------------------------------------------------------
 | LISTAR INVERSIONES SEGÚN USUARIO
@@ -230,13 +199,10 @@ class InversionModel
             WHERE ua.idUser = ?
             ORDER BY i.descripcion
         ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$idUser]);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     public function usuarioTieneAcceso($idUser, $idInversion)
     {
         $sql = "
@@ -247,35 +213,26 @@ class InversionModel
             WHERE ua.idUser = ?
             AND i.idInversiones = ?
         ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             $idUser,
             $idInversion
         ]);
-
         return $stmt->fetchColumn() > 0;
     }
-
     public function listarPermitidas($usuario)
     {
-
         $sql = "
             SELECT 
                 i.*,
                 a.nombreArea,
                 g.nombreGerencia
-
             FROM inversiones i
-
             INNER JOIN areas a
             ON a.idAreas=i.idAreas
-
             INNER JOIN gerencias g
             ON g.idGerencias=a.idGerencias
         ";
-
-
         // Roles que ven todo
         if (
             in_array(
@@ -288,48 +245,35 @@ class InversionModel
                 ->fetchAll(PDO::FETCH_ASSOC);
         }
     }
-
     public function listarSegunUsuario($usuario)
     {
-
         $idRol = $usuario['idRol'];
-
-
         $sql = "
             SELECT
                 i.*,
+                f.nombreFondo,
                 a.nombreArea,
                 g.nombreGerencia
-
             FROM inversiones i
-
+            INNER JOIN fondos f
+            ON f.idFondos = i.idFondos
             INNER JOIN areas a
             ON a.idAreas = i.idAreas
-
             INNER JOIN gerencias g
             ON g.idGerencias = a.idGerencias
         ";
-
-
         // Super Admin, Admin, Gerente General
-
         if (
             in_array($idRol, [1, 2, 11])
         ) {
-
             return $this->db
                 ->query($sql)
                 ->fetchAll(PDO::FETCH_ASSOC);
         }
-
-
-
         // Jefe Oficina / Asistente
-
         if (
             in_array($idRol, [13, 9])
         ) {
-
             $sql .= "
                 WHERE i.idAreas IN (
                     SELECT idAreas
@@ -337,22 +281,14 @@ class InversionModel
                     WHERE idUser = ?
                 )
                 ";
-
-
             $stmt = $this->db->prepare($sql);
-
             $stmt->execute([
                 $usuario['idUser']
             ]);
-
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-
-
-
         return [];
     }
-
     public function obtenerEstudioTarifario($idInversion)
     {
         $sql = "
@@ -360,13 +296,10 @@ class InversionModel
             FROM inversiones
             WHERE idInversiones = ?
         ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$idInversion]);
-
         return $stmt->fetchColumn();
     }
-
     public function perteneceAlEstudio($idInversion, $idEstudioTarifario)
     {
         $sql = "
@@ -375,13 +308,11 @@ class InversionModel
             WHERE idInversiones = ?
             AND idEstudioTarifario = ?
         ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             $idInversion,
             $idEstudioTarifario
         ]);
-
         return $stmt->fetchColumn() > 0;
     }
 }

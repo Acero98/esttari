@@ -467,15 +467,12 @@
                 name="idEjecucionMensual"
                 id="idEjecucionMensual">
             <div class="p-6">
-
                 <div class="grid grid-cols-12 gap-4 items-end mb-6">
-
                     <!-- FECHA -->
                     <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Fecha
                         </label>
-
                         <input
                             type="date"
                             name="fecha"
@@ -483,13 +480,11 @@
                             required
                             class="w-full rounded-lg border px-4 py-2.5">
                     </div>
-
                     <!-- MONTO -->
                     <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Monto (S/)
                         </label>
-
                         <input
                             type="number"
                             step="0.01"
@@ -500,27 +495,19 @@
                             required
                             class="w-full rounded-lg border px-4 py-2.5 text-right">
                     </div>
-
                     <!-- IGV -->
                     <div class="col-span-2">
                         <label class="flex items-center justify-between text-sm font-medium mb-2">
-
                             <span>IGV (18%)</span>
-
                             <label class="flex items-center gap-1 text-xs font-normal cursor-pointer">
-
                                 <input
                                     type="checkbox"
                                     id="aplicaIgv"
                                     checked
                                     class="rounded">
-
                                 Aplicar
-
                             </label>
-
                         </label>
-
                         <input
                             type="number"
                             step="0.01"
@@ -530,13 +517,11 @@
                             readonly
                             class="w-full rounded-lg border bg-slate-100 text-slate-600 text-right px-4 py-2.5">
                     </div>
-
                     <!-- TOTAL -->
                     <div class="col-span-2">
                         <label class="block text-sm font-medium mb-2">
                             Total (S/)
                         </label>
-
                         <input
                             type="number"
                             step="0.01"
@@ -546,13 +531,11 @@
                             readonly
                             class="w-full rounded-lg border bg-slate-100 text-slate-700 font-semibold text-right px-4 py-2.5">
                     </div>
-
                     <!-- ARCHIVO -->
                     <div class="col-span-4">
                         <label class="block text-sm font-medium mb-2">
                             Comprobante PDF
                         </label>
-
                         <input
                             type="file"
                             id="archivo"
@@ -560,7 +543,6 @@
                             accept="application/pdf"
                             class="w-full rounded-lg border px-4 py-2.5">
                     </div>
-
                 </div>
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="px-5 py-3 border-b bg-slate-50">
@@ -570,47 +552,33 @@
                     </div>
                     <div class="max-h-[250px] overflow-y-auto overflow-x-auto">
                         <table class="min-w-full text-sm">
-
                             <thead class="sticky top-0 bg-white border-b z-10">
-
                                 <tr class="text-slate-500">
-
                                     <th class="w-14 px-3 py-2 text-center">
                                         N°
                                     </th>
-
                                     <th class="px-3 py-2 whitespace-nowrap">
                                         Fecha
                                     </th>
-
                                     <th class="px-3 py-2 text-right whitespace-nowrap">
                                         Monto
                                     </th>
-
                                     <th class="px-3 py-2 text-right whitespace-nowrap">
                                         IGV
                                     </th>
-
                                     <th class="px-3 py-2 text-right whitespace-nowrap">
                                         Total
                                     </th>
-
                                     <th class="w-24 px-3 py-2 text-center">
                                         PDF
                                     </th>
-
                                     <th class="w-28 px-3 py-2 text-center">
                                         Acciones
                                     </th>
-
                                 </tr>
-
                             </thead>
-
                             <tbody id="listaEjecucionesMensuales"></tbody>
-
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -684,13 +652,11 @@
             <div class="px-5 pt-3 pb-5 space-y-5">
                 <!-- FORMULARIO -->
                 <div class="grid grid-cols-12 gap-4">
-
                     <!-- ESTADO -->
                     <div class="col-span-3">
                         <label class="block text-sm font-medium mb-1">
                             Estado de la inversión
                         </label>
-
                         <input
                             type="text"
                             name="estadoInver"
@@ -698,13 +664,11 @@
                             class="w-full rounded-lg border px-3 py-2"
                             placeholder="Ingrese el estado">
                     </div>
-
                     <!-- HITOS -->
                     <div class="col-span-3">
                         <label class="block text-sm font-medium mb-1">
                             Hitos
                         </label>
-
                         <input
                             type="text"
                             name="acciones"
@@ -712,13 +676,11 @@
                             class="w-full rounded-lg border px-3 py-2"
                             placeholder="Ingrese el hito">
                     </div>
-
                     <!-- FECHA -->
                     <div class="col-span-2">
                         <label class="block text-sm font-medium mb-1">
                             Fecha
                         </label>
-
                         <input
                             type="date"
                             name="fechas"
@@ -726,13 +688,11 @@
                             required
                             class="w-full rounded-lg border px-3 py-2">
                     </div>
-
                     <!-- SITUACIÓN -->
                     <div class="col-span-4">
                         <label class="block text-sm font-medium mb-1">
                             Situación
                         </label>
-
                         <input
                             type="text"
                             name="situacion"
@@ -740,7 +700,6 @@
                             class="w-full rounded-lg border px-3 py-2"
                             placeholder="Ingrese la situación">
                     </div>
-
                 </div>
                 <!-- TABLA -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -773,31 +732,22 @@
                     type="button"
                     id="limpiarSeguimiento"
                     class="px-5 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100">
-
                     <i class="bi bi-eraser"></i>
                     Limpiar
-
                 </button>
-
                 <button
                     type="button"
                     id="cancelarModalSeguimiento"
                     class="px-5 py-2.5 border rounded-lg">
-
                     Cancelar
-
                 </button>
-
                 <button
                     type="submit"
                     class="px-5 py-2.5 bg-blue-600 text-white rounded-lg">
-
                     <i class="bi bi-save"></i>
-
                     <span id="textoGuardarSeguimiento">
                         Guardar
                     </span>
-
                 </button>
             </div>
         </form>

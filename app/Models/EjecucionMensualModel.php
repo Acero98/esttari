@@ -39,27 +39,16 @@ class EjecucionMensualModel
                 NOW()
             )
         ";
-
         $stmt = $this->db->prepare($sql);
-
         return $stmt->execute([
-
             ':idAnioRegulatorio' => $data['idAnioRegulatorio'],
-
             ':mes'               => $data['mes'],
-
             ':programado'        => $data['programado'],
-
             ':ejecutado'         => $data['ejecutado'],
-
             ':igv'               => $data['igv'],
-
             ':total'             => $data['total'],
-
             ':archivo'           => $data['archivo'] ?? null,
-
             ':fisico'            => $data['fisico']
-
         ]);
     }
     public function getByAnio($idAnioRegulatorio)
@@ -98,13 +87,10 @@ class EjecucionMensualModel
             FROM ejecucion_mensual
             WHERE idEjecucionMensual = ?
         ";
-
         $stmt = $this->db->prepare($sql);
-
         $stmt->execute([
             $id
         ]);
-
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function update($id, $data)
@@ -119,66 +105,43 @@ class EjecucionMensualModel
                 total = :total,
                 fisico = :fisico
         ";
-
         // Solo actualizar el archivo si se subió uno nuevo
         if (isset($data['archivo'])) {
-
             $sql .= ",
                 archivo = :archivo
             ";
         }
-
         $sql .= "
             ,
             fechaActualizado = NOW()
             WHERE idEjecucionMensual = :id
         ";
-
         $stmt = $this->db->prepare($sql);
-
         $params = [
-
             ':mes' => $data['mes'],
-
             ':programado' => $data['programado'],
-
             ':ejecutado' => $data['ejecutado'],
-
             ':igv' => $data['igv'],
-
             ':total' => $data['total'],
-
             ':fisico' => $data['fisico'],
-
             ':id' => $id
-
         ];
-
         if (isset($data['archivo'])) {
-
             $params[':archivo'] = $data['archivo'];
         }
-
         return $stmt->execute($params);
     }
     public function obtenerArchivo($id)
     {
-
         $sql = "
         SELECT archivo
         FROM ejecucion_mensual
         WHERE idEjecucionMensual = ?
     ";
-
-
         $stmt = $this->db->prepare($sql);
-
-
         $stmt->execute([
             $id
         ]);
-
-
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     // =====================================
@@ -186,16 +149,11 @@ class EjecucionMensualModel
     // =====================================
     public function cambiarEstado($id)
     {
-
-
         $sql = "
             DELETE FROM ejecucion_mensual
             WHERE idEjecucionMensual = :id
         ";
-
         $stmt = $this->db->prepare($sql);
-
-
         return $stmt->execute([
             ':id' => $id
         ]);
