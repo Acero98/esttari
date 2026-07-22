@@ -122,18 +122,18 @@ class InversionModel
                     idAreas = :idAreas,
                     cui = :cui,
                     descripcion = :descripcion,
-                    nombre = :nombre,
-                    observaciones = :observaciones
+                    nombre = :nombre
+                    /*observaciones = :observaciones*/
                 WHERE idInversiones = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
             ':idEstudioTarifario'      => $data['idEstudioTarifario'],
             ':idFondos'      => $data['idFondos'],
             ':idAreas'       => $data['idAreas'],
-            ':cui'           => $data['cui'],
+            ':cui'           => empty(trim($data['cui'])) ? null : trim($data['cui']),
             ':descripcion'   => $data['descripcion'],
             ':nombre'        => $data['nombre'],
-            ':observaciones' => $data['observaciones'],
+            /*':observaciones' => $data['observaciones'],*/
             ':id'            => $id
         ]);
     }

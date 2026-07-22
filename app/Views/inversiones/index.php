@@ -44,10 +44,20 @@
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
-                                <td class="px-4 py-3"><?= $i['descripcion'] ?></td>
-                                <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'].' ('.$i['anioInicio'].' - '.$i['anioFin'].')' ?></td>
+                                <td class="px-4 py-3 max-w-xs whitespace-normal break-words">
+                                    <div
+                                        title="<?= htmlspecialchars($i['nombre']) ?>">
+                                        <?= htmlspecialchars($i['descripcion']) ?>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'] . ' (' . $i['anioInicio'] . ' - ' . $i['anioFin'] . ')' ?></td>
                                 <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
-                                <td class="px-4 py-3"><?= $i['siglasArea'] ?></td>
+                                <td class="px-4 py-3">
+                                    <div
+                                        title="<?= htmlspecialchars($i['nombreArea']) ?>">
+                                        <?= htmlspecialchars($i['siglasArea']) ?>
+                                    </div>
+                                </td>
                                 <!-- <td class="px-4 py-3 max-w-md whitespace-normal">
                                     <= $i['nombre'] ?>
                                 </td> 

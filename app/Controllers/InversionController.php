@@ -89,10 +89,10 @@ class InversionController
             'idEstudioTarifario' => $_POST['idEstudioTarifario'],
             'idFondos'      => $_POST['idFondos'],
             'idAreas'       => $_POST['idAreas'],
-            'cui'           => trim($_POST['cui']),
+            'cui'                => empty(trim($_POST['cui'])) ? null : trim($_POST['cui']),
             'descripcion'   => trim($_POST['descripcion']),
             'nombre'        => trim($_POST['nombre']),
-            'observaciones' => trim($_POST['observaciones'])
+            //'observaciones' => trim($_POST['observaciones'])
         ];
 
         if (!empty($data['cui']) && $model->existeCui($data['cui'], $_POST['idInversiones'])) {
