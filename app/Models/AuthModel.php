@@ -2,15 +2,12 @@
 
 class AuthModel
 {
-
     private $db;
-
 
     public function __construct($conexion)
     {
         $this->db = $conexion;
     }
-
 
     // Datos principales del usuario
     public function obtenerUsuario($idUser)
@@ -32,8 +29,6 @@ class AuthModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-
 
     // Areas asignadas al usuario
     public function obtenerAreasUsuario($idUser)

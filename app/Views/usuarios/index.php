@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "usuarioAreaModal.php";
 ?>
 
@@ -265,17 +265,29 @@ require_once "usuarioAreaModal.php";
             <!-- BODY -->
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Usuario -->
+                    <!-- USUARIO -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Usuario
                         </label>
+
+                        <!-- ID del usuario -->
                         <input
-                            type="text"
-                            name="usuario"
+                            type="hidden"
+                            name="idUser"
+                            id="edit_idUser">
+
+                        <!-- Nombre del usuario (solo lectura) -->
+                        <div
                             id="edit_usuario"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5
+                                text-slate-700 flex items-center gap-2">
+
+                            <i class="bi bi-person-circle text-blue-500"></i>
+
+                            <span>Sin usuario</span>
+
+                        </div>
                     </div>
                     <!-- Correo -->
                     <div>

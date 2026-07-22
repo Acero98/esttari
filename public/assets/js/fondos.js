@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     iniciarDataTable();
     iniciarModalFondo();
     iniciarModalEditarFondo();
@@ -7,10 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     iniciarRegistroFondo();
     iniciarActualizarFondo();
     iniciarCambiarEstadoFondo();
-
 });
-
-
 // =====================================
 // DATA TABLE
 // =====================================
@@ -48,7 +44,6 @@ function iniciarModalFondo() {
             modal.classList.remove("hidden");
             modal.classList.add("flex");
         });
-
     document.getElementById("cerrarModalFondo")
         ?.addEventListener("click", cerrar);
     document.getElementById("cancelarModalFondo")
@@ -58,18 +53,15 @@ function iniciarModalFondo() {
             cerrar();
         }
     });
-
     function cerrar() {
         modal.classList.remove("flex");
         modal.classList.add("hidden");
     }
 }
-
 // =====================================
 // MODAL EDITAR FONDO
 // =====================================
 function iniciarModalEditarFondo() {
-
     const modal = document.getElementById("modalEditarFondo");
     if (!modal) return;
     document.getElementById("cerrarModalEditarFondo")
@@ -81,13 +73,11 @@ function iniciarModalEditarFondo() {
             cerrar();
         }
     });
-
     function cerrar() {
         modal.classList.remove("flex");
         modal.classList.add("hidden");
     }
 }
-
 // =====================================
 // EDITAR FONDO
 // =====================================
@@ -99,7 +89,6 @@ function iniciarEditarFondo() {
         fetch("index.php?url=fondos_edit&id=" + id)
             .then(res => res.json())
             .then(data => {
-
                 const fondo = data.fondo;
                 document.getElementById("edit_idFondos").value =
                     fondo.idFondos;
@@ -109,14 +98,12 @@ function iniciarEditarFondo() {
                     fondo.nombreFondo;
                 document.getElementById("edit_descripcion").value =
                     fondo.descripcionFondo;
-
                 const modal = document.getElementById("modalEditarFondo");
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
             });
     });
 }
-
 // =====================================
 // REGISTRAR FONDO
 // =====================================
@@ -142,7 +129,6 @@ function iniciarRegistroFondo() {
         });
     });
 }
-
 // =====================================
 // ACTUALIZAR FONDO
 // =====================================
@@ -168,53 +154,35 @@ function iniciarActualizarFondo() {
         });
     });
 }
-
 // =====================================
 // CAMBIAR ESTADO FONDO
 // =====================================
 function iniciarCambiarEstadoFondo() {
-
     document.addEventListener("click", function (e) {
-
         const btn = e.target.closest(".btnEstadoFondo");
-
         if (!btn) return;
-
         const id = btn.dataset.id;
         const estado = btn.dataset.estado;
         const nombre = btn.dataset.nombre;
-
         const titulo = estado == 1
             ? "Activar fondo"
             : "Deshabilitar fondo";
-
         const mensaje = estado == 1
             ? `¿Desea activar el fondo <b>${nombre}</b>?`
             : `¿Desea deshabilitar el fondo <b>${nombre}</b>?`;
-
         const textoAceptar = estado == 1
             ? "Activar"
             : "Deshabilitar";
-
         Dialog.confirm({
-
             tipo: estado == 1 ? "success" : "danger",
-
             titulo,
             mensaje,
-
             textoAceptar,
             textoCancelar: "Cancelar",
-
             onAceptar() {
-
                 window.location =
                     `index.php?url=fondos_estado&id=${id}&estado=${estado}`;
-
             }
-
         });
-
     });
-
 }

@@ -54,7 +54,7 @@ class AuthController
         $_SESSION['apellidos'] = $user['apellidos'];
         $_SESSION['correo'] = $user['correo'];
         $_SESSION['idRol'] = $user['idRol'];
-        $_SESSION['rol'] = $user['nombreRol'];
+        $_SESSION['nombreRol'] = $user['nombreRol'];
 
         $_SESSION['permisos'] = $model->getPermisosRol($user['idRol']);
 
