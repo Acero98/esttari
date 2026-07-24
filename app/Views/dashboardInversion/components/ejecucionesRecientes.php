@@ -25,7 +25,7 @@
                             N°
                         </th>
                         <th class="px-4 py-3 text-center font-semibold">
-                            Año Regulatorio
+                            Año
                         </th>
                         <th class="px-4 py-3 text-left font-semibold">
                             Fecha
@@ -33,41 +33,69 @@
                         <th class="px-4 py-3 text-right font-semibold">
                             Monto Ejecutado
                         </th>
+                        <!-- <th class="px-4 py-3 text-right font-semibold">
+                            Comprobante
+                        </th>-->
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <?php foreach ($ejecucionesRecientes as $index => $item): ?>
-                        <tr class="hover:bg-emerald-50 transition">
-                            <td class="px-4 py-3 text-center">
-                                <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 text-slate-700 font-semibold">
-                                    <?= $index + 1 ?>
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                                <span class="inline-flex px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold text-xs">
-                                    <?= $item['anio'] ?>
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-slate-600">
-                                <div class="flex items-center gap-2">
-                                    <i class="bi bi-calendar3 text-slate-400"></i>
-                                    <?= date(
-                                        'd/m/Y',
-                                        strtotime($item['mes'])
-                                    ) ?>
-                                </div>
-                            </td>
-                            <td class="px-4 py-3 text-right">
-                                <span class="font-bold text-emerald-600">
-                                    S/
-                                    <?= number_format(
-                                        $item['total'],
-                                        2
-                                    ) ?>
-                                </span>
+                    <?php if (!empty($ejecucionesRecientes)): ?>
+                        <?php foreach ($ejecucionesRecientes as $index => $item): ?>
+                            <tr class="hover:bg-emerald-50 transition">
+
+                                <!-- N° -->
+                                <td class="px-4 py-3 text-center">
+                                    <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 text-slate-700 font-semibold">
+                                        <?= $index + 1 ?>
+                                    </span>
+                                </td>
+
+                                <!-- Año -->
+                                <td class="px-4 py-3 text-center">
+                                    <span class="inline-flex px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+                                        <?= htmlspecialchars($item['anio']) ?>
+                                    </span>
+                                </td>
+
+                                <!-- Fecha -->
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2 text-slate-700">
+                                        <i class="bi bi-calendar-event text-emerald-500"></i>
+                                        <?= date('d/m/Y', strtotime($item['mes'])) ?>
+                                    </div>
+                                </td>
+
+                                <!-- Total -->
+                                <td class="px-4 py-3 text-right">
+                                    <span class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-100 text-emerald-700 font-bold">
+                                        <i class="bi bi-cash-stack"></i>
+                                        S/ <?= number_format($item['total'], 2) ?>
+                                    </span>
+                                </td>
+                                <!--<td class="px-4 py-3 text-center">
+                                    <php if (!empty($item['archivo'])): ?>
+                                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+                                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                                            PDF
+                                        </span>
+                                    <php else: ?>
+                                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs">
+                                            <i class="bi bi-dash-circle"></i>
+                                            Sin archivo
+                                        </span>
+                                    <php endif; ?>
+                                </td>-->
+
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="px-4 py-6 text-center text-slate-500">
+                                <i class="bi bi-info-circle mr-2"></i>
+                                No existen ejecuciones registradas.
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

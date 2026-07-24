@@ -65,7 +65,7 @@ class EjecucionMensualModel
             FROM ejecucion_mensual
             WHERE idAnioRegulatorio = :id
             AND estado = 1
-            ORDER BY mes ASC
+            ORDER BY mes DESC
             ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([

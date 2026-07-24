@@ -790,7 +790,7 @@ function cargarSeguimientos(id) {
                                     class="btnEliminarSeguimiento inline-flex p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
                                     data-id="${s.idSeguimientoMensual}">
                                     <i class="bi bi-trash"></i>
-                                </button>v
+                                </button>
                             </div>
                         </td>
                     </tr>

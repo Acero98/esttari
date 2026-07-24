@@ -49,6 +49,7 @@
     --color-sky-100: oklch(95.1% 0.026 236.824);
     --color-sky-200: oklch(90.1% 0.058 230.902);
     --color-sky-400: oklch(74.6% 0.16 232.661);
+    --color-sky-500: oklch(68.5% 0.169 237.323);
     --color-sky-600: oklch(58.8% 0.158 241.966);
     --color-sky-700: oklch(50% 0.134 242.749);
     --color-blue-50: oklch(97% 0.014 254.604);
@@ -77,6 +78,7 @@
     --color-rose-100: oklch(94.1% 0.03 12.58);
     --color-rose-500: oklch(64.5% 0.246 16.439);
     --color-rose-600: oklch(58.6% 0.253 17.585);
+    --color-rose-700: oklch(51.4% 0.222 16.935);
     --color-slate-50: oklch(98.4% 0.003 247.858);
     --color-slate-100: oklch(96.8% 0.007 247.896);
     --color-slate-200: oklch(92.9% 0.013 255.508);
@@ -1429,6 +1431,9 @@
   .text-cyan-700 {
     color: var(--color-cyan-700);
   }
+  .text-emerald-500 {
+    color: var(--color-emerald-500);
+  }
   .text-emerald-600 {
     color: var(--color-emerald-600);
   }
@@ -1483,8 +1488,17 @@
   .text-red-700 {
     color: var(--color-red-700);
   }
+  .text-rose-500 {
+    color: var(--color-rose-500);
+  }
   .text-rose-600 {
     color: var(--color-rose-600);
+  }
+  .text-rose-700 {
+    color: var(--color-rose-700);
+  }
+  .text-sky-500 {
+    color: var(--color-sky-500);
   }
   .text-sky-600 {
     color: var(--color-sky-600);
@@ -1510,6 +1524,9 @@
   .text-violet-600 {
     color: var(--color-violet-600);
   }
+  .text-violet-700 {
+    color: var(--color-violet-700);
+  }
   .text-white {
     color: var(--color-white);
   }
@@ -1528,6 +1545,9 @@
   .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  .opacity-75 {
+    opacity: 75%;
   }
   .shadow {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
@@ -2105,6 +2125,16 @@
       grid-column: span 2 / span 2;
     }
   }
+  .xl\:col-span-3 {
+    @media (width >= 80rem) {
+      grid-column: span 3 / span 3;
+    }
+  }
+  .xl\:col-span-4 {
+    @media (width >= 80rem) {
+      grid-column: span 4 / span 4;
+    }
+  }
   .xl\:grid-cols-2 {
     @media (width >= 80rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2123,6 +2153,11 @@
   .xl\:grid-cols-5 {
     @media (width >= 80rem) {
       grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+  .xl\:grid-cols-6 {
+    @media (width >= 80rem) {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
     }
   }
   .xl\:grid-cols-8 {

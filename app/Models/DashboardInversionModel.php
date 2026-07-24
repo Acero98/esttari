@@ -61,18 +61,8 @@ class DashboardInversionModel
                 ON g.idGerencias = a.idGerencias
             INNER JOIN fondos f
                 ON f.idFondos = i.idFondos
-            INNER JOIN (
-                SELECT
-                    idInversiones,
-                    idEstudioTarifario
-                FROM anio_regulatorio
-                GROUP BY
-                    idInversiones,
-                    idEstudioTarifario
-            ) ar
-                ON ar.idInversiones = i.idInversiones
-            INNER JOIN estudio_tarifario et
-                ON et.idEstudioTarifario = ar.idEstudioTarifario
+            LEFT JOIN estudio_tarifario et
+                ON et.idEstudioTarifario = i.idEstudioTarifario
             LEFT JOIN usuarios_areas ua
                 ON ua.idAreas = i.idAreas
             LEFT JOIN usuarios u
@@ -162,7 +152,7 @@ class DashboardInversionModel
                 i.idFondos = ?
             AND
                 i.estado = 1
-            ORDER BY i.nombre
+            ORDER BY i.descripcion
         ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -208,7 +198,7 @@ class DashboardInversionModel
                 ua.idUser = ?
             AND
                 i.estado = 1
-            ORDER BY i.nombre
+            ORDER BY i.descripcion
         ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -257,19 +247,23 @@ class DashboardInversionModel
             SELECT
                 ar.anio,
                 em.mes,
-                em.total
+                em.total,
+                em.archivo
             FROM ejecucion_mensual em
             INNER JOIN anio_regulatorio ar
                 ON ar.idAnioRegulatorio = em.idAnioRegulatorio
             WHERE ar.idInversiones = ?
             AND em.estado = 1
-            ORDER BY em.mes DESC
+            ORDER BY
+                ar.anio DESC,
+                em.mes DESC,
+                em.idEjecucionMensual DESC
             LIMIT 5
         ";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            $idInversion
-        ]);
+        $stmt->execute([$idInversion]);
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function obtenerUltimoSeguimiento($idInversion)
@@ -280,27 +274,80 @@ class DashboardInversionModel
                 sm.estadoInver,
                 sm.acciones,
                 sm.fechas,
+                sm.fechaCreado,
                 sm.situacion
             FROM seguimiento_mensual sm
             INNER JOIN anio_regulatorio ar
                 ON ar.idAnioRegulatorio = sm.idAnioRegulatorio
             WHERE ar.idInversiones = ?
             AND sm.estado = 1
-            AND sm.fechas = (
-                SELECT MAX(sm2.fechas)
-                FROM seguimiento_mensual sm2
-                INNER JOIN anio_regulatorio ar2
-                    ON ar2.idAnioRegulatorio = sm2.idAnioRegulatorio
-                WHERE ar2.idInversiones = ?
-                AND sm2.estado = 1
-            )
-            ORDER BY sm.idSeguimientoMensual ASC
+            ORDER BY
+                ar.anio DESC,
+                sm.fechaCreado DESC,
+                sm.idSeguimientoMensual DESC
+            LIMIT 5
         ";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            $idInversion,
-            $idInversion
-        ]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute([$idInversion]);
+
+        $seguimientos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $hoy = new DateTime();
+
+        foreach ($seguimientos as &$item) {
+
+            // Si no existe fecha límite
+            if (empty($item['fechas'])) {
+
+                $item['estadoColor'] = "bg-slate-100 text-slate-700";
+                $item['estadoTexto'] = "Sin fecha";
+                $item['estadoIcono'] = "bi-calendar-x-fill";
+                $item['diasTotales'] = null;
+                $item['diasTranscurridos'] = null;
+
+                continue;
+            }
+
+            $inicio = new DateTime(date('Y-m-d', strtotime($item['fechaCreado'])));
+            $fin    = new DateTime($item['fechas']);
+
+            // Duración total del seguimiento
+            $diasTotales = max(
+                1,
+                $inicio->diff($fin)->days
+            );
+
+            // Días transcurridos hasta hoy
+            $diasTranscurridos = min(
+                $inicio->diff($hoy)->days,
+                $diasTotales
+            );
+
+            $primerTercio = $diasTotales / 3;
+            $segundoTercio = $primerTercio * 2;
+
+            if ($diasTranscurridos <= $primerTercio) {
+
+                $item['estadoColor'] = "bg-emerald-100 text-emerald-700";
+                $item['estadoTexto'] = "Reciente";
+                $item['estadoIcono'] = "bi-check-circle-fill";
+            } elseif ($diasTranscurridos <= $segundoTercio) {
+
+                $item['estadoColor'] = "bg-amber-100 text-amber-700";
+                $item['estadoTexto'] = "En proceso";
+                $item['estadoIcono'] = "bi-hourglass-split";
+            } else {
+
+                $item['estadoColor'] = "bg-rose-100 text-rose-700";
+                $item['estadoTexto'] = "Próximo";
+                $item['estadoIcono'] = "bi-exclamation-circle-fill";
+            }
+
+            $item['diasTotales'] = $diasTotales;
+            $item['diasTranscurridos'] = $diasTranscurridos;
+        }
+
+        return $seguimientos;
     }
 }

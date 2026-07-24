@@ -7,7 +7,7 @@
             </div>
             <div>
                 <h2 class="text-lg font-bold text-slate-800">
-                    Último Seguimiento
+                    Últimos Seguimientos
                 </h2>
                 <p class="text-sm text-slate-500">
                     Estado actualizado de los hitos y situación de la inversión.
@@ -24,7 +24,7 @@
                             N°
                         </th>
                         <th class="px-4 py-3 text-center font-semibold">
-                            Año Reg.
+                            Año
                         </th>
                         <th class="px-4 py-3 text-left font-semibold">
                             Estado Inv.
@@ -74,12 +74,15 @@
                                 </td>
                                 <!-- Fecha -->
                                 <td class="px-4 py-3 text-center">
-                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
-                                        <i class="bi bi-calendar-event"></i>
-                                        <?= date(
-                                            "d/m/Y",
-                                            strtotime($item["fechas"])
-                                        ) ?>
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold <?= $item['estadoColor'] ?>">
+                                        <i class="bi <?= $item['estadoIcono'] ?>"></i>
+                                        <?php if (!empty($item['fechas'])): ?>
+                                            <?= $item['diasTranscurridos'] ?> /
+                                            <?= $item['diasTotales'] ?> días
+                                            (<?= date("d/m/Y", strtotime($item["fechas"])) ?>)
+                                        <?php else: ?>
+                                            Sin fecha programada
+                                        <?php endif; ?>
                                     </span>
                                 </td>
                                 <!-- Situación -->

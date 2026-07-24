@@ -5,11 +5,11 @@
     <?php require "components/informacion.php"; ?>
     <!-- BLOQUE 2 -->
     <?php require "components/kpis.php"; ?>
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div class="xl:col-span-1">
+    <div class="grid grid-cols-1 xl:grid-cols-6 gap-6">
+        <div class="xl:col-span-2">
             <?php require "components/ejecucionesRecientes.php"; ?>
         </div>
-        <div class="xl:col-span-2">
+        <div class="xl:col-span-4">
             <?php require "components/seguimiento.php"; ?>
         </div>
     </div>

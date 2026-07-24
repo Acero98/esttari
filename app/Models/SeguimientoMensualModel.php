@@ -46,7 +46,9 @@ class SeguimientoMensualModel
             ':producto'          => $data['producto'],
             ':estadoInver'       => $data['estadoInver'],
             ':acciones'          => $data['acciones'],
-            ':fechas'             => $data['fechas'],
+            ':fechas'            => !empty($data['fechas'])
+                ? $data['fechas']
+                : null,
             ':situacion'         => $data['situacion']
         ]);
     }
@@ -68,7 +70,7 @@ class SeguimientoMensualModel
                 situacion
             FROM seguimiento_mensual
             WHERE idAnioRegulatorio = :id AND estado = 1
-            ORDER BY fechas ASC
+            ORDER BY fechaCreado DESC
         ";
 
         $stmt = $this->db->prepare($sql);

@@ -282,23 +282,29 @@ class InversionModel
                 ON g.idGerencias = a.idGerencias
         ";
         // Super Admin, Admin, Gerente General
-        if (
-            in_array($idRol, [1, 2, 11])
-        ) {
+        if (in_array($idRol, [1, 2, 3])) {
+            $sql .= "
+                ORDER BY
+                    f.nombreFondo,
+                    a.siglasArea,
+                    i.descripcion
+            ";
             return $this->db
                 ->query($sql)
                 ->fetchAll(PDO::FETCH_ASSOC);
         }
         // Jefe Oficina / Asistente
-        if (
-            in_array($idRol, [13, 9])
-        ) {
+        if (in_array($idRol, [13, 9])) {
             $sql .= "
                 WHERE i.idAreas IN (
                     SELECT idAreas
                     FROM usuarios_areas
                     WHERE idUser = ?
                 )
+                ORDER BY
+                    f.nombreFondo,
+                    a.siglasArea,
+                    i.descripcion
                 ";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([

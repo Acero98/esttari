@@ -65,7 +65,7 @@
                                             data-id="<?= $a['idAnioRegulatorio'] ?>"
                                             data-inversion="<?= $inversion['idInversiones'] ?>"
                                             data-anio="<?= $a['anio'] ?>"
-                                            title="Ejecución mensual">
+                                            title="Ejecución reciente">
                                             <i class="bi bi-calendar-check"></i>
                                         </button>
                                         <!-- SEGUIMIENTO MENSUAL -->
@@ -75,7 +75,7 @@
                                             data-id="<?= $a['idAnioRegulatorio'] ?>"
                                             data-inversion="<?= $inversion['idInversiones'] ?>"
                                             data-anio="<?= $a['anio'] ?>"
-                                            title="Seguimiento mensual">
+                                            title="Último seguimiento">
                                             <i class="bi bi-journal-check"></i>
                                         </button>
                                         <!-- Editar -->
@@ -683,7 +683,6 @@
                             type="date"
                             name="fechas"
                             id="fechas"
-                            required
                             class="w-full rounded-lg border px-3 py-2">
                     </div>
                     <!-- SITUACIÓN -->
