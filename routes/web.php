@@ -459,6 +459,17 @@ elseif ($url == 'dashboardInversion') {
     $controller->index();
 }
 
+// REPORTES
+elseif ($url == 'reportes') {
+
+    autorizar('reportes');
+
+    require_once "../app/Controllers/ReporteController.php";
+
+    $controller = new ReporteController();
+    $controller->index();
+}
+
 elseif ($url == 'logout') {
     session_destroy();
     header("Location: index.php?url=login");

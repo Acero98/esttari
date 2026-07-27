@@ -18,6 +18,7 @@ class InversionModel
                     a.nombreArea,
                     i.cui,
                     i.descripcion,
+                    i.estadoInversion,
                     i.nombre,
                     i.observaciones,
                     i.estado,
@@ -42,6 +43,7 @@ class InversionModel
                     idAreas,
                     cui,
                     descripcion,
+                    estadoInversion,
                     nombre,
                     observaciones
                 FROM inversiones
@@ -122,6 +124,7 @@ class InversionModel
                     idAreas = :idAreas,
                     cui = :cui,
                     descripcion = :descripcion,
+                    estadoInversion = :estadoInversion,
                     nombre = :nombre
                     /*observaciones = :observaciones*/
                 WHERE idInversiones = :id";
@@ -132,6 +135,7 @@ class InversionModel
             ':idAreas'       => $data['idAreas'],
             ':cui'           => empty(trim($data['cui'])) ? null : trim($data['cui']),
             ':descripcion'   => $data['descripcion'],
+            ':estadoInversion' => $data['estadoInversion'],
             ':nombre'        => $data['nombre'],
             /*':observaciones' => $data['observaciones'],*/
             ':id'            => $id
@@ -358,4 +362,5 @@ class InversionModel
             ->query($sql)
             ->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }

@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Lima');
+
 $host = "localhost";
 $db   = "bd_seprin";
 $user = "root";

@@ -37,6 +37,7 @@ class InversionController
             'idAreas'       => $_POST['idAreas'],
             'cui'           => trim($_POST['cui']),
             'descripcion'   => trim($_POST['descripcion']),
+            'estadoInversion' => $_POST['estadoInversion'],
             'nombre'        => trim($_POST['nombre']),
             'observaciones' => trim($_POST['observaciones'])
         ];
@@ -91,6 +92,7 @@ class InversionController
             'idAreas'       => $_POST['idAreas'],
             'cui'                => empty(trim($_POST['cui'])) ? null : trim($_POST['cui']),
             'descripcion'   => trim($_POST['descripcion']),
+            'estadoInversion' => $_POST['estadoInversion'],
             'nombre'        => trim($_POST['nombre']),
             //'observaciones' => trim($_POST['observaciones'])
         ];

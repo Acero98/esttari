@@ -187,9 +187,9 @@
                                     <?php
                                     $fisico = $fila['avanceFisico'] ?? 0;
 
-                                    if ($fisico >= 80) {
+                                    if ($fisico >= 70) {
                                         $color = "bg-emerald-100 text-emerald-700";
-                                    } elseif ($fisico >= 50) {
+                                    } elseif ($fisico >= 35) {
                                         $color = "bg-amber-100 text-amber-700";
                                     } else {
                                         $color = "bg-rose-100 text-rose-700";
@@ -209,9 +209,9 @@
                                     <?php
                                     $financiero = $fila['avanceFinanciero'] ?? 0;
 
-                                    if ($financiero >= 80) {
+                                    if ($financiero >= 70) {
                                         $color = "bg-emerald-100 text-emerald-700";
-                                    } elseif ($financiero >= 50) {
+                                    } elseif ($financiero >= 35) {
                                         $color = "bg-amber-100 text-amber-700";
                                     } else {
                                         $color = "bg-rose-100 text-rose-700";

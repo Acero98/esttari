@@ -1,14 +1,22 @@
 document
     .getElementById("filtroEstudio")
     ?.addEventListener("change", function () {
+
+        document.getElementById("filtroInversion").selectedIndex = 0;
+
+    });
+/*document
+    .getElementById("filtroEstudio")
+    ?.addEventListener("change", function () {
         document.getElementById("filtroInversion").selectedIndex = 0;
         this.form.submit();
     });
+
 document
     .getElementById("filtroInversion")
     ?.addEventListener("change", function () {
         this.form.submit();
-    });
+    });*/
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -203,3 +211,18 @@ new ApexCharts(
     document.querySelector("#graficoAvances"),
     opciones
 ).render();
+
+document.querySelectorAll(".tom-select").forEach(function (elemento) {
+
+    new TomSelect(elemento, {
+        create: false,
+        allowEmptyOption: true,
+        placeholder: "Seleccione...",
+        maxOptions: 500,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+
+});

@@ -27,6 +27,7 @@ class DashboardInversionModel
                 i.idInversiones,
                 i.nombre,
                 i.descripcion,
+                i.estadoInversion,
                 i.cui,
                 i.estado,
                 i.fechaCreado,
@@ -311,6 +312,21 @@ class DashboardInversionModel
 
             $inicio = new DateTime(date('Y-m-d', strtotime($item['fechaCreado'])));
             $fin    = new DateTime($item['fechas']);
+
+            // La fecha límite ya es anterior a la fecha de creación
+            if ($fin < $inicio) {
+
+                $diasRetraso = $fin->diff($inicio)->days;
+
+                $item['estadoColor'] = "bg-rose-100 text-rose-700";
+                $item['estadoTexto'] = "Retrasado";
+                $item['estadoIcono'] = "bi-exclamation-triangle-fill";
+
+                $item['diasTotales'] = $diasRetraso;
+                $item['diasTranscurridos'] = $diasRetraso;
+
+                continue;
+            }
 
             // Duración total del seguimiento
             $diasTotales = max(

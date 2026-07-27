@@ -1,4 +1,7 @@
-<?php require_once 'modalDocumentos.php'; ?>
+<?php
+require_once 'modalDocumentos.php';
+require_once "../app/Helpers/EstadoHelper.php";
+?>
 
 <div class="w-full px-4 md:px-6 xl:px-8 space-y-6">
     <!-- HEADER -->
@@ -30,6 +33,7 @@
                             <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">CUI</th>
                             <th class="px-4 py-3">Nom. Resumen</th>
+                            <th class="px-4 py-3">Estado Inv.</th>
                             <th class="px-4 py-3">Est. Tarifario</th>
                             <th class="px-4 py-3">Fondo</th>
                             <th class="px-4 py-3">Área</th>
@@ -41,6 +45,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 align-middle">
                         <?php foreach ($inversiones as $index => $i): ?>
+                            <?php $estado = estadoInversion($i['estadoInversion']); ?>
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
@@ -49,6 +54,13 @@
                                         title="<?= htmlspecialchars($i['nombre']) ?>">
                                         <?= htmlspecialchars($i['descripcion']) ?>
                                     </div>
+                                </td>
+                                <!-- NUEVA COLUMNA -->
+                                <td class="px-4 py-3 text-center">
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold <?= $estado['color'] ?>">
+                                        <i class="bi <?= $estado['icono'] ?>"></i>
+                                        <?= $estado['texto'] ?>
+                                    </span>
                                 </td>
                                 <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'] . ' (' . $i['anioInicio'] . ' - ' . $i['anioFin'] . ')' ?></td>
                                 <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
@@ -402,13 +414,15 @@
 
                 </div>
 
-                <!-- CUI / Nombre Resumen -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                <!-- CUI / Descripción / Estado -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 mt-5">
+
                     <!-- CUI -->
-                    <div>
+                    <div class="md:col-span-3">
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             CUI
                         </label>
+
                         <input
                             type="text"
                             name="cui"
@@ -418,11 +432,13 @@
                                     focus:ring-2 focus:ring-blue-500
                                     focus:border-blue-500 outline-none">
                     </div>
-                    <!-- Descripción -->
-                    <div>
+
+                    <!-- Nombre Resumen -->
+                    <div class="md:col-span-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">
-                            Descripción
+                            Nombre Resumen
                         </label>
+
                         <input
                             type="text"
                             name="descripcion"
@@ -432,8 +448,34 @@
                                     focus:ring-2 focus:ring-blue-500
                                     focus:border-blue-500 outline-none">
                     </div>
+
+                    <!-- Estado -->
+                    <div class="md:col-span-3">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Estado de la inversión
+                        </label>
+
+                        <select
+                            name="estadoInversion"
+                            id="edit_estadoInversion"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
+
+                            <option value="1">🟣 Nuevo</option>
+                            <option value="2">🔵 En planificación</option>
+                            <option value="3">🟠 En proceso</option>
+                            <option value="4">🟢 En ejecución</option>
+                            <option value="5">🟦 En seguimiento</option>
+                            <option value="6">🟧 Retrasado</option>
+                            <option value="7">✅ Finalizado</option>
+                            <option value="8">🔴 Suspendido</option>
+                            <option value="9">⚫ Cancelado</option>
+
+                        </select>
+                    </div>
                     <!-- Nombre -->
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-12">
                         <label class="block text-sm font-medium text-slate-700 mb-2">
                             Nombre de la Inversión
                         </label>

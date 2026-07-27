@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-- =======================================
         METADATOS
@@ -50,11 +51,14 @@
     <script
         src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
         defer></script>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
     <!-- =======================================
         FAVICON
     ======================================== -->
     <link
-        rel="icon"
+        rel=" icon"
         type="image/png"
         href="<?= BASE_URL ?>assets/img/OlivaTech-Circulo.png">
     <link
@@ -67,6 +71,7 @@
         rel="stylesheet"
         href="<?= BASE_URL ?>assets/css/output.css">
 </head>
+
 <body
     class="
             min-h-screen

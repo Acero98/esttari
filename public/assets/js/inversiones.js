@@ -75,6 +75,7 @@ function iniciarEditarInversion() {
                 document.getElementById("edit_idAreas").value = i.idAreas;
                 document.getElementById("edit_cui").value = i.cui ?? "";
                 document.getElementById("edit_descripcion").value = i.descripcion;
+                document.getElementById("edit_estadoInversion").value = i.estadoInversion;
                 document.getElementById("edit_nombre").value = i.nombre;
                 //document.getElementById("edit_observaciones").value = i.observaciones ?? "";
                 if (document.activeElement) {

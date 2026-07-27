@@ -41,6 +41,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- ApexCharts -->
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <!-- Select2 -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+        <!-- Exportar excel, pdf e imprimir -->
+        <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
         <!-- =======================================
             JAVASCRIPT GLOBAL
         ======================================== -->
@@ -70,5 +77,18 @@
             unset($_SESSION['tipo']);
             ?>
         <?php endif; ?>
-    </body>
-</html>
+        <script>
+            /*
+            $(document).ready(function() {
+
+                $('.select-buscador').select2({
+                    width: '100%',
+                    placeholder: 'Buscar...',
+                    allowClear: true
+                });
+
+            });*/
+        </script>
+        </body>
+
+        </html>

@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../../Helpers/EstadoHelper.php';
+
+$estado = estadoInversion($informacion['estadoInversion'] ?? null);
+?>
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
     <!-- Cabecera -->
     <div class="px-6 py-4 bg-indigo-50 border-b border-indigo-100">
@@ -58,8 +63,37 @@
                     <?= $informacion['nombreGerencia'] ?? '-' ?>
                 </p>
             </div>
+            <div class="rounded-xl <?= $estado['bg'] ?> <?= $estado['border'] ?> border-2 p-5">
+
+                <span class="text-xs uppercase font-semibold text-slate-500">
+                    Estado de la inversión
+                </span>
+
+                <div class="mt-4 flex items-center gap-4">
+
+                    <div class="w-14 h-14 rounded-xl <?= $estado['iconBg'] ?> flex items-center justify-center">
+
+                        <i class="bi <?= $estado['icono'] ?> <?= $estado['iconColor'] ?> text-2xl"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-lg font-bold <?= $estado['textColor'] ?>">
+                            <?= $estado['texto'] ?>
+                        </h3>
+
+                        <p class="text-sm text-slate-600 mt-1">
+                            <?= $estado['descripcion'] ?>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
             <!-- Nombre Resumen -->
-            <div class="lg:col-span-2 rounded-xl bg-slate-50 border border-slate-200 p-4">
+            <div class="lg:col-span-1 rounded-xl bg-slate-50 border border-slate-200 p-4">
                 <span class="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase">
                     <i class="bi bi-card-text text-blue-600"></i>
                     Nombre Resumen

@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+<div class="bg-white rounded-2xl shadow-md border border-slate-200">
     <!-- Cabecera del filtro -->
     <div class="px-6 py-4 bg-gradient-to-r from-slate-50 to-blue-50 border-b border-slate-200">
         <div class="flex items-center gap-3">
@@ -38,9 +38,9 @@
                         document.getElementById('filtroInversion').value='';
                         this.form.submit();
                     "
-                    class="w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition">
+                    class="tom-select w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition">
                     <option value="">
-                        -- Seleccione un estudio tarifario --
+                        Todas
                     </option>
                     <?php foreach ($estudios as $est): ?>
                         <option
@@ -65,10 +65,10 @@
                         document.getElementById('filtroInversion').value='';
                         this.form.submit();
                     "
-                    class="w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition"
-                    <?= empty($idEstudioTarifario) ? 'disabled' : '' ?>>
+                    class="tom-select w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition"
+                    >
                     <option value="">
-                        -- Seleccione un fondo --
+                        Todas
                     </option>
                     <?php foreach ($fondos as $fondo): ?>
                         <option
@@ -88,10 +88,10 @@
                 <select
                     name="idInversiones"
                     id="filtroInversion"
-                    class="w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition"
-                    <?= empty($idFondo) ? 'disabled' : '' ?>>
+                    class="tom-select w-full rounded-xl border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition"
+                    >
                     <option value="">
-                        -- Seleccione una inversión --
+                        Todas
                     </option>
                     <?php foreach ($inversiones as $inv): ?>
                         <option
