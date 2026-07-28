@@ -5,8 +5,12 @@
                 <i class="bi bi-speedometer2 text-3xl"></i>
             </div>
             <div>
-                <h1 class="text-3xl font-bold text-slate-800">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-wide">
+                    <i class="bi bi-speedometer2"></i>
                     Dashboard Ejecutivo
+                </div>
+                <h1 class="text-3xl font-bold text-slate-800">
+                    Dashboard Gerencial
                 </h1>
                 <p class="text-slate-500 mt-1">
                     Seguimiento financiero y avance de inversiones

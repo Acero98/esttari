@@ -76,7 +76,7 @@ class InversionModel
                 ORDER BY nombreArea";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     // REGISTRAR
     public function create($data)
     {
@@ -260,7 +260,6 @@ class InversionModel
     }
     public function listarSegunUsuario($usuario)
     {
-        $idRol = $usuario['idRol'];
         $sql = "
             SELECT
                 i.*,
@@ -286,38 +285,35 @@ class InversionModel
             INNER JOIN gerencias g
                 ON g.idGerencias = a.idGerencias
         ";
-        // Super Admin, Admin, Gerente General
-        if (in_array('ver_todas_inversiones', $_SESSION['permisos'])) {
-            $sql .= "
-                ORDER BY
-                    f.nombreFondo,
-                    a.siglasArea,
-                    i.descripcion
-            ";
-            return $this->db
-                ->query($sql)
-                ->fetchAll(PDO::FETCH_ASSOC);
-        }
-        // Jefe Oficina / Asistente
-        if (in_array('ver_inversiones_asignadas', $_SESSION['permisos'])) {
+
+        $parametros = [];
+
+        // Si no tiene acceso global, solo verá las inversiones
+        // de las áreas que tiene asignadas.
+        if (!in_array('ver_todas_inversiones', $_SESSION['permisos'])) {
+
             $sql .= "
                 WHERE i.idAreas IN (
                     SELECT idAreas
                     FROM usuarios_areas
                     WHERE idUser = ?
                 )
-                ORDER BY
-                    f.nombreFondo,
-                    a.siglasArea,
-                    i.descripcion
-                ";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                $usuario['idUser']
-            ]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ";
+
+            $parametros[] = $usuario['idUser'];
         }
-        return [];
+
+        $sql .= "
+            ORDER BY
+                f.nombreFondo,
+                a.siglasArea,
+                i.descripcion
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($parametros);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function obtenerEstudioTarifario($idInversion)
     {

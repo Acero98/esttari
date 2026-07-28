@@ -90,7 +90,7 @@
                     href="index.php?url=dashboardInversion"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition">
                     <i class="bi bi-bar-chart-line"></i>
-                    Dashboard Inversiones
+                    Dashboard Inversión
                 </a>
                 <a
                     href="index.php?url=inversiones"
@@ -209,7 +209,7 @@
                             href="index.php?url=dashboardInversion"
                             class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-sky-50 hover:text-sky-700 transition">
                             <i class="bi bi-bar-chart-line"></i>
-                            Dashboard Inversiones
+                            Dashboard de Inversiones
                         </a>
                     </div>
                 </div>

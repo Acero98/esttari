@@ -6,7 +6,7 @@
                 Dashboard Ejecutivo
             </div>
             <h1 class="mt-3 text-2xl font-bold text-slate-800">
-                Gestión Integral de la Inversión
+                Dashboard de Inversiones
             </h1>
             <p class="mt-2 text-sm text-slate-600 max-w-3xl leading-relaxed">
                 Consulte el estado financiero, avance físico, ejecución

@@ -549,6 +549,7 @@ class ReporteModel
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+    
     public function obtenerFiltros(
         $idUsuario,
         $idRol
