@@ -47,6 +47,37 @@ class AuthController
             exit;
         }
 
+        if (empty($user['idRol'])) {
+
+            $_SESSION['mensaje'] = "Su usuario no tiene un rol asignado. Comuníquese con el administrador.";
+            $_SESSION['tipo'] = "warning";
+
+            header("Location: index.php?url=login");
+            exit;
+        }
+
+        $rol = $model->rolActivo($user['idRol']);
+
+        if (!$rol || $rol['estado'] != 1) {
+
+            $_SESSION['mensaje'] = "El rol asignado a su usuario está deshabilitado.";
+            $_SESSION['tipo'] = "warning";
+
+            header("Location: index.php?url=login");
+            exit;
+        }
+
+        $permisos = $model->getPermisosRol($user['idRol']);
+
+        if (count($permisos) == 0) {
+
+            $_SESSION['mensaje'] = "El rol asignado no tiene permisos configurados.";
+            $_SESSION['tipo'] = "warning";
+
+            header("Location: index.php?url=login");
+            exit;
+        }
+
         // Crear sesión
         $_SESSION['idUser'] = $user['idUser'];
         $_SESSION['usuario'] = $user['usuario'];
@@ -56,15 +87,12 @@ class AuthController
         $_SESSION['idRol'] = $user['idRol'];
         $_SESSION['nombreRol'] = $user['nombreRol'];
 
-        $_SESSION['permisos'] = $model->getPermisosRol($user['idRol']);
-
-        // Obtener permisos del rol
-        $permisos = $model->getPermisosRol($user['idRol']);
-
         // Guardar solo las rutas en la sesión
-        $_SESSION['permisos'] = array_column($permisos, 'ruta');
+        $rutas = array_column($permisos, 'ruta');
 
-        header("Location: index.php?url=dashboard");
+        $_SESSION['permisos'] = $rutas;
+
+        header("Location: index.php?url=bienvenida");
         exit;
     }
 }

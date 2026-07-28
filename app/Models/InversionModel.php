@@ -76,6 +76,7 @@ class InversionModel
                 ORDER BY nombreArea";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     // REGISTRAR
     public function create($data)
     {
@@ -286,7 +287,7 @@ class InversionModel
                 ON g.idGerencias = a.idGerencias
         ";
         // Super Admin, Admin, Gerente General
-        if (in_array($idRol, [1, 2, 3])) {
+        if (in_array('ver_todas_inversiones', $_SESSION['permisos'])) {
             $sql .= "
                 ORDER BY
                     f.nombreFondo,
@@ -298,7 +299,7 @@ class InversionModel
                 ->fetchAll(PDO::FETCH_ASSOC);
         }
         // Jefe Oficina / Asistente
-        if (in_array($idRol, [13, 9])) {
+        if (in_array('ver_inversiones_asignadas', $_SESSION['permisos'])) {
             $sql .= "
                 WHERE i.idAreas IN (
                     SELECT idAreas
@@ -362,5 +363,4 @@ class InversionModel
             ->query($sql)
             ->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 }

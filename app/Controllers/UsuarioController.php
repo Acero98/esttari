@@ -31,6 +31,7 @@ class UsuarioController
             'contrasena' => password_hash($_POST['password'], PASSWORD_BCRYPT),
             'nombres'    => trim($_POST['nombres']),
             'apellidos'  => trim($_POST['apellidos']),
+            'dni'        => trim($_POST['dni']),
             'correo'     => trim($_POST['correo']),
             'idRol'      => $_POST['rol']
         ];
@@ -75,6 +76,8 @@ class UsuarioController
         ]);
     }
 
+    
+
     public function update()
     {
         global $conexion;
@@ -82,9 +85,10 @@ class UsuarioController
         $model = new UsuarioModel($conexion);
 
         $data = [
-            'usuario'   => trim($_POST['usuario']),
+            //'usuario'   => trim($_POST['usuario']),
             'nombres'   => trim($_POST['nombres']),
             'apellidos' => trim($_POST['apellidos']),
+            'dni'       => trim($_POST['dni']),
             'correo'    => trim($_POST['correo']),
             'idRol'     => $_POST['rol'],
             'contrasena' => ''
@@ -94,6 +98,7 @@ class UsuarioController
             $data['contrasena'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
         }
 
+        /*
         if ($model->existeUsuario($data['usuario'], $_POST['idUser'])) {
 
             $_SESSION['mensaje'] = "Ese usuario ya existe.";
@@ -101,7 +106,7 @@ class UsuarioController
 
             header("Location:index.php?url=usuarios");
             exit;
-        }
+        }*/
 
         $ok = $model->update($_POST['idUser'], $data);
 

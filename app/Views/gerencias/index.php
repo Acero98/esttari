@@ -22,8 +22,8 @@
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">N°</th>
-                            <th class="px-4 py-3">Siglas</th>
                             <th class="px-4 py-3">Gerencia</th>
+                            <th class="px-4 py-3">Siglas</th>
                             <th class="px-4 py-3">Creado</th>
                             <th class="px-4 py-3">Estado</th>
                             <th class="px-4 py-3">Acciones</th>
@@ -35,11 +35,11 @@
                                 <td class="px-4 py-3">
                                     <?= $index + 1 ?>
                                 </td>
-                                <td class="px-4 py-3 font-medium text-slate-700">
-                                    <?= $g['siglasGerencia'] ?>
-                                </td>
                                 <td class="px-4 py-3">
                                     <?= $g['nombreGerencia'] ?>
+                                </td>
+                                <td class="px-4 py-3 font-medium text-slate-700">
+                                    <?= $g['siglasGerencia'] ?>
                                 </td>
                                 <td class="px-4 py-3">
                                     <?= $g['fechaCreado'] ?>

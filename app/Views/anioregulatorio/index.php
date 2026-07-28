@@ -432,7 +432,7 @@
             <div>
                 <h2 class="text-xl font-bold text-slate-800">
                     <span id="tituloModalEjecucion">
-                        Ejecución Mensual
+                        Ejecución Reciente
                     </span>
                     <span id="tituloAnio"></span>
                 </h2>
@@ -501,7 +501,6 @@
                                 <input
                                     type="checkbox"
                                     id="aplicaIgv"
-                                    checked
                                     class="rounded">
                                 Aplicar
                             </label>

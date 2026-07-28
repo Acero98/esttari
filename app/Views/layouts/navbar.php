@@ -15,7 +15,7 @@
             </button>
             <!-- Logo -->
             <a
-                href="index.php?url=dashboard"
+                href="index.php?url=bienvenida"
                 class="flex items-center gap-3 group">
                 <div
                     class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 border border-blue-200 flex items-center justify-center shadow-sm group-hover:shadow transition">
@@ -78,12 +78,14 @@
             </div>
             <!-- Menú -->
             <nav class="p-4 space-y-1">
+                <?php if (permiso('usuarios')): ?>
                 <a
                     href="index.php?url=dashboard"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition">
                     <i class="bi bi-speedometer2"></i>
                     Dashboard Gerencial
                 </a>
+                <?php endif; ?>
                 <a
                     href="index.php?url=dashboardInversion"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition">
@@ -102,6 +104,7 @@
                     <i class="bi bi-file-earmark-bar-graph"></i>
                     Reportes
                 </a>
+                <?php if (permiso('usuarios')): ?>
                 <div class="border-t my-4"></div>
                 <p class="px-4 pb-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
                     Gestión
@@ -130,7 +133,6 @@
                     <i class="bi bi-grid"></i>
                     Áreas
                 </a>
-                <?php if (permiso('usuarios')): ?>
                     <div class="border-t my-4"></div>
                     <p class="px-4 pb-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
                         Seguridad
@@ -227,6 +229,7 @@
                 Reportes
             </a>
             <!-- GESTIÓN -->
+             <?php if (permiso('usuarios')): ?>
             <div class="relative" x-data="{ open:false }">
                 <button
                     @click="open=!open"
@@ -274,7 +277,7 @@
                 </div>
             </div>
             <!-- SEGURIDAD -->
-            <?php if (permiso('usuarios')): ?>
+            
                 <div class="relative" x-data="{ open:false }">
                     <button
                         @click="open=!open"

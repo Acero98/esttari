@@ -31,12 +31,12 @@ require_once "../app/Helpers/EstadoHelper.php";
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">N°</th>
+                            <th class="px-4 py-3">Estado Inv.</th>
                             <th class="px-4 py-3">CUI</th>
                             <th class="px-4 py-3">Nom. Resumen</th>
-                            <th class="px-4 py-3">Estado Inv.</th>
-                            <th class="px-4 py-3">Est. Tarifario</th>
-                            <th class="px-4 py-3">Fondo</th>
                             <th class="px-4 py-3">Área</th>
+                            <th class="px-4 py-3">Fondo</th>
+                            <th class="px-4 py-3">Est. Tarifario</th>
                             <!-- <th class="px-4 py-3">Nombre</th> 
                             <th class="px-4 py-3">Creado</th>-->
                             <th class="px-4 py-3">Estado</th>
@@ -48,13 +48,6 @@ require_once "../app/Helpers/EstadoHelper.php";
                             <?php $estado = estadoInversion($i['estadoInversion']); ?>
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
-                                <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
-                                <td class="px-4 py-3 max-w-xs whitespace-normal break-words">
-                                    <div
-                                        title="<?= htmlspecialchars($i['nombre']) ?>">
-                                        <?= htmlspecialchars($i['descripcion']) ?>
-                                    </div>
-                                </td>
                                 <!-- NUEVA COLUMNA -->
                                 <td class="px-4 py-3 text-center">
                                     <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold <?= $estado['color'] ?>">
@@ -62,14 +55,21 @@ require_once "../app/Helpers/EstadoHelper.php";
                                         <?= $estado['texto'] ?>
                                     </span>
                                 </td>
-                                <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'] . ' (' . $i['anioInicio'] . ' - ' . $i['anioFin'] . ')' ?></td>
-                                <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
+                                <td class="px-4 py-3"><?= $i['cui'] ?: '-' ?></td>
+                                <td class="px-4 py-3 max-w-xs whitespace-normal break-words">
+                                    <div
+                                        title="<?= htmlspecialchars($i['nombre']) ?>">
+                                        <?= htmlspecialchars($i['descripcion']) ?>
+                                    </div>
+                                </td>
                                 <td class="px-4 py-3">
                                     <div
                                         title="<?= htmlspecialchars($i['nombreArea']) ?>">
                                         <?= htmlspecialchars($i['siglasArea']) ?>
                                     </div>
                                 </td>
+                                <td class="px-4 py-3"><?= $i['nombreFondo'] ?></td>
+                                <td class="px-4 py-3"><?= $i['nombreEstudioTarifario'] . ' (' . $i['anioInicio'] . ' - ' . $i['anioFin'] . ')' ?></td>
                                 <!-- <td class="px-4 py-3 max-w-md whitespace-normal">
                                     <= $i['nombre'] ?>
                                 </td> 

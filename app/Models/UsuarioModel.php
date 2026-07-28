@@ -18,6 +18,7 @@ class UsuarioModel
                     u.contrasena,
                     u.nombres,
                     u.apellidos,
+                    u.dni,
                     u.correo,
                     u.estado,
                     u.idRol,
@@ -63,6 +64,7 @@ class UsuarioModel
                     u.usuario,
                     u.nombres,
                     u.apellidos,
+                    u.dni,
                     u.correo,
                     u.fechaCreado,
                     u.estado,
@@ -87,6 +89,7 @@ class UsuarioModel
                     u.usuario,
                     u.nombres,
                     u.apellidos,
+                    u.dni,
                     u.correo,
                     u.estado,
                     u.idRol,
@@ -111,12 +114,28 @@ class UsuarioModel
                     idRol,
                     nombreRol
                 FROM roles
+                WHERE estado = 1
                 ORDER BY nombreRol";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function rolActivo($idRol)
+    {
+        $sql = "SELECT estado
+            FROM roles
+            WHERE idRol = :idRol
+            LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':idRol' => $idRol
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($data)
@@ -127,6 +146,7 @@ class UsuarioModel
                 contrasena,
                 nombres,
                 apellidos,
+                dni,
                 correo,
                 idRol,
                 estado,
@@ -138,6 +158,7 @@ class UsuarioModel
                 :contrasena,
                 :nombres,
                 :apellidos,
+                :dni,
                 :correo,
                 :idRol,
                 1,
@@ -151,10 +172,12 @@ class UsuarioModel
             ':contrasena' => $data['contrasena'],
             ':nombres'    => $data['nombres'],
             ':apellidos'  => $data['apellidos'],
+            ':dni'        => $data['dni'],
             ':correo'     => $data['correo'],
             ':idRol'      => $data['idRol']
         ]);
     }
+
 
     public function update($id, $data)
     {
@@ -162,9 +185,10 @@ class UsuarioModel
 
             $sql = "UPDATE usuarios
                 SET
-                    usuario=:usuario,
+                    /*usuario=:usuario,*/
                     nombres=:nombres,
                     apellidos=:apellidos,
+                    dni=:dni,
                     correo=:correo,
                     contrasena=:contrasena,
                     idRol=:idRol
@@ -173,9 +197,10 @@ class UsuarioModel
 
             $sql = "UPDATE usuarios
                 SET
-                    usuario=:usuario,
+                    /*usuario=:usuario,*/
                     nombres=:nombres,
                     apellidos=:apellidos,
+                    dni=:dni,
                     correo=:correo,
                     idRol=:idRol
                 WHERE idUser=:id";
@@ -184,9 +209,10 @@ class UsuarioModel
         $stmt = $this->db->prepare($sql);
 
         $params = [
-            ':usuario'   => $data['usuario'],
+            //':usuario'   => $data['usuario'],
             ':nombres'   => $data['nombres'],
             ':apellidos' => $data['apellidos'],
+            ':dni'       => $data['dni'],
             ':correo'    => $data['correo'],
             ':idRol'     => $data['idRol'],
             ':id'        => $id

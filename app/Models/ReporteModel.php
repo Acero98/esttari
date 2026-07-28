@@ -190,7 +190,7 @@ class ReporteModel
         | FILTRO POR ÁREA DEL USUARIO
         |--------------------------------------------------------------------------
         */
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
             $sql .= "
                 INNER JOIN usuarios_areas ua
                     ON ua.idAreas =
@@ -200,7 +200,7 @@ class ReporteModel
         $sql .= "
             WHERE 1=1
         ";
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
             $sql .= "
                 AND ua.idUser = ?
             ";
@@ -474,7 +474,7 @@ class ReporteModel
 
         $parametros = [];
 
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
 
             $sql .= "
             INNER JOIN usuarios_areas ua
@@ -486,7 +486,7 @@ class ReporteModel
         WHERE 1 = 1
     ";
 
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
 
             $sql .= "
             AND ua.idUser = ?
@@ -583,7 +583,7 @@ class ReporteModel
         |
         |--------------------------------------------------------------------------
         */
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
             $sql .= "
                 INNER JOIN usuarios_areas ua
                     ON ua.idAreas = i.idAreas
@@ -604,7 +604,7 @@ class ReporteModel
                 i.idInversiones
             WHERE 1=1
         ";
-        if ($idRol != 1) {
+        if (!in_array('reportes_globales', $_SESSION['permisos'])) {
             $sql .= "
                 AND ua.idUser = ?
             ";

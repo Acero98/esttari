@@ -226,7 +226,7 @@ document.addEventListener("click", function (e) {
     document.getElementById(
         "tituloModalEjecucion"
     ).innerHTML =
-        "Ejecución Mensual";
+        "Ejecución Reciente";
     document.getElementById(
         "tituloAnio"
     ).innerHTML = anio;
@@ -549,9 +549,9 @@ function limpiarFormularioEjecucion() {
     document.getElementById("igv").value = "0.00";
     document.getElementById("total").value = "0.00";
     document.getElementById("archivo").value = "";
-    document.getElementById("aplicaIgv").checked = true;
+    document.getElementById("aplicaIgv").checked = false;
     document.getElementById("tituloModalEjecucion").innerHTML =
-        "Ejecución Mensual";
+        "Ejecución Reciente";
     document.getElementById("textoGuardar").innerHTML =
         "Guardar";
     // Recalcular para dejar los valores consistentes

@@ -30,6 +30,7 @@ require_once "usuarioAreaModal.php";
                             <th class="px-4 py-3">N°</th>
                             <th class="px-4 py-3">Usuario</th>
                             <th class="px-4 py-3">Nombres</th>
+                            <th class="px-4 py-3">DNI</th>
                             <th class="px-4 py-3">Correo</th>
                             <th class="px-4 py-3">Rol</th>
                             <th class="px-4 py-3">Creado</th>
@@ -43,6 +44,7 @@ require_once "usuarioAreaModal.php";
                                 <td class="px-4 py-3"><?= $index + 1 ?></td>
                                 <td class="px-4 py-3  font-medium text-slate-700"><?= $u['usuario'] ?></td>
                                 <td class="px-4 py-3"><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
+                                <td class="px-4 py-3"><?= $u['dni'] ?></td>
                                 <td class="px-4 py-3"><?= $u['correo'] ?></td>
                                 <td class="px-4 py-3"><?= $u['nombreRol'] ?? 'Sin rol' ?></td>
                                 <td class="px-4 py-3"><?= $u['fechaCreado'] ?></td>
@@ -143,19 +145,19 @@ require_once "usuarioAreaModal.php";
                             name="usuario"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Correo -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
-                            Correo
+                            DNI
                         </label>
                         <input
-                            type="email"
-                            name="correo"
+                            type="text"
+                            name="dni"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombres -->
                     <div>
@@ -167,7 +169,7 @@ require_once "usuarioAreaModal.php";
                             name="nombres"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Apellidos -->
                     <div>
@@ -179,7 +181,19 @@ require_once "usuarioAreaModal.php";
                             name="apellidos"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
+                    <!-- Correo -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Correo
+                        </label>
+                        <input
+                            type="email"
+                            name="correo"
+                            required
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Contraseña -->
                     <div>
@@ -191,7 +205,7 @@ require_once "usuarioAreaModal.php";
                             name="password"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Rol -->
                     <div>
@@ -202,7 +216,7 @@ require_once "usuarioAreaModal.php";
                             name="rol"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                             <option value="">Seleccione un rol</option>
                             <?php foreach ($roles as $r): ?>
                                 <option value="<?= $r['idRol'] ?>">
@@ -271,12 +285,6 @@ require_once "usuarioAreaModal.php";
                             Usuario
                         </label>
 
-                        <!-- ID del usuario -->
-                        <input
-                            type="hidden"
-                            name="idUser"
-                            id="edit_idUser">
-
                         <!-- Nombre del usuario (solo lectura) -->
                         <div
                             id="edit_usuario"
@@ -289,17 +297,17 @@ require_once "usuarioAreaModal.php";
 
                         </div>
                     </div>
-                    <!-- Correo -->
+                    <!-- DNI -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">
-                            Correo
+                            DNI
                         </label>
                         <input
-                            type="email"
-                            name="correo"
-                            id="edit_correo"
+                            type="text"
+                            name="dni"
+                            id="edit_dni"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombres -->
                     <div>
@@ -311,7 +319,7 @@ require_once "usuarioAreaModal.php";
                             name="nombres"
                             id="edit_nombres"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Apellidos -->
                     <div>
@@ -323,7 +331,19 @@ require_once "usuarioAreaModal.php";
                             name="apellidos"
                             id="edit_apellidos"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
+                    <!-- Correo -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Correo
+                        </label>
+                        <input
+                            type="email"
+                            name="correo"
+                            id="edit_correo"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2.5
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Contraseña -->
                     <div>
@@ -334,7 +354,7 @@ require_once "usuarioAreaModal.php";
                             type="password"
                             name="password"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <!-- Rol -->
                     <div>
@@ -345,7 +365,7 @@ require_once "usuarioAreaModal.php";
                             name="rol"
                             id="edit_rol"
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                         </select>
                     </div>
                 </div>

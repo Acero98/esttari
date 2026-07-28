@@ -461,12 +461,16 @@ elseif ($url == 'dashboardInversion') {
 
 // REPORTES
 elseif ($url == 'reportes') {
-
     autorizar('reportes');
-
     require_once "../app/Controllers/ReporteController.php";
-
     $controller = new ReporteController();
+    $controller->index();
+}
+
+// BIENVENIDA
+elseif ($url == 'bienvenida') {
+    require_once "../app/Controllers/BienvenidaController.php";
+    $controller = new BienvenidaController();
     $controller->index();
 }
 

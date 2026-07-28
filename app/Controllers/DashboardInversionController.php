@@ -2,30 +2,104 @@
 require_once "../config/conexion.php";
 require_once "../app/Models/InversionModel.php";
 require_once "../app/Models/DashboardInversionModel.php";
+
 class DashboardInversionController
 {
+
     /*
-    |------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     | DASHBOARD EJECUTIVO DE LA INVERSIÓN
-    |------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     */
+
     public function index()
     {
         global $conexion;
+
+
         $model = new DashboardInversionModel($conexion);
         $inversionModel = new InversionModel($conexion);
-        $idEstudioTarifario = $_GET["idEstudioTarifario"] ?? null;
-        $idFondo = $_GET["idFondo"] ?? null;
-        $idInversion = $_GET["idInversiones"] ?? null;
-        // Si solo llega la inversión, obtener automáticamente su estudio tarifario
-        if (!$idEstudioTarifario && $idInversion) {
-            $idEstudioTarifario = $inversionModel->obtenerEstudioTarifario(
-                $idInversion
+
+
+        $idUsuario = $_SESSION["idUser"];
+        $idRol = $_SESSION["idRol"];
+
+
+        $idEstudioTarifario =
+            $_GET["idEstudioTarifario"] ?? null;
+
+        $idFondo =
+            $_GET["idFondo"] ?? null;
+
+        $idInversion =
+            $_GET["idInversiones"] ?? null;
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LISTA DE FILTROS
+        |--------------------------------------------------------------------------
+        */
+
+
+        // Estudios disponibles según usuario
+        $estudios =
+            $model->obtenerEstudiosDashboard(
+                $idUsuario,
+                $idRol
             );
+
+
+        // Fondos según estudio seleccionado
+        $fondos = [];
+
+        if ($idEstudioTarifario) {
+
+            $fondos =
+                $model->obtenerFondosDashboard(
+                    $idEstudioTarifario,
+                    $idUsuario,
+                    $idRol
+                );
         }
-        // =====================================
-        // VALIDAR QUE LA INVERSIÓN PERTENEZCA AL ESTUDIO
-        // =====================================
+
+
+        // Inversiones según estudio + fondo
+        $inversiones = [];
+
+        if (
+            $idEstudioTarifario &&
+            $idFondo
+        ) {
+
+            $inversiones =
+                $model->obtenerInversionesDashboard(
+                    $idEstudioTarifario,
+                    $idFondo,
+                    $idUsuario,
+                    $idRol
+                );
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDAR ESTUDIO DE LA INVERSIÓN
+        |--------------------------------------------------------------------------
+        */
+
+
+        if (!$idEstudioTarifario && $idInversion) {
+
+            $idEstudioTarifario =
+                $inversionModel->obtenerEstudioTarifario(
+                    $idInversion
+                );
+        }
+
+
         if (
             $idInversion &&
             $idEstudioTarifario &&
@@ -34,107 +108,144 @@ class DashboardInversionController
                 $idEstudioTarifario
             )
         ) {
+
             $_SESSION["mensaje"] =
                 "La inversión no pertenece al estudio tarifario seleccionado.";
+
             $_SESSION["tipo"] = "warning";
-            header("Location:index.php?url=dashboardInversion");
+
+            header(
+                "Location:index.php?url=dashboardInversion"
+            );
+
             exit;
         }
-        // =====================================
-        // LISTAR ESTUDIOS TARIFARIOS
-        // =====================================
-        $estudios = $model->obtenerEstudiosTarifarios();
-        $fondos = [];
-        if ($idEstudioTarifario) {
-            $fondos =
-                $model->obtenerFondosPorEstudio(
-                    $idEstudioTarifario
-                );
-        }
-        // =====================================
-        // LISTAR INVERSIONES SEGÚN ESTUDIO Y USUARIO
-        // =====================================
-        $inversiones = [];
-        if (
-            $idEstudioTarifario &&
-            $idFondo
-        ) {
-            if ($_SESSION["idRol"] == 1) {
-                // Super Admin
-                $inversiones =
-                    $model->obtenerInversionesPorEstudio(
-                        $idEstudioTarifario,
-                        $idFondo
-                    );
-            } else {
-                // Usuario con permisos sobre inversiones
-                $inversiones =
-                    $model->obtenerInversionesPorEstudioUsuario(
-                        $idEstudioTarifario,
-                        $idFondo,
-                        $_SESSION["idUser"]
-                    );
-            }
-        }
-        // =====================================
-        // VALIDAR ACCESO A UNA INVERSIÓN
-        // =====================================
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDAR ACCESO A LA INVERSIÓN
+        |--------------------------------------------------------------------------
+        */
+
+
         if (
             $idInversion &&
-            $_SESSION["idRol"] != 1 &&
+            !in_array(
+                'ver_dashboard_inversion_todo',
+                $_SESSION['permisos']
+            ) &&
             !$inversionModel->usuarioTieneAcceso(
-                $_SESSION["idUser"],
+                $idUsuario,
                 $idInversion
             )
         ) {
-            if (
-                !$inversionModel->usuarioTieneAcceso(
-                    $_SESSION["idUser"],
-                    $idInversion
-                )
-            ) {
-                $_SESSION["mensaje"] =
-                    "No tiene permisos para acceder a esta inversión.";
-                $_SESSION["tipo"] = "warning";
-                header("Location:index.php?url=dashboardInversion");
-                exit;
-            }
+
+
+            $_SESSION["mensaje"] =
+                "No tiene permisos para acceder a esta inversión.";
+
+            $_SESSION["tipo"] = "warning";
+
+
+            header(
+                "Location:index.php?url=dashboardInversion"
+            );
+
+            exit;
         }
-        // =====================================
-        // INFORMACIÓN GENERAL
-        // =====================================
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DATOS DEL DASHBOARD
+        |--------------------------------------------------------------------------
+        */
+
+
         $totales = [
             'programado' => 0,
             'total' => 0,
             'saldo' => 0,
             'pim' => 0
         ];
+
+
         $informacion = null;
         $resumenAnios = [];
         $ejecucionesRecientes = [];
+        $ultimoSeguimiento = null;
+
+
         if ($idInversion) {
+
+
             $informacion =
-                $model->obtenerInformacionGeneral($idInversion);
+                $model->obtenerInformacionGeneral(
+                    $idInversion
+                );
+
+
             $resumenAnios =
-                $model->obtenerResumenAniosRegulatorios($idInversion);
+                $model->obtenerResumenAniosRegulatorios(
+                    $idInversion
+                );
+
+
             $totales =
-                $model->calcularTotalesInversion($resumenAnios);
+                $model->calcularTotalesInversion(
+                    $resumenAnios
+                );
+
+
             $ejecucionesRecientes =
-                $model->obtenerEjecucionesRecientes($idInversion);
+                $model->obtenerEjecucionesRecientes(
+                    $idInversion
+                );
+
+
             $ultimoSeguimiento =
-                $model->obtenerUltimoSeguimiento($idInversion);
+                $model->obtenerUltimoSeguimiento(
+                    $idInversion
+                );
         }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DATOS PARA GRÁFICO AVANCE
+        |--------------------------------------------------------------------------
+        */
+
+
         $categoriasAvance = [];
         $avanceFisico = [];
         $avanceFinanciero = [];
+
+
         foreach ($resumenAnios as $fila) {
-            $categoriasAvance[] = $fila['anio'];
-            $avanceFisico[] = (float) $fila['avanceFisico'];
-            $avanceFinanciero[] = round(
-                $fila['avanceFinanciero'],
-                2
-            );
+
+
+            $categoriasAvance[] =
+                $fila['anio'];
+
+
+            $avanceFisico[] =
+                (float)$fila['avanceFisico'];
+
+
+            $avanceFinanciero[] =
+                round(
+                    $fila['avanceFinanciero'],
+                    2
+                );
         }
+
+
+
         require_once "../app/Views/layouts/header.php";
         require_once "../app/Views/layouts/navbar.php";
         require_once "../app/Views/dashboardInversion/index.php";

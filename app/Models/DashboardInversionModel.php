@@ -20,6 +20,7 @@ class DashboardInversionModel
             ->query($sql)
             ->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function obtenerInformacionGeneral($idInversion)
     {
         $sql = "
@@ -137,76 +138,170 @@ class DashboardInversionModel
         }
         return $resultado;
     }
-    public function obtenerInversionesPorEstudio(
-        $idEstudioTarifario,
-        $idFondo
-    ) {
-        $sql = "
-            SELECT
-                i.idInversiones,
-                i.nombre,
-                i.descripcion
-            FROM inversiones i
-            WHERE 
-                i.idEstudioTarifario = ?
-            AND
-                i.idFondos = ?
-            AND
-                i.estado = 1
-            ORDER BY i.descripcion
-        ";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            $idEstudioTarifario,
-            $idFondo
-        ]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function obtenerEstudiosTarifarios()
+    public function obtenerEstudiosDashboard($idUsuario, $idRol)
     {
         $sql = "
-            SELECT
-                idEstudioTarifario,
-                nombre,
-                anioInicio,
-                anioFin
-            FROM estudio_tarifario
-            WHERE estado = 'Activo'
-            ORDER BY anioInicio DESC
+            SELECT DISTINCT
+                et.idEstudioTarifario,
+                et.nombre,
+                et.anioInicio,
+                et.anioFin
+            FROM inversiones i
+
+            INNER JOIN estudio_tarifario et
+                ON et.idEstudioTarifario = i.idEstudioTarifario
         ";
-        return $this->db
-            ->query($sql)
-            ->fetchAll(PDO::FETCH_ASSOC);
+
+        $parametros = [];
+
+
+        if (!in_array('ver_dashboard_inversion_todo', $_SESSION['permisos'])) {
+
+            $sql .= "
+                INNER JOIN usuarios_areas ua
+                    ON ua.idAreas = i.idAreas
+
+                WHERE ua.idUser = ?
+            ";
+
+            $parametros[] = $idUsuario;
+        }
+
+
+        $sql .= "
+            ORDER BY et.nombre
+        ";
+
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($parametros);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function obtenerInversionesPorEstudioUsuario(
+    public function obtenerFondosDashboard(
         $idEstudioTarifario,
-        $idFondo,
-        $idUsuario
+        $idUsuario,
+        $idRol
     ) {
         $sql = "
+
             SELECT DISTINCT
-                i.idInversiones,
-                i.nombre,
-                i.descripcion
+                f.idFondos,
+                f.nombreFondo
+
             FROM inversiones i
-            INNER JOIN usuarios_areas ua
-                ON ua.idAreas = i.idAreas
+
+            INNER JOIN fondos f
+                ON f.idFondos = i.idFondos
+
+        ";
+
+        $parametros = [];
+
+
+        if (!in_array('ver_dashboard_inversion_todo', $_SESSION['permisos'])) {
+
+            $sql .= "
+
+                INNER JOIN usuarios_areas ua
+                    ON ua.idAreas = i.idAreas
+
+            ";
+        }
+
+
+        $sql .= "
+
+            WHERE i.idEstudioTarifario = ?
+
+        ";
+
+        $parametros[] = $idEstudioTarifario;
+
+
+        if (!in_array('ver_dashboard_inversion_todo', $_SESSION['permisos'])) {
+
+            $sql .= "
+                AND ua.idUser = ?
+            ";
+
+            $parametros[] = $idUsuario;
+        }
+
+
+        $sql .= "
+            ORDER BY f.nombreFondo
+        ";
+
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($parametros);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function obtenerInversionesDashboard(
+        $idEstudioTarifario,
+        $idFondos,
+        $idUsuario,
+        $idRol
+    ) {
+        $sql = "
+
+            SELECT
+                i.idInversiones,
+                i.descripcion
+
+            FROM inversiones i
+
+        ";
+
+        $parametros = [];
+
+
+        if (!in_array('ver_dashboard_inversion_todo', $_SESSION['permisos'])) {
+
+            $sql .= "
+
+                INNER JOIN usuarios_areas ua
+                    ON ua.idAreas = i.idAreas
+
+            ";
+        }
+
+
+        $sql .= "
+
             WHERE
                 i.idEstudioTarifario = ?
             AND
                 i.idFondos = ?
-            AND
-                ua.idUser = ?
-            AND
-                i.estado = 1
+
+        ";
+
+
+        $parametros[] = $idEstudioTarifario;
+        $parametros[] = $idFondos;
+
+
+        if (!in_array('ver_dashboard_inversion_todo', $_SESSION['permisos'])) {
+
+            $sql .= "
+                AND ua.idUser = ?
+            ";
+
+            $parametros[] = $idUsuario;
+        }
+
+
+        $sql .= "
             ORDER BY i.descripcion
         ";
+
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            $idEstudioTarifario,
-            $idFondo,
-            $idUsuario
-        ]);
+        $stmt->execute($parametros);
+
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function calcularTotalesInversion(array $resumenAnios)
@@ -225,7 +320,8 @@ class DashboardInversionModel
         }
         return $totales;
     }
-    public function obtenerFondosPorEstudio($idEstudioTarifario)
+    /*
+    public function obtenerFondosPorEstudio($idEstudioTarifario, $idUsuario)
     {
         $sql = "
             SELECT DISTINCT
@@ -241,7 +337,7 @@ class DashboardInversionModel
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$idEstudioTarifario]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }*/
     public function obtenerEjecucionesRecientes($idInversion)
     {
         $sql = "

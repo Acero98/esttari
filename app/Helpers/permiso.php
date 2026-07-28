@@ -12,7 +12,7 @@ function permiso($permiso)
 function autorizar($permiso)
 {
     if (!permiso($permiso)) {
-        header("Location: index.php?url=dashboard");
+        header("Location: index.php?url=bienvenida");
         exit;
     }
 }

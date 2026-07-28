@@ -75,10 +75,10 @@ class RolController
         $model = new RolModel($conexion);
 
         $data = [
-            'nombreRol'   => trim($_POST['nombreRol']),
+            //'nombreRol'   => trim($_POST['nombreRol']),
             'descripcionRol'   => trim($_POST['descripcionRol'])
         ];
-
+        /*
         if ($model->existeRol($data['nombreRol'], $_POST['idRol'])) {
 
             $_SESSION['mensaje'] = "Ese rol ya existe.";
@@ -86,7 +86,7 @@ class RolController
 
             header("Location:index.php?url=roles");
             exit;
-        }
+        }*/
 
         $ok = $model->update($_POST['idRol'], $data);
 

@@ -26,9 +26,9 @@
                     <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">N°</th>
-                            <th class="px-4 py-3">Gerencia</th>
-                            <th class="px-4 py-3">Siglas</th>
                             <th class="px-4 py-3">Área</th>
+                            <th class="px-4 py-3">Siglas</th>
+                            <th class="px-4 py-3">Gerencia</th>
                             <th class="px-4 py-3">Creado</th>
                             <th class="px-4 py-3">Estado</th>
                             <th class="px-4 py-3">Acciones</th>
@@ -41,13 +41,13 @@
                                     <?= $index + 1 ?>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <?= $a['nombreGerencia'] ?>
+                                    <?= $a['nombreArea'] ?>
                                 </td>
                                 <td class="px-4 py-3 font-medium text-slate-700">
                                     <?= $a['siglasArea'] ?>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <?= $a['nombreArea'] ?>
+                                    <?= $a['nombreGerencia'] ?>
                                 </td>
                                 <td class="px-4 py-3">
                                     <?= $a['fechaCreado'] ?>
@@ -137,8 +137,8 @@
                             name="idGerencias"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                             <option value="">Seleccione...</option>
                             <?php foreach ($gerencias as $g): ?>
                                 <option value="<?= $g['idGerencias'] ?>">
@@ -157,8 +157,8 @@
                             name="siglasArea"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombre -->
                     <div class="md:col-span-2">
@@ -170,8 +170,8 @@
                             name="nombreArea"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                 </div>
             </div>
@@ -181,13 +181,13 @@
                     type="button"
                     id="cancelarModalArea"
                     class="px-5 py-2.5 rounded-lg border border-slate-300
-                           hover:bg-slate-100 transition">
+                            hover:bg-slate-100 transition">
                     Cancelar
                 </button>
                 <button
                     type="submit"
                     class="px-5 py-2.5 rounded-lg bg-blue-600
-                           hover:bg-blue-700 text-white transition">
+                            hover:bg-blue-700 text-white transition">
                     <i class="bi bi-floppy mr-1"></i>
                     Guardar
                 </button>
@@ -238,8 +238,8 @@
                             id="edit_idGerencias"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                             <option value="">Seleccione...</option>
                             <?php foreach ($gerencias as $g): ?>
                                 <option value="<?= $g['idGerencias'] ?>">
@@ -259,8 +259,8 @@
                             id="edit_siglasArea"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                     <!-- Nombre -->
                     <div class="md:col-span-2">
@@ -273,8 +273,8 @@
                             id="edit_nombreArea"
                             required
                             class="w-full rounded-lg border border-slate-300 px-4 py-2.5
-                                   focus:ring-2 focus:ring-blue-500
-                                   focus:border-blue-500 outline-none">
+                                    focus:ring-2 focus:ring-blue-500
+                                    focus:border-blue-500 outline-none">
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@ class RolModel
     {
         $sql = "UPDATE roles
             SET
-                nombreRol=:nombreRol,
+                /*nombreRol=:nombreRol,*/
                 descripcionRol=:descripcionRol
             WHERE idRol=:id";
 
@@ -68,7 +68,7 @@ class RolModel
         $stmt = $this->db->prepare($sql);
 
         $params = [
-            ':nombreRol'   => $data['nombreRol'],
+            //':nombreRol'   => $data['nombreRol'],
             ':descripcionRol'   => $data['descripcionRol'],
             ':id'        => $id
         ];

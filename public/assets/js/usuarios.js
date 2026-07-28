@@ -52,6 +52,7 @@ function iniciarEditarUsuario() {
                 document.getElementById("edit_usuario").innerHTML =
                     `<i class="bi bi-person-circle text-blue-500"></i>
                     <span>${u.usuario}</span>`;
+                document.getElementById("edit_dni").value = u.dni;
                 document.getElementById("edit_correo").value = u.correo;
                 document.getElementById("edit_nombres").value = u.nombres;
                 document.getElementById("edit_apellidos").value = u.apellidos;

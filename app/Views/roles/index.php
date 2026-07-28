@@ -211,12 +211,6 @@
                             Rol
                         </label>
 
-                        <!-- ID del rol -->
-                        <input
-                            type="hidden"
-                            name="idRol"
-                            id="edit_idRol">
-
                         <!-- Nombre del rol (solo lectura) -->
                         <div
                             id="edit_nombreRol"
