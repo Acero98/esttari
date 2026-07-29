@@ -33,8 +33,9 @@
         <!-- =======================================
             LIBRERÍAS
         ======================================== -->
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- jQuery 
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/jquery.min.js"></script>
         <!-- Simple DataTables 
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>-->
         <script src="<?= BASE_URL ?>assets/js/simple-datatables.js"></script>
