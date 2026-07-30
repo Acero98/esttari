@@ -1,5 +1,14 @@
 <?php
 $url = $_GET['url'] ?? 'login';
+
+$rutasPublicas = [
+    'login',
+    'auth'
+];
+
+if (!in_array($url, $rutasPublicas)) {
+    requiereLogin();
+}
 /*
 |-------------------------
 | LOGIN
@@ -469,6 +478,7 @@ elseif ($url == 'reportes') {
 
 // BIENVENIDA
 elseif ($url == 'bienvenida') {
+    //autorizar('bienvenida');
     require_once "../app/Controllers/BienvenidaController.php";
     $controller = new BienvenidaController();
     $controller->index();

@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roman UI</title>
+    <title><?= SISTEMA_NOMBRE ?></title>
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Google Font -->
@@ -31,19 +31,32 @@
                 <img
                     src="<?= BASE_URL ?>assets/img/OlivaTech-Circulo.png"
                     class="w-20 h-20 mx-auto rounded-full shadow-lg">
-
+                <!--
                 <h1 class="mt-5 text-3xl font-bold text-slate-800">
-                    Roman UI
+                    <= SISTEMA_NOMBRE ?>
                 </h1>
 
-                <p class="mt-2 text-slate-500">
-                    Sistema de Seguimiento del Programa de Inversiones
-                </p>
+                 <p class="mt-2 text-slate-500">
+                    <= SISTEMA_NOMBRE ?>
+                </p> -->
 
             </div>
 
             <!-- Card -->
             <div class="bg-white rounded-3xl shadow-2xl p-8">
+
+                <!-- Encabezado -->
+                <div class="text-center mb-8">
+
+                    <h2 class="text-2xl font-bold text-slate-800">
+                        Iniciar sesión
+                    </h2>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Ingrese sus credenciales para acceder al sistema.
+                    </p>
+                </div>
+
                 <form method="POST"
                     action="index.php?url=auth"
                     class="space-y-6">
@@ -96,7 +109,7 @@
                             </button>
                         </div>
                     </div>
-                    <!-- Recordarme -->
+                    <!-- Recordarme 
                     <div class="flex items-center justify-between text-sm">
                         <label class="flex items-center gap-2 text-slate-600">
                             <input
@@ -109,7 +122,7 @@
                             class="text-blue-600 hover:text-blue-800">
                             ¿Olvidó su contraseña?
                         </a>
-                    </div>
+                    </div>-->
                     <!-- Botón -->
                     <button
                         type="submit"
@@ -129,7 +142,7 @@
             </div>
             <div class="text-center mt-6 text-sm text-slate-500">
                 © <?= date('Y') ?>
-                Roman UI
+                <?= SISTEMA_DESARROLLADOR ?>
             </div>
         </div>
     </div>

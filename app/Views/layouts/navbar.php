@@ -26,10 +26,10 @@
                 </div>
                 <div class="hidden sm:block">
                     <h1 class="font-bold text-slate-800 leading-none">
-                        Roman UI
+                        <?= SISTEMA_DESARROLLADOR ?>
                     </h1>
                     <p class="text-xs text-slate-500">
-                        Sistema de Gestión de Inversiones
+                        <?= SISTEMA_NOMBRE ?>
                     </p>
                 </div>
             </a>

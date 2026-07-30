@@ -7,7 +7,7 @@
     ======================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $titulo ?? 'SSI'; ?></title>
+    <title><?= SISTEMA_NOMBRE ?? 'SSI'; ?></title>
     <meta
         name="description"
         content="Sistema de Gestión de Inversiones - Roman UI">

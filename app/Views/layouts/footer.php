@@ -13,10 +13,10 @@
                 <!-- Sistema -->
                 <div class="text-center md:text-left">
                     <h3 class="text-sm font-semibold text-slate-700">
-                        Roman UI
+                        <?= SISTEMA_DESARROLLADOR ?>
                     </h3>
                     <p class="text-xs text-slate-500">
-                        Sistema de Gestión de Inversiones
+                        <?= SISTEMA_NOMBRE ?>
                     </p>
                 </div>
                 <!-- Copyright -->
@@ -24,7 +24,7 @@
                     class="text-center text-xs text-slate-500">
                     © <?= date('Y') ?>
                     <span class="font-medium text-slate-700">
-                        Roman UI
+                        <?= SISTEMA_DESARROLLADOR ?>
                     </span>
                     · Todos los derechos reservados.
                 </div>

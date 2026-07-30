@@ -1,5 +1,18 @@
 <?php
 
+function autenticado()
+{
+    return isset($_SESSION['idUser']);
+}
+
+function requiereLogin()
+{
+    if (!autenticado()) {
+        header("Location: index.php?url=login");
+        exit;
+    }
+}
+
 function permiso($permiso)
 {
     if (!isset($_SESSION['permisos'])) {
@@ -11,6 +24,8 @@ function permiso($permiso)
 
 function autorizar($permiso)
 {
+    requiereLogin();
+
     if (!permiso($permiso)) {
         header("Location: index.php?url=bienvenida");
         exit;

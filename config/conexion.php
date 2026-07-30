@@ -3,6 +3,7 @@
 date_default_timezone_set('America/Lima');
 
 $host = "localhost";
+//$host = "https://automated-partridge-shorten.ngrok-free.dev";
 $db   = "bd_seprin";
 $user = "root";
 $pass = "QvcPeru23$";
