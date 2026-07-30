@@ -152,14 +152,17 @@
         </div>
         <!-- BOTONES -->
         <div class="mt-5 flex justify-end gap-3">
-            <a href="index.php?url=reportes&tipoReporte=estadoGeneral"
+            <!-- <a href="index.php?url=reportes&tipoReporte=estadoGeneral" -->
+            <a href="index.php?url=reportes"
                 class="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 text-sm">
                 <i class="bi bi-x-circle"></i>
                 Limpiar
             </a>
             <button
                 type="submit"
-                class="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm">
+                name="buscar"
+                value="1"
+                class="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm cursor-pointer">
                 <i class="bi bi-search"></i>
                 Buscar
             </button>

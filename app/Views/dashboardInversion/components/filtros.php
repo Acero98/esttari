@@ -110,7 +110,8 @@
                     class="flex-1 h-11 inline-flex items-center justify-center gap-2 rounded-xl 
                         bg-gradient-to-r from-blue-600 to-blue-700 
                         text-white font-semibold shadow-md 
-                        hover:shadow-lg transition">
+                        hover:shadow-lg transition
+                        cursor-pointer">
                     <i class="bi bi-search"></i>
                     Consultar
                 </button>

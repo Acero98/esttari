@@ -34,9 +34,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">-->
     <!-- Fuente -->
-    <link
-        rel="stylesheet"
-        href="<?= BASE_URL ?>assets/css/inter.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/inter.css">
     <!-- =======================================
         ICONOS
     ======================================== 
@@ -44,9 +42,7 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         rel="stylesheet">-->
 
-    <link
-        rel="stylesheet"
-        href="<?= BASE_URL ?>assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/bootstrap-icons.min.css">
     <!-- =======================================
         SIMPLE DATATABLES
     ======================================== 
@@ -54,28 +50,20 @@
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3/dist/style.min.css">-->
 
-    <link
-        rel="stylesheet"
-        href="<?= BASE_URL ?>assets/css/simple-datatables.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/simple-datatables.css">
     <!-- =======================================
         ALPINE JS
     ======================================== 
     <script
         src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
         defer></script>-->
-    <script
-        defer
-        src="<?= BASE_URL ?>assets/js/alpine.min.js"></script>
+    <script defer src="<?= BASE_URL ?>assets/js/alpine.min.js"></script>
     <!-- Select2 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">-->
-    <link
-        rel="stylesheet"
-        href="<?= BASE_URL ?>assets/css/select2.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/select2.min.css">
     <!-- Tom Select
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">-->
-    <link
-        rel="stylesheet"
-        href="<?= BASE_URL ?>assets/css/tom-select.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/tom-select.css">
     <!-- =======================================
         FAVICON
     ======================================== -->

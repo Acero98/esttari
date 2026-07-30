@@ -1,10 +1,12 @@
 <?php
 require_once "../vendor/autoload.php";
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+
 require_once "../config/conexion.php";
 require_once "../app/Models/InversionModel.php";
 require_once "../app/Models/ReporteModel.php";
@@ -38,18 +40,13 @@ class ReporteController
         // =====================================
         // FILTROS RECIBIDOS
         // =====================================
-        $tipoReporte =
-            $_GET["tipoReporte"] ?? null;
-        $idEstudioTarifario =
-            $_GET["idEstudioTarifario"] ?? null;
-        $idFondo =
-            $_GET["idFondo"] ?? null;
-        $idArea =
-            $_GET["idArea"] ?? null;
-        $anio =
-            $_GET["anio"] ?? null;
-        $idInversion =
-            $_GET["idInversiones"] ?? null;
+        $tipoReporte        = $_GET["tipoReporte"] ?? null;
+        $idEstudioTarifario = $_GET["idEstudioTarifario"] ?? null;
+        $idFondo            = $_GET["idFondo"] ?? null;
+        $idArea             = $_GET["idArea"] ?? null;
+        $anio               = $_GET["anio"] ?? null;
+        $idInversion        = $_GET["idInversiones"] ?? null;
+        $buscar             = isset($_GET["buscar"]);
         // =====================================
         // USUARIO ACTUAL
         // =====================================
@@ -114,17 +111,19 @@ class ReporteController
             "avanceFinanciero" => 0,
             "avanceFisico" => 0
         ];
-        $resultado = $model->obtenerEstadoGeneral(
-            $idEstudioTarifario,
-            $idFondo,
-            $idArea,
-            $anio,
-            $idInversion,
-            $_SESSION["idUser"],
-            $_SESSION["idRol"]
-        );
-        $datosReporte = $resultado["detalle"];
-        $totales = $resultado["totales"];
+        if ($buscar) {
+            $resultado = $model->obtenerEstadoGeneral(
+                $idEstudioTarifario,
+                $idFondo,
+                $idArea,
+                $anio,
+                $idInversion,
+                $_SESSION["idUser"],
+                $_SESSION["idRol"]
+            );
+            $datosReporte = $resultado["detalle"];
+            $totales = $resultado["totales"];
+        }
         /*
         switch ($tipoReporte) {
             /*
