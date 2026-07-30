@@ -35,21 +35,29 @@
         ======================================== -->
         <!-- jQuery 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
-        <script src="<?= BASE_URL ?>assets/js/jquery.min.js"></script>
+        <script src="<?= BASE_URL ?>assets/js/jquery-3.7.1.min.js"></script>
         <!-- Simple DataTables 
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>-->
         <script src="<?= BASE_URL ?>assets/js/simple-datatables.js"></script>
-        <!-- SweetAlert2 -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!-- ApexCharts -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <!-- Select2 -->
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-        <!-- Exportar excel, pdf e imprimir -->
+        <!-- SweetAlert2 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/sweetalert2.all.min.js"></script>
+        <!-- ApexCharts 
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/apexcharts.js"></script>
+        <!-- Select2 
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/select2.min.js"></script>
+        <!-- Tom Select 
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/tom-select.complete.min.js"></script>
+        <!-- Exportar excel, pdf e imprimir 
         <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>-->
+        <script src="<?= BASE_URL ?>assets/js/xlsx.full.min.js"></script>
+        <script src="<?= BASE_URL ?>assets/js/jspdf.umd.min.js"></script>
+        <script src="<?= BASE_URL ?>assets/js/jspdf.plugin.autotable.min.js"></script>
         <!-- =======================================
             JAVASCRIPT GLOBAL
         ======================================== -->

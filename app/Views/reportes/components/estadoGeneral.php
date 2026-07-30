@@ -38,11 +38,7 @@
                 Total Programado
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["programado"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["programado"],2) ?>
             </div>
         </div>
         <!-- Ejecutado -->
@@ -51,11 +47,7 @@
                 Total Ejecutado
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["ejecutado"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["ejecutado"],2) ?>
             </div>
         </div>
         <!-- Saldo -->
@@ -64,11 +56,7 @@
                 Saldo Pendiente
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["saldo"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["saldo"],2) ?>
             </div>
         </div>
         <!-- RDR -->
@@ -77,11 +65,7 @@
                 RDR
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["rdr"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["rdr"],2) ?>
             </div>
         </div>
         <!-- E.T -->
@@ -90,11 +74,7 @@
                 E.T.
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["et"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["et"],2) ?>
             </div>
         </div>
         <!-- PIM -->
@@ -103,11 +83,7 @@
                 PIM
             </div>
             <div class="text-2xl font-bold text-gray-800">
-                S/
-                <?= number_format(
-                    $totales["pim"],
-                    2
-                ) ?>
+                S/<?= number_format($totales["pim"],2) ?>
             </div>
         </div>
     </div>
@@ -181,52 +157,21 @@
                 class="min-w-[1800px] text-sm">
                 <thead class="sticky top-0 bg-gray-100 z-10">
                     <tr>
-                        <th class="sticky left-0 bg-gray-100 z-30 w-12">
-                            #
-                        </th>
-                        <th class="sticky left-10 bg-gray-100 z-20 min-w-[350px]">
-                            Inversión
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Área
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Fondo
-                        </th>
-                        <th class="px-4 py-3 text-center">
-                            Año
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            Programado
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            Ejecutado
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            Saldo
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            RDR
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            E.T.
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            PIM
-                        </th>
-                        <!-- 
-                        <th class="px-4 py-3 text-right">
-                            Ejec. Acum.
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            Saldo Acum.
-                        </th> -->
-                        <th class="px-4 py-3 text-right">
-                            Av. Físico
-                        </th>
-                        <th class="px-4 py-3 text-right">
-                            Av. Financiero
-                        </th>
+                        <th class="sticky left-0 bg-gray-100 z-30 w-12">#</th>
+                        <th class="sticky left-10 bg-gray-100 z-20 min-w-[350px]">Inversión</th>
+                        <th class="px-4 py-3 text-left">Área</th>
+                        <th class="px-4 py-3 text-left">Fondo</th>
+                        <th class="px-4 py-3 text-center">Año</th>
+                        <th class="px-4 py-3 text-right">Programado</th>
+                        <th class="px-4 py-3 text-right">Ejecutado</th>
+                        <th class="px-4 py-3 text-right">Saldo</th>
+                        <th class="px-4 py-3 text-right">RDR</th>
+                        <th class="px-4 py-3 text-right">E.T.</th>
+                        <th class="px-4 py-3 text-right">PIM</th>
+                        <!-- <th class="px-4 py-3 text-right">Ejec. Acum.</th>
+                        <th class="px-4 py-3 text-right">Saldo Acum.</th> -->
+                        <th class="px-4 py-3 text-right">Av. Físico</th>
+                        <th class="px-4 py-3 text-right">Av. Financiero</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -256,84 +201,27 @@
                                 $item["saldoAcumulado"];
                             ?>
                             <tr class="border-b hover:bg-gray-50">
-                                <td class="sticky left-0 bg-white z-10 text-center">
-                                    <?= $numero++ ?>
-                                </td>
-                                <td class="sticky left-10 bg-white z-10 min-w-[350px]">
-                                    <?= $item["descripcion"] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $item["siglasArea"] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $item["codigoFondo"] ?>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <?= $item["anio"] ?>
-                                </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format(
-                                        $item["programado"],
-                                        2
-                                    ) ?>
-                                    </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format(
-                                        $item["ejecutado"],
-                                        2
-                                    ) ?>
-                                    </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format(
-                                        $item["saldo"],
-                                        2
-                                    ) ?>
-                                    </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format($item["rdr"], 2) ?>
-                                    </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format($item["et"], 2) ?>
-                                    </td>
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <?= number_format($item["pim"], 2) ?>
-                                    </td>
+                                <td class="sticky left-0 bg-white z-10 text-center"><?= $numero++ ?></td>
+                                <td class="sticky left-10 bg-white z-10 min-w-[350px]"><?= $item["descripcion"] ?></td>
+                                <td class="px-4 py-3"><?= $item["siglasArea"] ?></td>
+                                <td class="px-4 py-3"><?= $item["codigoFondo"] ?></td>
+                                <td class="px-4 py-3"><?= $item["anio"] ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["programado"],2) ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["ejecutado"],2) ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["saldo"],2) ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["rdr"], 2) ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["et"], 2) ?></td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<?= number_format($item["pim"], 2) ?></td>
                                     <!--
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <= number_format(
-                                        $item["ejecucionAcumulada"],
-                                        2
-                                    ) ?>
-                                    </td>                                
-                                <th class="px-4 py-3 text-right min-w-[150px]">
-                                    S/
-                                    <= number_format(
-                                        $item["saldoAcumulado"],
-                                        2
-                                    ) ?>
-                                    </td> -->
-                                <td class="px-4 py-3 text-center min-w-[120px]">
-                                    <?= $item["avanceFisico"] ?> %
-                                </td>
-                                <td class="px-4 py-3 text-center min-w-[120px]">
-                                    <?= number_format(
-                                        $item["avanceFinanciero"],
-                                        2
-                                    ) ?> %
-                                </td>
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<= number_format($item["ejecucionAcumulada"],2) ?></td>                                
+                                <th class="px-4 py-3 text-right min-w-[150px]">S/<= number_format($item["saldoAcumulado"],2) ?></td> -->
+                                <td class="px-4 py-3 text-center min-w-[120px]"><?= $item["avanceFisico"] ?> %</td>
+                                <td class="px-4 py-3 text-center min-w-[120px]"><?= number_format($item["avanceFinanciero"],2) ?> %</td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="8"
-                                class="text-center py-5 text-gray-500">
+                            <td colspan="8"class="text-center py-5 text-gray-500">
                                 No existen datos para mostrar.
                             </td>
                         </tr>
@@ -341,54 +229,18 @@
                 </tbody>
                 <tfoot class="bg-slate-100 font-semibold border-t-2 border-slate-300">
                     <tr>
-                        <td colspan="5" class="px-4 py-3 text-right">
-                            TOTAL GENERAL
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["programado"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["ejecutado"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["saldo"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["rdr"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["et"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <?= number_format($totales["pim"], 2) ?>
-                        </td>
+                        <td colspan="5" class="px-4 py-3 text-right">TOTAL GENERAL</td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["programado"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["ejecutado"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["saldo"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["rdr"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["et"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<?= number_format($totales["pim"], 2) ?></td>
                         <!--
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <= number_format($totales["ejecucionAcumulada"], 2) ?>
-                        </td>
-                        <td class="px-4 py-3 text-right">
-                            S/
-                            <= number_format($totales["saldoAcumulado"], 2) ?>
-                        </td> -->
-                        <td class="px-4 py-3 text-center">
-                            <?= number_format(
-                                $totales["avanceFisico"],
-                                2
-                            ) ?> %
-                        </td>
-                        <td class="px-4 py-3 text-center">
-                            <?= number_format(
-                                $totales["avanceFinanciero"],
-                                2
-                            ) ?> %
-                        </td>
+                        <td class="px-4 py-3 text-right">S/<= number_format($totales["ejecucionAcumulada"], 2) ?></td>
+                        <td class="px-4 py-3 text-right">S/<= number_format($totales["saldoAcumulado"], 2) ?></td> -->
+                        <td class="px-4 py-3 text-center"><?= number_format($totales["avanceFisico"],2) ?> %</td>
+                        <td class="px-4 py-3 text-center"><?= number_format($totales["avanceFinanciero"],2) ?> %</td>
                     </tr>
                 </tfoot>
             </table>

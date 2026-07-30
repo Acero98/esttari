@@ -408,7 +408,6 @@ class ReporteModel
         $idUsuario,
         $idRol
     ) {
-
         $resultado = $this->obtenerEstadoGeneral(
             $idEstudioTarifario,
             $idFondo,
@@ -418,7 +417,6 @@ class ReporteModel
             $idUsuario,
             $idRol
         );
-
         $detalle = $resultado["detalle"];
         $datos = [];
         foreach ($detalle as $fila) {
@@ -435,7 +433,6 @@ class ReporteModel
                     "anios" => []
                 ];
             }
-
             $datos[$id]["anios"][$fila["anio"]] = [
                 "programado" => $fila["programado"],
                 "ejecutado" => $fila["ejecutado"],
@@ -447,7 +444,6 @@ class ReporteModel
                 "avanceFinanciero" => $fila["avanceFinanciero"]
             ];
         }
-
         return [
             "detalle" => array_values($datos),
             "totales" => $resultado["totales"]
@@ -462,94 +458,66 @@ class ReporteModel
         $idUsuario,
         $idRol
     ) {
-
         $sql = "
         SELECT DISTINCT
             ar.anio
         FROM inversiones i
-
         INNER JOIN anio_regulatorio ar
             ON ar.idInversiones = i.idInversiones
     ";
-
         $parametros = [];
-
         if (!in_array('reportes_globales', $_SESSION['permisos'])) {
-
             $sql .= "
             INNER JOIN usuarios_areas ua
                 ON ua.idAreas = i.idAreas
         ";
         }
-
         $sql .= "
         WHERE 1 = 1
     ";
-
         if (!in_array('reportes_globales', $_SESSION['permisos'])) {
-
             $sql .= "
             AND ua.idUser = ?
         ";
-
             $parametros[] = $idUsuario;
         }
-
         if ($idEstudioTarifario) {
-
             $sql .= "
             AND i.idEstudioTarifario = ?
         ";
-
             $parametros[] = $idEstudioTarifario;
         }
-
         if ($idFondo) {
-
             $sql .= "
             AND i.idFondos = ?
         ";
-
             $parametros[] = $idFondo;
         }
-
         if ($idArea) {
-
             $sql .= "
             AND i.idAreas = ?
         ";
-
             $parametros[] = $idArea;
         }
-
         if ($anio) {
-
             $sql .= "
             AND ar.anio = ?
         ";
-
             $parametros[] = $anio;
         }
-
         if ($idInversiones) {
-
             $sql .= "
             AND i.idInversiones = ?
         ";
-
             $parametros[] = $idInversiones;
         }
-
         $sql .= "
         ORDER BY ar.anio
     ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute($parametros);
-
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
-    
     public function obtenerFiltros(
         $idUsuario,
         $idRol
@@ -627,23 +595,16 @@ class ReporteModel
                 array_reduce(
                     $datos,
                     function ($resultado, $item) {
-
                         $resultado[$item["idEstudioTarifario"]] = [
-
                             "idEstudioTarifario" =>
                             $item["idEstudioTarifario"],
-
                             "estudioTarifario" =>
                             $item["estudioTarifario"],
-
                             "anioInicio" =>
                             $item["anioInicio"],
-
                             "anioFin" =>
                             $item["anioFin"]
-
                         ];
-
                         return $resultado;
                     },
                     []
