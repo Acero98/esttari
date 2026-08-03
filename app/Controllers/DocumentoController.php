@@ -15,34 +15,57 @@ class DocumentoController
     public function store()
     {
         global $conexion;
+
         $model = new DocumentoModel($conexion);
+
         if (!isset($_FILES["archivo"])) {
             die("No se recibió ningún archivo.");
         }
+
         $idInversiones = $_POST["idInversiones"];
         $tipoDocumento = $_POST["tipoDocumento"];
         $observacion = $_POST["observacion"];
         $archivo = $_FILES["archivo"];
+
         if ($archivo["error"] != UPLOAD_ERR_OK) {
             die("Error al subir el archivo.");
         }
+
         if ($archivo["type"] != "application/pdf") {
             die("Solo se permiten archivos PDF.");
         }
-        $carpeta = "uploads/documentos/" . $idInversiones;
+
+        // Año actual
+        $anio = date("Y");
+
+        // Carpeta: uploads/documentos/2026/8
+        $carpeta = "uploads/documentos/" . $anio . "/" . $idInversiones;
+
         if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0777, true);
+            if (!mkdir($carpeta, 0777, true)) {
+                echo json_encode([
+                    "success" => false,
+                    "mensaje" => "No se pudo crear la carpeta de almacenamiento."
+                ]);
+                exit;
+            }
         }
-        $extension = pathinfo(
+
+        // Extensión
+        $extension = strtolower(pathinfo(
             $archivo["name"],
             PATHINFO_EXTENSION
-        );
+        ));
+
+        // Nombre del archivo
         $nombreGuardado =
-            uniqid() . "." . $extension;
-        $ruta =
-            $carpeta .
-            "/" .
-            $nombreGuardado;
+            $idInversiones . "_" .
+            date("Ymd_His") . "_" .
+            strtoupper(bin2hex(random_bytes(4))) .
+            "." . $extension;
+
+        $ruta = $carpeta . "/" . $nombreGuardado;
+
         if (!move_uploaded_file($archivo["tmp_name"], $ruta)) {
             echo json_encode([
                 "success" => false,
@@ -50,6 +73,7 @@ class DocumentoController
             ]);
             exit;
         }
+
         $data = [
             "idInversiones" => $idInversiones,
             "tipoDocumento" => $tipoDocumento,
@@ -60,6 +84,7 @@ class DocumentoController
             "tamanio" => $archivo["size"],
             "observacion" => $observacion
         ];
+
         if ($model->create($data)) {
             echo json_encode([
                 "success" => true,
@@ -71,6 +96,7 @@ class DocumentoController
                 "mensaje" => "No se pudo registrar el documento."
             ]);
         }
+
         exit;
     }
     public function download()
@@ -109,10 +135,12 @@ class DocumentoController
             exit;
         }
         // Eliminar archivo físico
+        /*
         $rutaFisica = dirname(__DIR__, 2) . "/public/" . $doc["ruta"];
         if (file_exists($rutaFisica)) {
             unlink($rutaFisica);
-        }
+        }*/
+
         if ($model->delete($id)) {
             echo json_encode([
                 "success" => true,

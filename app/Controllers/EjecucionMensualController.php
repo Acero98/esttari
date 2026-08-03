@@ -14,24 +14,47 @@ class EjecucionMensualController
         $model = new EjecucionMensualModel($conexion);
         $idAnioRegulatorio = $_POST['idAnioRegulatorio'];
         $archivoGuardado = null;
+
         if (
             isset($_FILES["archivo"]) &&
             $_FILES["archivo"]["error"] == UPLOAD_ERR_OK
         ) {
+
+            // Año actual
+            $anio = date("Y");
+
+            // Carpeta: uploads/ejecuciones/2026/15
             $carpeta =
                 "../public/uploads/ejecuciones/" .
+                $anio .
+                "/" .
                 $idAnioRegulatorio;
+
             if (!is_dir($carpeta)) {
-                mkdir($carpeta, 0777, true);
+                if (!mkdir($carpeta, 0777, true)) {
+                    echo json_encode([
+                        "success" => false,
+                        "mensaje" => "No se pudo crear la carpeta de almacenamiento."
+                    ]);
+                    exit;
+                }
             }
-            $extension = pathinfo(
+
+            // Extensión
+            $extension = strtolower(pathinfo(
                 $_FILES["archivo"]["name"],
                 PATHINFO_EXTENSION
-            );
+            ));
+
+            // Nombre del archivo
             $nombreArchivo =
-                uniqid() . "." . $extension;
-            $rutaFisica =
-                $carpeta . "/" . $nombreArchivo;
+                $idAnioRegulatorio . "_" .
+                date("Ymd_His") . "_" .
+                strtoupper(bin2hex(random_bytes(4))) .
+                "." . $extension;
+
+            $rutaFisica = $carpeta . "/" . $nombreArchivo;
+
             if (
                 move_uploaded_file(
                     $_FILES["archivo"]["tmp_name"],
@@ -40,6 +63,8 @@ class EjecucionMensualController
             ) {
                 $archivoGuardado =
                     "uploads/ejecuciones/" .
+                    $anio .
+                    "/" .
                     $idAnioRegulatorio .
                     "/" .
                     $nombreArchivo;
