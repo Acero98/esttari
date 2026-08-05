@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Number(item.total)
     );
     const labels = graficoArea.map(item =>
-        item.nombreArea
+        item.siglasArea
     );
     const options = {
         chart: {

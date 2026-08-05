@@ -634,7 +634,7 @@ class DashboardModel
         */
         $sql = "
             SELECT
-                a.nombreArea,
+                a.siglasArea,
                 COALESCE(SUM(ar.programado),0) AS total
             FROM anio_regulatorio ar
             INNER JOIN inversiones i

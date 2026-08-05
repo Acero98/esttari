@@ -130,6 +130,8 @@ class SeguimientoMensualModel
 
         $stmt = $this->db->prepare($sql);
 
+        $data['fechas'] = !empty($data['fechas']) ? $data['fechas'] : null;
+
         return $stmt->execute([
             ':producto'    => $data['producto'],
             ':estadoInver' => $data['estadoInver'],
